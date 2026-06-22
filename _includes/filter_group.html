@@ -1,13 +1,3 @@
-{% if include.color %}
-  {% assign _color = include.color %}
-{% else %}
-  {% assign _color = "214,51,108" %}
-{% endif %}
-{% if include.transparency %}
-  {% assign _transparency = include.transparency %}
-{% else %}
-  {% assign _transparency = "0.65" %}
-{% endif %}
 {% if include.shape %}
   {% assign _shape = include.shape %}
 {% else %}
@@ -22,8 +12,6 @@
 <div class="category {{ include.group_class }}">
   <span class="category-label highlighted" style="padding:0.22rem 1rem 0.22rem 1rem;">
     {% include heading_with_highlighter.html
-      color=_color
-      transparency=_transparency
       shape=_shape
       texture=_texture %}
     {{ include.label }}

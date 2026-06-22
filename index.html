@@ -12,12 +12,9 @@ title: Home
   {% assign all_stars = active_recipes | map: "star_ingredient" | compact | uniq | sort %}
 
   {% if all_stars.size > 0 %}
-    {% assign star_color = site.data.colors[star_data.color] %}
     {% include filter_group.html
       group_class=star_data.class
       label=star_data.label
-      color=star_color
-      transparency="1"
       shape=star_data.shape
       texture="1"
       items=all_stars
@@ -27,12 +24,9 @@ title: Home
   {% endif %}
 
   {% for group in tag_groups %}
-    {% assign group_color = site.data.colors[group.color] %}
     {% include filter_group.html
       group_class=group.class
       label=group.label
-      color=group_color
-      transparency="1"
       shape=group.shape
       texture="1"
       items=group.tags
@@ -41,13 +35,10 @@ title: Home
     %}
   {% endfor %}
 
-  {% assign ingredients_color = site.data.colors[ingredients_data.color] %}
   <div class="category search">
     <div class="search-input">
       <span class="category-label highlighted" style="padding:0.22rem 1rem 0.22rem 0.6rem;">
         {% include heading_with_highlighter.html
-          color=ingredients_color
-          transparency="1"
           shape=ingredients_data.shape
           texture="1"
         %}
