@@ -5,24 +5,20 @@ title: Home
 
 <div class="controls">
   {% assign star_data = site.data.tags.star %}
+  {% assign ingredients_data = site.data.tags.ingredients %}
   {% assign tag_groups = site.data.tags.groups %}
-
-  {% assign star_color = site.data.colors.bright_magenta_rgb %}
-  {% assign mood_color = site.data.colors.pure_lime_green_rgb %}
-  {% assign practicalities_color = site.data.colors.vibrant_violet_rgb %}
-  {% assign ingredients_color = site.data.colors.aureolin_rgb %}
 
   {% assign active_recipes = site.recipes | default: site.posts | sort: "title" %}
   {% assign all_stars = active_recipes | map: "star_ingredient" | compact | uniq | sort %}
 
   {% if all_stars.size > 0 %}
+    {% assign star_color = site.data.colors[star_data.color] %}
     {% include filter_group.html
       group_class=star_data.class
-      data_group="star"
       label=star_data.label
       color=star_color
       transparency="1"
-      shape="3"
+      shape=star_data.shape
       texture="1"
       items=all_stars
       btn_class="btn-star"
@@ -31,54 +27,31 @@ title: Home
   {% endif %}
 
   {% for group in tag_groups %}
-    {% if group.class == "category--mood" %}
-      {% include filter_group.html
-        group_class=group.class
-        data_group=group.class
-        label=group.label
-        color=mood_color
-        transparency="1"
-        shape="7"
-        texture="1"
-        items=group.tags
-        btn_class="btn-tag"
-        data_attr="data-tag"
-      %}{% comment %}color: #862e9c{% endcomment %}
-    {% elsif group.class == "category--practicalities" %}
-      {% include filter_group.html
-        group_class=group.class
-        data_group=group.class
-        label=group.label
-        color=practicalities_color
-        transparency="1"
-        shape="8"
-        texture="1"
-        items=group.tags
-        btn_class="btn-tag"
-        data_attr="data-tag"
-      %}
-    {% else %}
-      {% include filter_group.html
-        group_class=group.class
-        data_group=group.class
-        label=group.label
-        items=group.tags
-        btn_class="btn-tag"
-        data_attr="data-tag"
-      %}
-    {% endif %}
+    {% assign group_color = site.data.colors[group.color] %}
+    {% include filter_group.html
+      group_class=group.class
+      label=group.label
+      color=group_color
+      transparency="1"
+      shape=group.shape
+      texture="1"
+      items=group.tags
+      btn_class="btn-tag"
+      data_attr="data-tag"
+    %}
   {% endfor %}
 
+  {% assign ingredients_color = site.data.colors[ingredients_data.color] %}
   <div class="category search">
     <div class="search-input">
       <span class="category-label highlighted" style="padding:0.22rem 1rem 0.22rem 0.6rem;">
         {% include heading_with_highlighter.html
           color=ingredients_color
           transparency="1"
-          shape="4" 
-          textres="1"
+          shape=ingredients_data.shape
+          texture="1"
         %}
-        [ SEARCH INGREDIENTS ]
+        {{ ingredients_data.label }}
       </span>
       <input type="text" id="ingredient-search-box" autocomplete="off" />
       <span class="btn-clear-inline" id="ingredient-search-clear" style="display: none;">× clear</span>
