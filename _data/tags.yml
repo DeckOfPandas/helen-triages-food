@@ -1,0 +1,35 @@
+star: 
+  label: "[ STAR INGREDIENT ]"
+  class: category--star
+
+groups:
+  - name: mood
+    label: "[ MOOD ]"
+    class: category--mood
+    tags:
+      - bakes
+      - breakfast
+      - carbs party
+      - cheese-tastic
+      - dessert
+      - extras
+      - fakeaway
+      - festive
+      - hot snack
+      - ice cream
+      - nibbles
+      - one-handed food
+      - salad
+      - showstopper
+      - soup
+      - sweets
+
+  - name: practicalities
+    label: "[ PRACTICALITIES ]"
+    class: category--practicalities
+    tags:
+      - freezable
+      - make-ahead
+      - no-cook
+      - one-pot
+      - scalable

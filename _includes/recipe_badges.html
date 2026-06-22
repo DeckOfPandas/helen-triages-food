@@ -1,0 +1,23 @@
+{% if include.recipe.star_ingredient %}
+  <span class="badge badge-star">{{ include.recipe.star_ingredient }}</span>
+{% endif %}
+
+{% for group in site.data.tags.groups %}
+  {% if group.class == "category--mood" %}
+    {% for tag in include.recipe.tags %}
+      {% if group.tags contains tag %}
+        <span class="badge badge-mood">{{ tag }}</span>
+      {% endif %}
+    {% endfor %}
+  {% endif %}
+{% endfor %}
+
+{% for group in site.data.tags.groups %}
+  {% if group.class == "category--practicalities" %}
+    {% for tag in include.recipe.tags %}
+      {% if group.tags contains tag %}
+        <span class="badge badge-practicalities">{{ tag }}</span>
+      {% endif %}
+    {% endfor %}
+  {% endif %}
+{% endfor %}

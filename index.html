@@ -1,0 +1,110 @@
+---
+layout: default
+title: Home
+---
+
+<div class="controls">
+  {% assign star_data = site.data.tags.star %}
+  {% assign tag_groups = site.data.tags.groups %}
+
+  {% assign star_color = site.data.colors.bright_magenta_rgb %}
+  {% assign mood_color = site.data.colors.pure_lime_green_rgb %}
+  {% assign practicalities_color = site.data.colors.vibrant_violet_rgb %}
+  {% assign ingredients_color = site.data.colors.aureolin_rgb %}
+
+  {% assign active_recipes = site.recipes | default: site.posts | sort: "title" %}
+  {% assign all_stars = active_recipes | map: "star_ingredient" | compact | uniq | sort %}
+
+  {% if all_stars.size > 0 %}
+    {% include filter_group.html
+      group_class=star_data.class
+      data_group="star"
+      label=star_data.label
+      color=star_color
+      transparency="1"
+      shape="3"
+      texture="1"
+      items=all_stars
+      btn_class="btn-star"
+      data_attr="data-star"
+    %}
+  {% endif %}
+
+  {% for group in tag_groups %}
+    {% if group.class == "category--mood" %}
+      {% include filter_group.html
+        group_class=group.class
+        data_group=group.class
+        label=group.label
+        color=mood_color
+        transparency="1"
+        shape="7"
+        texture="1"
+        items=group.tags
+        btn_class="btn-tag"
+        data_attr="data-tag"
+      %}{% comment %}color: #862e9c{% endcomment %}
+    {% elsif group.class == "category--practicalities" %}
+      {% include filter_group.html
+        group_class=group.class
+        data_group=group.class
+        label=group.label
+        color=practicalities_color
+        transparency="1"
+        shape="8"
+        texture="1"
+        items=group.tags
+        btn_class="btn-tag"
+        data_attr="data-tag"
+      %}
+    {% else %}
+      {% include filter_group.html
+        group_class=group.class
+        data_group=group.class
+        label=group.label
+        items=group.tags
+        btn_class="btn-tag"
+        data_attr="data-tag"
+      %}
+    {% endif %}
+  {% endfor %}
+
+  <div class="category search">
+    <div class="search-input">
+      <span class="category-label highlighted" style="padding:0.22rem 1rem 0.22rem 0.6rem;">
+        {% include heading_with_highlighter.html
+          color=ingredients_color
+          transparency="1"
+          shape="4" 
+          textres="1"
+        %}
+        [ SEARCH INGREDIENTS ]
+      </span>
+      <input type="text" id="ingredient-search-box" autocomplete="off" />
+      <span class="btn-clear-inline" id="ingredient-search-clear" style="display: none;">× clear</span>
+    </div>
+    <div class="category-buttons search-results" id="ingredient-results-pool"></div>
+  </div>
+
+</div>
+
+<ul class="recipe-list">
+  {% for recipe in active_recipes %}
+    {% if recipe.published or jekyll.environment != "production" %}
+      <li data-tags="{{ recipe.tags | join: ',' }}" data-star="{{ recipe.star_ingredient }}" data-ingredients="{{ recipe.main_ingredients | join: ',' }}">
+        <a href="{{ recipe.url | relative_url }}">{{ recipe.title }}</a>
+
+        <div class="badge-group">
+          {% unless recipe.published %}<span class="badge badge-draft">draft</span>{% endunless %}
+          {% include recipe_badges.html recipe=recipe %}
+        </div>
+      </li>
+    {% endif %}
+  {% endfor %}
+</ul>
+
+<div class="recipe-list-empty" style="display: none;">
+  Nothing to see here.
+</div>
+
+<script src="{{ '/assets/js/filters.js' | relative_url }}"></script>

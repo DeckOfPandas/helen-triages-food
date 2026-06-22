@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% if page.title %}{{ page.title }} | {% endif %}{{ site.title }}</title>
+  <link rel="stylesheet" href="{{ '/assets/css/main.css' | relative_url }}">
+</head>
+<body>
+
+  <header class="site-header">
+  <a href="{{ '/' | relative_url }}" class="site-title-link">
+    <h1 class="highlighted">
+      <div class="logo-header">
+        {% include heading_with_highlighter.html color="6,6,6" transparency="1" shape="13" texture="1" %}
+        {{ site.title }}
+      </div>
+    </h1>
+  </a>
+  </header>
+
+  <main>
+    {{ content }}
+  </main>
+
+  <footer class="site-footer">
+    <p>&copy; {{ site.time | date: "%Y" }} {{ site.title }}</p>
+  </footer>
+
+  <script src="{{ '/assets/js/serving-scaler.js' | relative_url }}"></script>
+</body>
+</html>

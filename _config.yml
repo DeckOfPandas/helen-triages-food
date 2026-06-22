@@ -1,0 +1,25 @@
+title: Helen Triages Food
+description: What to cook, not how to cook 
+url: ""
+baseurl: "/food"
+
+unpublished: true
+
+collections:
+  recipes:
+    output: true
+    permalink: /recipes/:path/
+
+defaults:
+  - scope:
+      path: ""
+      type: recipes
+    values:
+      layout: recipe
+      published: true
+
+sass:
+  sass_dir: _sass
+
+plugins:
+  - jekyll-sitemap

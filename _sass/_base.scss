@@ -1,0 +1,52 @@
+// =============================================================================
+// GLOBAL TYPOGRAPHIC ENGINE & BASICS
+// =============================================================================
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: $font-body;
+  color: $color-text;
+  background: $color-bg;
+  line-height: 1.6;
+}
+
+a {
+  color: $color-text;
+  text-decoration: none;
+  transition: color 0.12s ease;
+
+  &:hover {
+    color: $color-mood-root;
+  }
+}
+
+h1, h2, h3 {
+  font-family: $font-headings;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  margin-top: 0;
+}
+
+body, button {
+  font-family: $font-body;
+  letter-spacing: 0.01em;
+}
+
+// No global button background here -- each button component sets its own.
+// Browser default (transparent) is the correct starting point for
+// filter-clear and recipe-serving-scaler buttons.
+
+// --- Highlighter utility -----------------------------------------------------
+// Apply to any element that needs a heading_with_highlighter SVG behind it.
+// The SVG inside is position:absolute so this provides the positioning context.
+.highlighted {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  overflow: hidden;
+}

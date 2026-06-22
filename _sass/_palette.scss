@@ -1,0 +1,70 @@
+// =============================================================================
+// HELEN TRIAGES FOOD - CORE DESIGN PARAMETERS
+// =============================================================================
+
+$color-vivid-rose:              #FF0061;
+$color-vivid-rose-rgb:          "255,0,97";
+$color-pure-lime-green:         #8AE800;
+$color-pure-lime-green-rgb:     "138,232,0";
+$color-vibrant-violet:          #7734EA;
+$color-vibrant-violet-rgb:      "119,52,234";
+$color-vivid-cerulean:          #00A7EA;
+$color-vivid-cerulean-rgb:      "0,167,234";
+$color-aureolin:                #FAF100;
+$color-aureolin-rgb:            "250,241,0";
+$color-hot-orange:              #FF6B00;
+$color-hot-orange-rgb:          "255,107,0";
+$color-bright-magenta:          #FF00C8;
+$color-bright-magenta-rgb:      "255,0,200";
+$color-medium-spring-green:     #00FF9F;
+$color-medium-spring-green-rgb: "0,255,159";
+$color-electric-cobalt:         #0047FF;
+$color-electric-cobalt-rgb:     "0,71,255";
+
+// --- Core Application Canvas -------------------------------------------------
+$color-bg:      #faf7f8;  // Soft chalk white with a minute pink/cool undertone
+$color-text:    #211f20;  // Deep plum-tinted charcoal (maximises text legibility)
+$color-border:  #ebdbe0;  // Quiet, crisp structural lines that respect the canvas
+
+// Surface Layering
+$color-surface:   #fdfbfe; // Ultra-soft milk white component surface fill
+$color-button-bg: #fdfbfe; // Base fill for unselected filter/scaler controls
+
+// --- Typography Stacks -------------------------------------------------------
+$font-headings: "Courier New", "Courier", "Lucida Sans Typewriter", monospace;
+$font-body:     -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+
+// Ribbons / root colors
+$saturation-ribbon: 0.85;
+$color-star-root: $color-vivid-rose; 
+$color-mood-root: $color-pure-lime-green; 
+$color-practicalities-root: $color-vibrant-violet; 
+$color-ingredient-root: $color-aureolin;   
+$color-ribbon-label: #1a1a1a;
+
+// Derived active/text tones (darkened for legibility on white)
+$color-percentage-darken-active: 12;
+$color-percentage-darkenextra-active: 20;
+
+// Badge text (darkened from roots)
+$color-star-active: darken($color-star-root, $color-percentage-darken-active);
+$color-mood-active: darken($color-mood-root, $color-percentage-darken-active);
+$color-practicalities-active: darken($color-practicalities-root, $color-percentage-darken-active); // same as root; dark enough already
+$color-ingredient-active: darken($color-ingredient-root, $color-percentage-darken-active); 
+
+// Clear filters button
+$color-clear-bg:     #fff;   // Reserved for explicit clear-button fills
+$color-clear-text:   #5f5e5a;
+$color-clear-border: $color-border; // Reserved for clear-button border override
+
+// Badge bgs
+$saturation-badge-bg: 0.1;
+$color-badge-cooked-bg:   #e2ede4; // Soft sage ("Green for Go")
+$color-badge-cooked-text: #3b523e;
+$color-badge-draft-bg:    #f6eedb; // Muted amber-gold ("Yellow for Wait")
+$color-badge-draft-text:  #5c4e3b;
+
+// --- Recipe Page Utilities ---------------------------------------------------
+$color-scaler:         #1864ab; // Rich sapphire blue for interactive scaler controls
+$color-scaler-surface: #fdfbfe; // Muted milk white scaler background (reserved -- available if scaler panel needs distinct bg)
+$color-white:          #ffffff; // Explicit white for components that need isolation
