@@ -211,7 +211,7 @@ article.recipe {
   }
 }
 
-// --- Filter Label Bases & Background Ribbons ---------------------------------
+// --- Filter Label Bases & Background Highlighters ---------------------------------
 .category {
   margin: 1.5rem 0;
   display: flex;
@@ -231,7 +231,7 @@ article.recipe {
     letter-spacing: 0.08em;
     -webkit-text-stroke: 0.6px;
     // position/display handled by .highlighted utility class
-    color: $color-ribbon-label;
+    color: $color-highlighter-label;
     position: relative;
     padding: 0.22rem 3rem;
     // Background highlight is now an SVG blob via heading_with_highlighter.html include.

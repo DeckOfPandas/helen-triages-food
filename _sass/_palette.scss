@@ -2,24 +2,16 @@
 // HELEN TRIAGES FOOD - CORE DESIGN PARAMETERS
 // =============================================================================
 
+// --- Raw palette (the swatches everything else is chosen from) ---------------
 $color-vivid-rose:              #FF0061;
-$color-vivid-rose-rgb:          "255,0,97";
 $color-pure-lime-green:         #8AE800;
-$color-pure-lime-green-rgb:     "138,232,0";
 $color-vibrant-violet:          #7734EA;
-$color-vibrant-violet-rgb:      "119,52,234";
 $color-vivid-cerulean:          #00A7EA;
-$color-vivid-cerulean-rgb:      "0,167,234";
 $color-aureolin:                #FAF100;
-$color-aureolin-rgb:            "250,241,0";
 $color-hot-orange:              #FF6B00;
-$color-hot-orange-rgb:          "255,107,0";
 $color-bright-magenta:          #FF00C8;
-$color-bright-magenta-rgb:      "255,0,200";
 $color-medium-spring-green:     #00FF9F;
-$color-medium-spring-green-rgb: "0,255,159";
 $color-electric-cobalt:         #0047FF;
-$color-electric-cobalt-rgb:     "0,71,255";
 
 // --- Core Application Canvas -------------------------------------------------
 $color-bg:      #faf7f8;  // Soft chalk white with a minute pink/cool undertone
@@ -34,23 +26,31 @@ $color-button-bg: #fdfbfe; // Base fill for unselected filter/scaler controls
 $font-headings: "Courier New", "Courier", "Lucida Sans Typewriter", monospace;
 $font-body:     -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
 
-// Ribbons / root colors
-$saturation-ribbon: 0.85;
-$color-star-root: $color-vivid-rose; 
-$color-mood-root: $color-pure-lime-green; 
-$color-practicalities-root: $color-vibrant-violet; 
-$color-ingredient-root: $color-aureolin;   
-$color-ribbon-label: #1a1a1a;
+// --- Category colours & highlighter opacities --------------------------------
+// ONE source per category. Buttons, badges, hovers AND the SVG highlighter all
+// derive from the colour. The highlighter additionally has its own opacity,
+// kept separate because the most flattering value depends on the colour.
+// (Opacities start at 1 = exactly as they look now; dial any of them down.)
+$color-star-root:           $color-bright-magenta;
+$color-mood-root:           $color-pure-lime-green;
+$color-practicalities-root: $color-vibrant-violet;
+$color-ingredient-root:     $color-aureolin;
+$color-logo:                #060606;   // near-black highlighter behind the site title
+$color-highlighter-label:   #1a1a1a;   // text sitting on top of a highlighter
 
-// Derived active/text tones (darkened for legibility on white)
+$highlighter-opacity-star:           1;
+$highlighter-opacity-mood:           1;
+$highlighter-opacity-practicalities: 1;
+$highlighter-opacity-ingredient:     1;
+$highlighter-opacity-logo:           1;
+
+// Derived active tones (darkened from the roots for legibility on white)
 $color-percentage-darken-active: 12;
 $color-percentage-darkenextra-active: 20;
-
-// Badge text (darkened from roots)
-$color-star-active: darken($color-star-root, $color-percentage-darken-active);
-$color-mood-active: darken($color-mood-root, $color-percentage-darken-active);
+$color-star-active:           darken($color-star-root, $color-percentage-darken-active);
+$color-mood-active:           darken($color-mood-root, $color-percentage-darken-active);
 $color-practicalities-active: darken($color-practicalities-root, $color-percentage-darken-active); // same as root; dark enough already
-$color-ingredient-active: darken($color-ingredient-root, $color-percentage-darken-active); 
+$color-ingredient-active:     darken($color-ingredient-root, $color-percentage-darken-active);
 
 // Clear filters button
 $color-clear-bg:     #fff;   // Reserved for explicit clear-button fills
@@ -66,5 +66,35 @@ $color-badge-draft-text:  #5c4e3b;
 
 // --- Recipe Page Utilities ---------------------------------------------------
 $color-scaler:         #1864ab; // Rich sapphire blue for interactive scaler controls
-$color-scaler-surface: #fdfbfe; // Muted milk white scaler background (reserved -- available if scaler panel needs distinct bg)
+$color-scaler-surface: #fdfbfe; // Muted milk white scaler background (reserved)
 $color-white:          #ffffff; // Explicit white for components that need isolation
+
+// --- Highlighter wiring ------------------------------------------------------
+// No colours here: this maps each category's wrapper class to its colour and
+// opacity from the section above, as custom properties the SVG path reads via
+// CSS. (Liquid never sees a colour.)
+.category--star {
+  --highlighter-fill: #{$color-star-root};
+  --highlighter-opacity: #{$highlighter-opacity-star};
+}
+.category--mood {
+  --highlighter-fill: #{$color-mood-root};
+  --highlighter-opacity: #{$highlighter-opacity-mood};
+}
+.category--practicalities {
+  --highlighter-fill: #{$color-practicalities-root};
+  --highlighter-opacity: #{$highlighter-opacity-practicalities};
+}
+.search {
+  --highlighter-fill: #{$color-ingredient-root};
+  --highlighter-opacity: #{$highlighter-opacity-ingredient};
+}
+.logo-header {
+  --highlighter-fill: #{$color-logo};
+  --highlighter-opacity: #{$highlighter-opacity-logo};
+}
+
+.highlighted svg path {
+  fill: var(--highlighter-fill, #{$color-text});
+  fill-opacity: var(--highlighter-opacity, 1);
+}

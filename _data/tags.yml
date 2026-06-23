@@ -1,11 +1,20 @@
 star: 
   label: "[ STAR INGREDIENT ]"
   class: category--star
+  color: bright_magenta_rgb
+  shape: "3"
+
+ingredients:
+  label: "[ SEARCH INGREDIENTS ]"
+  color: aureolin_rgb
+  shape: "4"
 
 groups:
   - name: mood
     label: "[ MOOD ]"
     class: category--mood
+    color: pure_lime_green_rgb
+    shape: "7"
     tags:
       - bakes
       - breakfast
@@ -27,6 +36,8 @@ groups:
   - name: practicalities
     label: "[ PRACTICALITIES ]"
     class: category--practicalities
+    color: vibrant_violet_rgb
+    shape: "8"
     tags:
       - freezable
       - make-ahead
