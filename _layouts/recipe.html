@@ -2,9 +2,9 @@
 layout: default
 ---
 <article class="recipe">
-  {% unless page.published %}
+  {% if page.collection == "drafts" %}
     <div class="recipe-draft-stamp">DRAFT</div>
-  {% endunless %}
+  {% endif %}
 
   <div class="recipe-title"><h1>{{ page.title }}</h1></div>
   {% if page.tagline %}<p class="tagline">{{ page.tagline }}</p>{% endif %}
@@ -83,4 +83,4 @@ layout: default
     </div>
   {% endif %}
 
-</article>  
+</article>
