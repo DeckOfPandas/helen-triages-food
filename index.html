@@ -67,6 +67,10 @@ title: Home
         <a href="{{ recipe.url | relative_url }}">{{ recipe.title }}</a>
 
         <div class="badge-group">
+          {% if site.show_unrewritten %}
+            {% unless recipe.meta.rewritten %}<span class="badge badge-meta-rewrite">needs rewrite</span>{% endunless %}
+            {% unless recipe.meta.proofread %}<span class="badge badge-meta-proofread">needs proofread</span>{% endunless %}
+          {% endif %}
           {% if is_draft %}<span class="badge badge-draft">draft</span>{% endif %}
           {% include recipe_badges.html recipe=recipe %}
         </div>
