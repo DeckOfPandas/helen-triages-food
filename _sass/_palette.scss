@@ -69,6 +69,10 @@ $color-scaler:         #1864ab; // Rich sapphire blue for interactive scaler con
 $color-scaler-surface: #fdfbfe; // Muted milk white scaler background (reserved)
 $color-white:          #ffffff; // Explicit white for components that need isolation
 
+// --- Reusable Structural Accents ---------------------------------------------
+$color-marker-accent:  lighten($color-clear-text, 20%);
+$color-step-number:    $color-clear-text;
+
 // --- Highlighter wiring ------------------------------------------------------
 // No colours here: this maps each category's wrapper class to its colour and
 // opacity from the section above, as custom properties the SVG path reads via
