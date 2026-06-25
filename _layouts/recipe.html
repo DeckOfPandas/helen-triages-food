@@ -6,8 +6,16 @@ layout: default
     <div class="recipe-draft-stamp">DRAFT</div>
   {% endif %}
 
-  <div class="recipe-title"><h1>{{ page.title }}</h1></div>
-  {% if page.tagline %}<p class="tagline">{{ page.tagline }}</p>{% endif %}
+  <div class="recipe-title category--mood">
+    <h1 class="recipe-main-title">
+      <span class="category-label highlighted">
+        {% include heading_with_highlighter.html shape="13" texture="1" %}
+        {{ page.title }}
+      </span>
+    </h1>
+  </div>
+  
+  {% if page.tagline %}<p class="recipe-tagline">{{ page.tagline }}</p>{% endif %}
 
   <ul class="recipe-meta">
     {% if page.serves %}<li><strong>Serves</strong><span>{{ page.serves }}</span></li>{% endif %}
@@ -23,7 +31,16 @@ layout: default
 
   {% include serving_scaler.html %}
 
-  {% if page.ingredient_groups %}<h2>Ingredients</h2>{% endif %}
+  {% if page.ingredient_groups %}
+    <div class="category category--star">
+      <h2 class="recipe-section-heading">
+        <span class="category-label highlighted" style="padding:0.25rem 1.5rem;">
+          {% include heading_with_highlighter.html shape="13" texture="1" %}
+          Ingredients
+        </span>
+      </h2>
+    </div>
+  {% endif %}
 
   {% if page.ingredient_groups.size > 1 %}
     {% assign multiple_groups = true %}
@@ -34,11 +51,11 @@ layout: default
   {% for group in page.ingredient_groups %}
     {% if multiple_groups %}
       {% if group.name == "to serve" %}
-        <h3 class="ingredient-group-heading">To serve:</h3>
+        <h3 class="recipe-group-heading">To serve:</h3>
       {% elsif group.name %}
-        <h3 class="ingredient-group-heading">For the {{ group.name | downcase }}:</h3>
+        <h3 class="recipe-group-heading">For the {{ group.name | downcase }}:</h3>
       {% else %}
-        <h3 class="ingredient-group-heading">For the {{ page.short_name | downcase }}:</h3>
+        <h3 class="recipe-group-heading">For the {{ page.short_name | downcase }}:</h3>
       {% endif %}
     {% endif %}
     <ul class="ingredients">
@@ -50,7 +67,15 @@ layout: default
 
   {% if page.filling_note %}<p class="note">{{ page.filling_note }}</p>{% endif %}
 
-  <h2>Method</h2>
+  <div class="category category--practicalities">
+    <h2 class="recipe-section-heading">
+      <span class="category-label highlighted" style="padding:0.25rem 1.5rem;">
+        {% include heading_with_highlighter.html shape="13" texture="1" %}
+        Method
+      </span>
+    </h2>
+  </div>
+  
   <ol class="instructions">
     {% assign steps = page.method | default: page.instructions %}
     {% for step in steps %}
@@ -61,12 +86,26 @@ layout: default
   {{ content }}
 
   {% if page.notes %}
-    <h2>Notes</h2>
+    <div class="category search">
+      <h2 class="recipe-section-heading">
+        <span class="category-label highlighted" style="padding:0.25rem 1.5rem;">
+          {% include heading_with_highlighter.html shape="13" texture="1" %}
+          Notes
+        </span>
+      </h2>
+    </div>
     <p class="note">{{ page.notes }}</p>
   {% endif %}
 
   {% if page.nutrition %}
-    <h2>Nutrition (one serving)</h2>
+    <div class="category search">
+      <h2 class="recipe-section-heading">
+        <span class="category-label highlighted" style="padding:0.25rem 1.5rem;">
+          {% include heading_with_highlighter.html shape="13" texture="1" %}
+          Nutrition
+        </span>
+      </h2>
+    </div>
     <table class="nutrition">
       {% for pair in page.nutrition %}
         {% unless pair[0] == "serving" %}
