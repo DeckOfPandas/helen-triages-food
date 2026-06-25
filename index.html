@@ -8,8 +8,13 @@ title: Home
   {% assign ingredients_data = site.data.tags.ingredients %}
   {% assign tag_groups = site.data.tags.groups %}
 
-  {% assign active_recipes = site.recipes | default: site.posts | sort: "title" %}
-  {% assign all_stars = active_recipes | map: "star_ingredient" | compact | uniq | sort %}
+  {% assign all_recipes = site.recipes %}
+  {% if site.drafts %}
+    {% assign all_recipes = all_recipes | concat: site.drafts %}
+  {% endif %}
+  {% assign all_recipes = all_recipes | sort: "title" %}
+  
+  {% assign all_stars = all_recipes | map: "star_ingredient" | compact | uniq | sort %}
 
   {% if all_stars.size > 0 %}
     {% include filter_group.html
@@ -53,13 +58,16 @@ title: Home
 </div>
 
 <ul class="recipe-list">
-  {% for recipe in active_recipes %}
-    {% if recipe.published or jekyll.environment != "production" %}
+  {% for recipe in all_recipes %}
+    {% if recipe.rewritten or site.show_unrewritten %}
+      {% assign is_draft = false %}
+      {% if recipe.collection == "drafts" %}{% assign is_draft = true %}{% endif %}
+
       <li data-tags="{{ recipe.tags | join: ',' }}" data-star="{{ recipe.star_ingredient }}" data-ingredients="{{ recipe.main_ingredients | join: ',' }}">
         <a href="{{ recipe.url | relative_url }}">{{ recipe.title }}</a>
 
         <div class="badge-group">
-          {% unless recipe.published %}<span class="badge badge-draft">draft</span>{% endunless %}
+          {% if is_draft %}<span class="badge badge-draft">draft</span>{% endif %}
           {% include recipe_badges.html recipe=recipe %}
         </div>
       </li>

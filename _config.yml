@@ -1,14 +1,17 @@
 title: Helen Triages Food
-description: What to cook, not how to cook 
+description: What to cook, not how to cook
 url: ""
 baseurl: "/food"
 
-unpublished: true
+show_unrewritten: false
 
 collections:
   recipes:
     output: true
     permalink: /recipes/:path/
+  drafts:
+    output: true
+    permalink: /drafts/:path/
 
 defaults:
   - scope:
@@ -16,7 +19,13 @@ defaults:
       type: recipes
     values:
       layout: recipe
-      published: true
+      rewritten: false
+  - scope:
+      path: ""
+      type: drafts
+    values:
+      layout: recipe
+      rewritten: false
 
 sass:
   sass_dir: _sass
