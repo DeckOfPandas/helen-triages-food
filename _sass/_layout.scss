@@ -214,7 +214,7 @@ article.recipe {
   }
 }
 
-.btn-tag, .btn-star, .btn-clear {
+.btn-tag, .btn-star, .btn-clear, .btn-meta {
   &:focus-visible {
     outline: none;
     background-color: rgba($color-text, 0.15);
@@ -313,6 +313,46 @@ article.recipe {
     flex-wrap: wrap;
     align-items: center;
     width: 100%;
+  }
+
+  // Meta filter buttons — darkened grey, matching the meta badges
+  &.category--meta {
+    margin-top: 0.75rem;
+
+    .category-label {
+      font-size: 0.72rem;
+      color: lighten($color-clear-text, 12%);
+      -webkit-text-stroke: 0;
+    }
+  }
+
+  &.category--meta .btn-meta.active {
+    text-transform: uppercase;
+    font-size: 0.74rem;
+    font-weight: 900;
+    letter-spacing: 0.04em;
+    background-color: rgba($color-text, $saturation-badge-bg);
+    color: $color-clear-text;
+    -webkit-text-stroke: 0.5px $color-clear-text;
+  }
+}
+
+.btn-meta {
+  font-family: $font-headings;
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: lowercase;
+  letter-spacing: 0.02em;
+  padding: 0.15rem 0.65rem 0.15rem 0.5rem;
+  transition: all 0.1s ease-in-out;
+  background-color: rgba($color-text, 0.05);
+  color: lighten($color-clear-text, 12%);
+  border: none;
+  cursor: pointer;
+  clip-path: polygon(0 0, calc(100% - 8px) 0, 100% 50%, calc(100% - 8px) 100%, 0 100%);
+
+  &:hover {
+    background-color: rgba($color-text, 0.1);
   }
 }
 

@@ -58,6 +58,18 @@ title: Home
     <div class="category-buttons search-results" id="ingredient-results-pool"></div>
   </div>
 
+  {% if site.show_unrewritten %}
+  <div class="category category--meta">
+    <div class="category-label-row">
+      <span class="category-label">[ META FILTERS ]</span>
+    </div>
+    <div class="category-buttons">
+      <button type="button" class="btn-meta" data-meta="rewrite">needs rewrite</button>
+      <button type="button" class="btn-meta" data-meta="proofread">needs proofread</button>
+    </div>
+  </div>
+  {% endif %}
+
 </div>
 
 <ul class="recipe-list">
@@ -66,7 +78,11 @@ title: Home
       {% assign is_draft = false %}
       {% if recipe.collection == "drafts" %}{% assign is_draft = true %}{% endif %}
 
-      <li data-tags="{{ recipe.tags | join: ',' }}" data-star="{{ recipe.star_ingredient }}" data-ingredients="{{ recipe.main_ingredients | join: ',' }}">
+      {% assign _needs_rewrite = false %}
+      {% assign _needs_proofread = false %}
+      {% unless recipe.meta.rewritten %}{% assign _needs_rewrite = true %}{% endunless %}
+      {% unless recipe.meta.proofread %}{% assign _needs_proofread = true %}{% endunless %}
+      <li data-tags="{{ recipe.tags | join: ',' }}" data-star="{{ recipe.star_ingredient }}" data-ingredients="{{ recipe.main_ingredients | join: ',' }}" data-meta-rewrite="{{ _needs_rewrite }}" data-meta-proofread="{{ _needs_proofread }}">
         <a href="{{ recipe.url | relative_url }}">{{ recipe.title }}</a>
 
         <div class="badge-group">

@@ -2,6 +2,7 @@ document.addEventListener('DOMContentLoaded', function () {
   var activeTags = new Set();
   var activeStar = null;
   var activeIngredient = null;
+  var activeMetaFilters = new Set(); // 'rewrite' and/or 'proofread'
   var isSearching = false;
 
   var allIngredientsSet = new Set();
@@ -64,7 +65,7 @@ document.addEventListener('DOMContentLoaded', function () {
   }
 
   function hasActiveFilters() {
-    return activeTags.size > 0 || activeStar !== null;
+    return activeTags.size > 0 || activeStar !== null || activeMetaFilters.size > 0;
   }
 
   function getWords(str) {
@@ -284,6 +285,9 @@ function renderResultsPool() {
 
         if (activeStar && star !== activeStar) visible = false;
 
+        if (activeMetaFilters.has('rewrite') && li.dataset.metaRewrite !== 'true') visible = false;
+        if (activeMetaFilters.has('proofread') && li.dataset.metaProofread !== 'true') visible = false;
+
         if (activeIngredient) {
           var hasMatch = false;
           var activeWords = getWords(activeIngredient.replace(' (all)', '')).map(normaliseIngredientWord);
@@ -314,7 +318,7 @@ function renderResultsPool() {
     emptyMessage.style.display = (!suppressList && visibleCount === 0) ? 'block' : 'none';
 
     if (clearButton) {
-      clearButton.style.visibility = (activeTags.size > 0 || activeStar || activeIngredient) ? 'visible' : 'hidden';
+      clearButton.style.visibility = (activeTags.size > 0 || activeStar || activeIngredient || activeMetaFilters.size > 0) ? 'visible' : 'hidden';
     }
 
     updateInlineLabels();
@@ -367,6 +371,19 @@ function renderResultsPool() {
         return;
       }
 
+      if (target.classList.contains('btn-meta')) {
+        var metaKey = target.dataset.meta;
+        if (activeMetaFilters.has(metaKey)) {
+          activeMetaFilters.delete(metaKey);
+          target.classList.remove('active');
+        } else {
+          activeMetaFilters.add(metaKey);
+          target.classList.add('active');
+        }
+        update();
+        return;
+      }
+
       if (target.classList.contains('btn-clear-inline')) {
         var row = target.closest('.category');
         if (row) {
@@ -411,11 +428,12 @@ function renderResultsPool() {
       activeTags.clear();
       activeStar = null;
       activeIngredient = null;
+      activeMetaFilters.clear();
       isSearching = false;
       if (searchBox) searchBox.value = '';
       if (resultsPool) resultsPool.innerHTML = '';
       if (matrix) {
-        matrix.querySelectorAll('.btn-tag, .btn-star').forEach(function(btn) {
+        matrix.querySelectorAll('.btn-tag, .btn-star, .btn-meta').forEach(function(btn) {
           btn.classList.remove('active');
         });
       }
