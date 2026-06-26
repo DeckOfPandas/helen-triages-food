@@ -1,15 +1,17 @@
+# Standard
 _site/
 .sass-cache/
 .jekyll-cache/
 .jekyll-metadata
 vendor/
 .bundle/
-handover/
-*Zone.Identifier
-model_instructions/
 
 # Unpublished 
 _drafts/
+
+# Local faffing and workflow
+*Zone.Identifier
+model_instructions/
 
 # Previous data models
 _recipes_old
