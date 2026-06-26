@@ -13,12 +13,15 @@
 {% endif %}
 
 <div class="category {{ include.group_class }}">
-  <span class="category-label highlighted" style="padding:0.22rem 1rem 0.22rem 1rem;{% if _color_rgb %} --highlighter-fill: rgb({{ _color_rgb }});{% endif %}">
-    {% include heading_with_highlighter.html
-      shape=_shape
-      texture=_texture %}
-    {{ include.label }}
-  </span>
+  <div class="category-label-row">
+    <span class="category-label highlighted" style="padding:0.22rem 1rem 0.22rem 1rem;{% if _color_rgb %} --highlighter-fill: rgb({{ _color_rgb }});{% endif %}">
+      {% include heading_with_highlighter.html
+        shape=_shape
+        texture=_texture %}
+      {{ include.label }}
+    </span>
+    <span class="btn-clear-inline" style="display:none;">× clear</span>
+  </div>
   <div class="category-buttons">
     {% for item in include.items %}
       <button type="button" class="{{ include.btn_class }}" {{ include.data_attr }}="{{ item }}">{{ item }}</button>

@@ -233,6 +233,13 @@ article.recipe {
     margin-bottom: 0.5rem;
   }
 
+  .category-label-row {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 0.75rem;
+  }
+
   .category-label {
     font-family: $font-headings;
     text-transform: uppercase;
@@ -245,25 +252,21 @@ article.recipe {
     position: relative;
     padding: 0.22rem 3rem;
     // Background highlight is now an SVG blob via heading_with_highlighter.html include.
+  }
 
-    .btn-clear-inline {
-      font-family: $font-headings;
-      font-size: 0.75rem;
-      font-weight: normal;
-      text-transform: lowercase;
-      letter-spacing: 0;
-      cursor: pointer;
-      text-decoration: underline;
-      transition: opacity 0.1s ease-in-out;
+  .btn-clear-inline {
+    font-family: $font-headings;
+    font-size: 0.75rem;
+    font-weight: normal;
+    text-transform: lowercase;
+    letter-spacing: 0;
+    cursor: pointer;
+    text-decoration: underline;
+    transition: opacity 0.1s ease-in-out;
+    white-space: nowrap;
 
-      position: absolute;
-      left: 105%;
-      white-space: nowrap;
-      z-index: 10;
-
-      &:hover {
-        opacity: 0.7;
-      }
+    &:hover {
+      opacity: 0.7;
     }
   }
 
