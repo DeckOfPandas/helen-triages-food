@@ -66,6 +66,7 @@ $color-badge-draft-text:  #5c4e3b;
 
 // --- Recipe Page Utilities ---------------------------------------------------
 $color-scaler:         #1864ab; // Rich sapphire blue for interactive scaler controls
+$color-method-toggle:  $color-scaler; // Method short/full toggle — change independently if desired
 $color-scaler-surface: #fdfbfe; // Muted milk white scaler background (reserved)
 $color-white:          #ffffff; // Explicit white for components that need isolation
 
