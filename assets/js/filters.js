@@ -32,7 +32,31 @@ document.addEventListener('DOMContentLoaded', function () {
   var ingredientClear = document.getElementById('ingredient-search-clear');
 
   var singularMap = {
-    'eggs': 'egg'
+    'eggs':     'egg',
+    'legs':     'leg',
+    'breasts':  'breast',
+    'thighs':   'thigh',
+    'fillets':  'fillet',
+    'cheeks':   'cheek',
+    'beans':    'bean',
+    'chips':    'chip',
+    'leaves':   'leaf',
+    'cloves':   'clove',
+    'peaches':  'peach',
+    'cherries': 'cherry',
+    'tomatoes': 'tomato',
+    'potatoes': 'potato',
+    'berries':  'berry',
+    'olives':   'olive',
+    'noodles':  'noodle',
+    'chops':    'chop',
+    'steaks':   'steak',
+    'prawns':   'prawn',
+    'mussels':  'mussel',
+    'scallops': 'scallop',
+    'anchovies':'anchovy',
+    'sardines': 'sardine',
+    'ribs':     'rib'
   };
 
   function normaliseIngredientWord(word) {
@@ -109,34 +133,103 @@ function renderResultsPool() {
       }
     });
   } else {
+    // --- Single-word query ---
+    //
+    // Rules:
+    // 1. Collect all matching ingredients.
+    // 2. For any word shared by 2+ entries, emit a "word (all)" umbrella button.
+    // 3. Suppress an entry if another matching entry's normalised word set is a
+    //    strict subset of its own — i.e. it's a plural/variant of a shorter form
+    //    that is also in the results. e.g. "chicken legs" is suppressed when
+    //    "chicken leg" is present, because {chicken, leg} ⊂ {chicken, legs}.
+    // 4. Always suppress entries that are pure members of an (all) family AND
+    //    have no additional distinguishing words beyond the family word itself
+    //    — i.e. single-word entries like bare "chicken" when "chicken (all)" exists.
+
+    // Step 1: collect all matching entries with their normalised word sets.
+    var candidates = []; // { ing, normWords, normKey }
+    var familyWords = new Set(); // words that earn an (all) button
+
     masterIngredientsList.forEach(function(ing) {
       var ingWords = getWords(ing);
       var normWords = ingWords.map(normaliseIngredientWord);
-      var ingKey = normWords.join(' ');
 
       var matchedAnyWord = ingWords.some(function(word) {
         return word.indexOf(query) !== -1;
       });
       if (!matchedAnyWord) return;
 
-      if (!renderedKeys.has(ingKey)) {
-        renderedKeys.add(ingKey);
-        resultsPool.appendChild(makeIngredientButton(ing, ing));
-      }
+      var normKey = normWords.join(' ');
+      candidates.push({ ing: ing, normWords: normWords, normKey: normKey });
 
-      // Check each matched word for family membership (2+ entries share it)
+      // Check each matched word for family membership
       ingWords.forEach(function(word, idx) {
         if (word.indexOf(query) === -1) return;
         var normWord = normWords[idx];
         var entries = wordToEntries[normWord];
         if (entries && entries.size > 1) {
-          var allKey = normWord + ' (all)';
-          if (!renderedKeys.has(allKey)) {
-            renderedKeys.add(allKey);
-            resultsPool.appendChild(makeIngredientButton(normWord, normWord + ' (all)'));
-          }
+          familyWords.add(normWord);
         }
       });
+    });
+
+    // Step 2: build normalised word sets for subset check.
+    // For each candidate, compute its Set of normalised words.
+    var candidateSets = candidates.map(function(c) {
+      return new Set(c.normWords);
+    });
+
+    // Step 3 & 4: decide which candidates to suppress.
+    // Suppress candidate i if:
+    //   (a) candidate i's normalised word set is a strict superset of another
+    //       candidate j's word set — i.e. i is a plural/variant of a shorter
+    //       form j that is also in the results.
+    //       e.g. "chicken legs" {chicken,leg} is suppressed when "chicken leg"
+    //       {chicken,leg} is present (same after normalisation), OR
+    //       more generally when j's words are all contained in i's words and
+    //       j is shorter.
+    //   (b) candidate i is a single-word entry whose word is a family word
+    //       (bare "chicken" suppressed in favour of "chicken (all)")
+    // Two-pass suppression:
+    // Pass 1 — rule (b): suppress bare single-word family members.
+    // Pass 2 — rule (a): suppress entries that are strict supersets of a
+    //           non-suppressed entry (catches plurals and redundant variants).
+    //           Must be a second pass so we don't use suppressed entries as
+    //           suppressors (e.g. bare "chicken" must not cause "chicken leg"
+    //           to be suppressed).
+    var suppress = candidates.map(function(c) {
+      return c.normWords.length === 1 && familyWords.has(c.normWords[0]);
+    });
+
+    candidates.forEach(function(c, i) {
+      if (suppress[i]) return; // already suppressed
+      for (var j = 0; j < candidates.length; j++) {
+        if (i === j || suppress[j]) continue; // skip self and suppressed candidates
+        var otherSet = candidateSets[j];
+        var thisSet = candidateSets[i];
+        if (otherSet.size >= thisSet.size) continue; // j must be strictly smaller than i
+        var jSubsetOfI = true;
+        otherSet.forEach(function(w) { if (!thisSet.has(w)) jSubsetOfI = false; });
+        if (jSubsetOfI) { suppress[i] = true; break; }
+      }
+    });
+
+    // Step 5: render — (all) buttons first, then survivors in original order.
+    var renderedAllKeys = new Set();
+    familyWords.forEach(function(fw) {
+      var label = fw + ' (all)';
+      if (!renderedAllKeys.has(fw)) {
+        renderedAllKeys.add(fw);
+        resultsPool.appendChild(makeIngredientButton(label, label));
+      }
+    });
+
+    candidates.forEach(function(c, i) {
+      if (suppress[i]) return;
+      if (!renderedKeys.has(c.normKey)) {
+        renderedKeys.add(c.normKey);
+        resultsPool.appendChild(makeIngredientButton(c.ing, c.ing));
+      }
     });
   }
 
@@ -193,7 +286,7 @@ function renderResultsPool() {
 
         if (activeIngredient) {
           var hasMatch = false;
-          var activeWords = getWords(activeIngredient).map(normaliseIngredientWord);
+          var activeWords = getWords(activeIngredient.replace(' (all)', '')).map(normaliseIngredientWord);
           for (var i = 0; i < ingList.length; i++) {
             var ingWords = getWords(ingList[i]).map(normaliseIngredientWord);
             var allMatch = activeWords.every(function(aw) {
@@ -300,7 +393,8 @@ function renderResultsPool() {
         } else {
           activeIngredient = ing;
           isSearching = false;
-          if (searchBox) searchBox.value = target.textContent.replace(' (all)', '').trim();
+          var rawKey = target.dataset.ingredient;
+          if (searchBox) searchBox.value = rawKey.replace(' (all)', '').trim();
           resultsPool.innerHTML = '';
           resultsPool.appendChild(target);
           matrix.querySelectorAll('.btn-ingredient').forEach(function(b) { b.classList.remove('active'); });
