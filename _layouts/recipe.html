@@ -65,21 +65,37 @@ layout: default
 
   {% if page.filling_note %}<p class="note">{{ page.filling_note }}</p>{% endif %}
 
+  {% assign has_short = false %}
+  {% for step in page.method_short %}
+    {% unless step == "QQ" %}{% assign has_short = true %}{% endunless %}
+  {% endfor %}
+
   <div class="category recipe-section--method">
     <h2 class="recipe-section-heading">
       <span class="category-label highlighted" style="padding:0.25rem 1.5rem;">
         {% include heading_with_highlighter.html shape="4" texture="1" %}
         Method
       </span>
+      {% if has_short %}
+        <button class="btn-method-toggle" id="method-toggle-btn">short method</button>
+      {% endif %}
     </h2>
   </div>
-  
-  <ol class="instructions">
+
+  <ol class="instructions" id="method-full">
     {% assign steps = page.method | default: page.instructions %}
     {% for step in steps %}
       <li>{{ step }}</li>
     {% endfor %}
   </ol>
+
+  {% if has_short %}
+    <div class="method-short" id="method-short" hidden>
+      {% for step in page.method_short %}
+        {{ step | markdownify }}
+      {% endfor %}
+    </div>
+  {% endif %}
 
   {{ content }}
 
@@ -113,11 +129,13 @@ layout: default
     </table>
   {% endif %}
 
-  {% if page.source or page.date_ingested %}
+  {% if page.source or page.meta.date_ingested %}
     <div class="recipe-footer">
       {% if page.source %}<p class="recipe-source">Source: {{ page.source }}</p>{% endif %}
-      {% if page.date_ingested %}<p class="recipe-source">Date added: {{ page.date_ingested }}</p>{% endif %}
+      {% if page.meta.date_ingested %}<p class="recipe-source">Date added: {{ page.meta.date_ingested }}</p>{% endif %}
     </div>
   {% endif %}
 
 </article>
+
+<script src="{{ '/assets/js/method-toggle.js' | relative_url }}"></script>
