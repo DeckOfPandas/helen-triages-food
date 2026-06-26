@@ -367,6 +367,18 @@ article.recipe {
   // Meta filter buttons — darkened grey, matching the meta badges
   &.category--meta {
     margin-top: 0.75rem;
+    align-items: center;
+    width: 100%;
+
+    .category-label-row {
+      justify-content: center;
+      width: 100%;
+    }
+
+    .category-buttons {
+      justify-content: center;
+      width: 100%;
+    }
 
     .category-label {
       font-size: 0.72rem;
