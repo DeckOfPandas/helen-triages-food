@@ -4,10 +4,11 @@
 
 // --- Title -------------------------------------------------------------------
 .recipe-title {
-  margin: 2rem 0 0.5rem 0;
+  margin: 3.5rem 0 0.5rem 0; // Pushes heading down to clear space for header and stamp
   display: flex;
   flex-direction: column;
   align-items: flex-start;
+  position: relative; // Provides anchoring context for absolute child layers
 }
 
 .recipe-main-title {
@@ -25,6 +26,36 @@
     color: $color-highlighter-label;
     padding: 0.45rem 3rem 0.5rem 3rem;
   }
+}
+
+// --- Natty Angled Rubber Stamp -----------------------------------------------
+.recipe-draft-stamp {
+  font-family: $font-headings;
+  font-size: 1.25rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  
+  // Color palette integration matching your design system variables
+  color: $color-badge-draft-text;
+  background-color: rgba($color-badge-draft-bg, 0.3); 
+  border: 2px dashed lighten($color-badge-draft-text, 50%);
+  border-radius: 4px;
+  
+  // Generous horizontal clearing dimensions
+  padding: 0.35rem 4rem; 
+  display: inline-block;
+  
+  // Absolute overlay layer pinned safely within the expanded top margin headroom
+  position: absolute;
+  top: -2.25rem; 
+  right: 0.5rem;
+  z-index: 10;
+
+  // Rotational transform mimicking uneven hand-stamped pressure
+  transform: rotate(8deg);
+  box-shadow: 0 2px 8px rgba($color-text, 0.02);
+  text-shadow: 0.5px 0.5px 0px rgba($color-white, 0.5);
 }
 
 // --- Section Headings --------------------------------------------------------
