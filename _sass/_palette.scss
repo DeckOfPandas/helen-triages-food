@@ -72,8 +72,11 @@ $color-method-toggle-active: darken($color-hot-orange, $color-percentage-darken-
 $color-white:          #ffffff; // Explicit white for components that need isolation
 
 // --- Reusable Structural Accents ---------------------------------------------
-$color-marker-accent:  lighten($color-clear-text, 20%);
-$color-step-number:    $color-clear-text;
+// Ingredient list dash markers use a softened version of the ingredients section colour.
+// Step numbers use a softened version of the method section colour.
+// Both echo their section heading, tying list content visually to its heading.
+$color-marker-accent:  mix($color-vivid-cerulean, $color-bg, 35%);
+$color-step-number:    mix($color-hot-orange, $color-clear-text, 45%);
 
 // --- Highlighter wiring ------------------------------------------------------
 // No colours here: this maps each category's wrapper class to its colour and

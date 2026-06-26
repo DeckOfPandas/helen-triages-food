@@ -28,34 +28,41 @@
   }
 }
 
-// --- Natty Angled Rubber Stamp -----------------------------------------------
+// --- Hand-drawn Draft Stamp --------------------------------------------------
+// SVG border drawn inline via background-image; the rectangle is slightly
+// irregular and rotated to read as a genuine hand stamp.
+// The stamp SVG is injected via the recipe.html template as an inline element.
 .recipe-draft-stamp {
   font-family: $font-headings;
-  font-size: 1.25rem;
+  font-size: 0.85rem;
   font-weight: 700;
   text-transform: uppercase;
-  letter-spacing: 0.12em;
-  
-  // Color palette integration matching your design system variables
+  letter-spacing: 0.18em;
   color: $color-badge-draft-text;
-  background-color: rgba($color-badge-draft-bg, 0.3); 
-  border: 2px dashed lighten($color-badge-draft-text, 50%);
-  border-radius: 4px;
-  
-  // Generous horizontal clearing dimensions
-  padding: 0.35rem 4rem; 
-  display: inline-block;
-  
-  // Absolute overlay layer pinned safely within the expanded top margin headroom
-  position: absolute;
-  top: -2.25rem; 
-  right: 0.5rem;
-  z-index: 10;
 
-  // Rotational transform mimicking uneven hand-stamped pressure
-  transform: rotate(8deg);
-  box-shadow: 0 2px 8px rgba($color-text, 0.02);
-  text-shadow: 0.5px 0.5px 0px rgba($color-white, 0.5);
+  // Layout: inline-flex so the SVG border and text sit together
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.4rem 1.25rem;
+  position: relative;
+
+  // Positioned in the top-right of .recipe-title (which is position:relative)
+  position: absolute;
+  top: 0.5rem;
+  right: 0;
+  z-index: 10;
+  transform: rotate(6deg);
+
+  // The SVG border is a sibling element (.draft-stamp-border) drawn behind the text
+  svg {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    overflow: visible;
+    pointer-events: none;
+  }
 }
 
 // --- Section Headings --------------------------------------------------------

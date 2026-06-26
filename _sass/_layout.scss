@@ -23,6 +23,18 @@ main {
 article.recipe {
   position: relative;
   width: 100%;
+  --annotation-gutter: 200px; // Reserved right gutter for future margin annotations.
+                               // Increase when annotations are implemented.
+}
+
+// Constrain prose reading width on the recipe page.
+// 65ch ≈ the typographic sweet spot of 60–65 characters per line.
+article.recipe p,
+article.recipe .note,
+article.recipe .method-short,
+article.recipe .ingredients,
+article.recipe .instructions {
+  max-width: 65ch;
 }
 
 .site-header {
@@ -224,21 +236,7 @@ article.recipe {
   }
 }
 
-.recipe-draft-stamp {
-  font-family: $font-headings;
-  font-size: 0.72rem;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-  color: lighten($color-clear-text, 10%);
-  border: 1px dashed lighten($color-clear-text, 25%);
-  padding: 0.2rem 0.6rem;
-
-  position: absolute;
-  top: 0;
-  right: 0;
-  margin: 0;
-}
+// .recipe-draft-stamp is defined in _recipe.scss
 
 // --- Button Base Controls -----------------------------------------------------
 // Defined before .category so active-state compound selectors
