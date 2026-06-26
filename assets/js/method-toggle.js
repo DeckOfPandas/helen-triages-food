@@ -11,7 +11,7 @@
     var isShort = mode === 'short';
     fullMethod.hidden  =  isShort;
     shortMethod.hidden = !isShort;
-    btn.textContent    =  isShort ? '(click for full method)' : '(click for short method)';
+    btn.textContent    =  isShort ? 'click for full method' : 'click for short method';
     btn.classList.toggle('active', isShort);
     sessionStorage.setItem(SESSION_KEY, mode);
   }
