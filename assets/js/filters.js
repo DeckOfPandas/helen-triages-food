@@ -67,6 +67,25 @@ document.addEventListener('DOMContentLoaded', function () {
     return singularMap[word] || word;
   }
 
+  // synonymMap: maps a query word to a set of ingredient words that count as matches.
+  // When the query exactly equals a key, any ingredient containing any of the
+  // listed words is treated as a candidate, and the key earns a forced (all) button.
+  var synonymMap = {
+    'pasta':  ['pasta', 'spaghetti', 'tagliatelle', 'linguine', 'pappardelle',
+               'fettuccine', 'farfalle', 'fusilli', 'penne', 'rigatoni',
+               'conchiglie', 'orecchiette', 'orzo', 'macaroni', 'lasagne',
+               'lasagna', 'gnocchi', 'tortellini', 'ravioli', 'cannelloni'],
+    'cheese': ['cheese', 'cheddar', 'parmesan', 'parmigiano', 'gruyère', 'gruyere',
+               'mozzarella', 'ricotta', 'feta', 'brie', 'camembert', 'gouda',
+               'stilton', 'gorgonzola', 'manchego', 'pecorino', 'halloumi',
+               'burrata', 'mascarpone', 'cream cheese', 'cottage cheese'],
+    'stock':  ['stock', 'broth']
+  };
+
+  function getSynonymWords(query) {
+    return synonymMap[query] || null;
+  }
+
   function hasActiveFilters() {
     return activeTags.size > 0 || activeStar !== null || activeMetaFilters.size > 0;
   }
@@ -155,20 +174,36 @@ function renderResultsPool() {
     var candidates = []; // { ing, normWords, normKey }
     var familyWords = new Set(); // words that earn an (all) button
 
+    // Check if the query exactly matches a synonym group.
+    // If so, synonymWords is the expanded set of ingredient words to match against,
+    // and the query word itself becomes a forced (all) family.
+    var synonymWords = getSynonymWords(query);
+    if (synonymWords) familyWords.add(query);
+
     masterIngredientsList.forEach(function(ing) {
       var ingWords = getWords(ing);
       var normWords = ingWords.map(normaliseIngredientWord);
+      var ingLower = ing.toLowerCase();
 
-      var matchedAnyWord = ingWords.some(function(word) {
-        return word.indexOf(query) !== -1;
-      });
+      var matchedAnyWord;
+      if (synonymWords) {
+        // Match if any ingredient word substring-matches any synonym word,
+        // or if the ingredient text contains any synonym word as a substring.
+        matchedAnyWord = synonymWords.some(function(syn) {
+          return ingLower.indexOf(syn) !== -1;
+        });
+      } else {
+        matchedAnyWord = ingWords.some(function(word) {
+          return word.indexOf(query) !== -1;
+        });
+      }
       if (!matchedAnyWord) return;
 
       var normKey = normWords.join(' ');
       candidates.push({ ing: ing, normWords: normWords, normKey: normKey });
 
-      // Check each matched word for family membership (only for queries >= 2 chars)
-      if (enableFamilyButtons) {
+      // Check each matched word for family membership (only for queries >= 3 chars)
+      if (enableFamilyButtons && !synonymWords) {
         ingWords.forEach(function(word, idx) {
           if (word.indexOf(query) === -1) return;
           var normWord = normWords[idx];
@@ -296,13 +331,25 @@ function renderResultsPool() {
 
         if (activeIngredient) {
           var hasMatch = false;
-          var activeWords = getWords(activeIngredient.replace(' (all)', '')).map(normaliseIngredientWord);
-          for (var i = 0; i < ingList.length; i++) {
-            var ingWords = getWords(ingList[i]).map(normaliseIngredientWord);
-            var allMatch = activeWords.every(function(aw) {
-              return ingWords.some(function(iw) { return iw.indexOf(aw) !== -1; });
-            });
-            if (allMatch) { hasMatch = true; break; }
+          var activeKey = activeIngredient.replace(' (all)', '').trim();
+          var activeSynonyms = getSynonymWords(activeKey);
+          if (activeSynonyms) {
+            // Synonym (all): match any ingredient containing any synonym word
+            for (var i = 0; i < ingList.length; i++) {
+              var ingLower2 = ingList[i].toLowerCase();
+              if (activeSynonyms.some(function(syn) { return ingLower2.indexOf(syn) !== -1; })) {
+                hasMatch = true; break;
+              }
+            }
+          } else {
+            var activeWords = getWords(activeKey).map(normaliseIngredientWord);
+            for (var i = 0; i < ingList.length; i++) {
+              var ingWords2 = getWords(ingList[i]).map(normaliseIngredientWord);
+              var allMatch = activeWords.every(function(aw) {
+                return ingWords2.some(function(iw) { return iw.indexOf(aw) !== -1; });
+              });
+              if (allMatch) { hasMatch = true; break; }
+            }
           }
           if (!hasMatch) visible = false;
         }
@@ -321,16 +368,24 @@ function renderResultsPool() {
     });
 
     // Highlight matching ingredient pills
-    var activeWords = activeIngredient
-      ? getWords(activeIngredient.replace(' (all)', '')).map(normaliseIngredientWord)
+    var activeKey2 = activeIngredient ? activeIngredient.replace(' (all)', '').trim() : '';
+    var activeSynonyms2 = activeKey2 ? getSynonymWords(activeKey2) : null;
+    var activeWords = (!activeSynonyms2 && activeKey2)
+      ? getWords(activeKey2).map(normaliseIngredientWord)
       : [];
     document.querySelectorAll('.recipe-list .ingredient-pill').forEach(function(pill) {
       pill.classList.remove('ingredient--matched');
-      if (activeWords.length === 0) return;
-      var pillWords = getWords(pill.textContent.trim()).map(normaliseIngredientWord);
-      var matches = activeWords.every(function(aw) {
-        return pillWords.some(function(pw) { return pw.indexOf(aw) !== -1; });
-      });
+      if (!activeKey2) return;
+      var pillText = pill.textContent.trim().toLowerCase();
+      var matches;
+      if (activeSynonyms2) {
+        matches = activeSynonyms2.some(function(syn) { return pillText.indexOf(syn) !== -1; });
+      } else {
+        var pillWords = getWords(pillText).map(normaliseIngredientWord);
+        matches = activeWords.every(function(aw) {
+          return pillWords.some(function(pw) { return pw.indexOf(aw) !== -1; });
+        });
+      }
       if (matches) pill.classList.add('ingredient--matched');
     });
 
