@@ -257,7 +257,7 @@ article.recipe {
   .btn-clear-inline {
     font-family: $font-headings;
     font-size: 0.75rem;
-    font-weight: normal;
+    font-weight: $weight-clear-font;
     text-transform: lowercase;
     letter-spacing: 0;
     cursor: pointer;
@@ -363,12 +363,12 @@ article.recipe {
   #ingredient-search-clear {
     font-family: $font-headings;
     font-size: 0.75rem;
-    font-weight: normal;
+    font-weight: $weight-clear-font;
     text-transform: lowercase;
     letter-spacing: 0;
     cursor: pointer;
     text-decoration: underline;
-    color: $color-ingredient-root;
+    color: $color-ingredient-active;
     margin-left: 0.75rem;
     white-space: nowrap;
     transition: opacity 0.1s ease-in-out;
@@ -434,7 +434,7 @@ article.recipe {
 
   font-family: $font-body;
   font-size: 0.88rem;
-  font-weight: 300;
+  font-weight: 400;
   text-transform: lowercase;
   letter-spacing: 0.04em;
   color: $color-clear-text;
