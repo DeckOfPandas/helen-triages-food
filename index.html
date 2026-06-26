@@ -86,13 +86,25 @@ title: Home
         <a href="{{ recipe.url | relative_url }}">{{ recipe.title }}</a>
 
         <div class="badge-group">
-          {% if site.show_unrewritten %}
-            {% unless recipe.meta.rewritten %}<span class="badge badge-meta-rewrite">needs rewrite</span>{% endunless %}
-            {% unless recipe.meta.proofread %}<span class="badge badge-meta-proofread">needs proofread</span>{% endunless %}
-          {% endif %}
-          {% if is_draft %}<span class="badge badge-draft">draft</span>{% endif %}
-          {% include recipe_badges.html recipe=recipe %}
+          <div class="badge-group__content">
+            {% include recipe_badges.html recipe=recipe %}
+          </div>
+          <div class="badge-group__meta">
+            {% if site.show_unrewritten %}
+              {% unless recipe.meta.rewritten %}<span class="badge badge-meta-rewrite">needs rewrite</span>{% endunless %}
+              {% unless recipe.meta.proofread %}<span class="badge badge-meta-proofread">needs proofread</span>{% endunless %}
+            {% endif %}
+            {% if is_draft %}<span class="badge badge-draft">draft</span>{% endif %}
+          </div>
         </div>
+
+        {% if recipe.main_ingredients and recipe.main_ingredients.size > 0 %}
+        <div class="ingredient-list">
+          {% for ing in recipe.main_ingredients %}
+            <span class="ingredient-pill">{{ ing }}</span>{% unless forloop.last %}<span class="ingredient-sep">,</span>{% endunless %}
+          {% endfor %}
+        </div>
+        {% endif %}
       </li>
     {% endif %}
   {% endfor %}

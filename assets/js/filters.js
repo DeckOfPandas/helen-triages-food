@@ -103,6 +103,7 @@ function renderResultsPool() {
     update();
     return;
   }
+  var enableFamilyButtons = query.length >= 3;
   var renderedKeys = new Set();
   var queryWords = query.split(/\s+/).filter(Boolean);
   var multiWord = queryWords.length > 1;
@@ -163,15 +164,17 @@ function renderResultsPool() {
       var normKey = normWords.join(' ');
       candidates.push({ ing: ing, normWords: normWords, normKey: normKey });
 
-      // Check each matched word for family membership
-      ingWords.forEach(function(word, idx) {
-        if (word.indexOf(query) === -1) return;
-        var normWord = normWords[idx];
-        var entries = wordToEntries[normWord];
-        if (entries && entries.size > 1) {
-          familyWords.add(normWord);
-        }
-      });
+      // Check each matched word for family membership (only for queries >= 2 chars)
+      if (enableFamilyButtons) {
+        ingWords.forEach(function(word, idx) {
+          if (word.indexOf(query) === -1) return;
+          var normWord = normWords[idx];
+          var entries = wordToEntries[normWord];
+          if (entries && entries.size > 1) {
+            familyWords.add(normWord);
+          }
+        });
+      }
     });
 
     // Step 2: build normalised word sets for subset check.
@@ -312,6 +315,20 @@ function renderResultsPool() {
       if (activeTags.has(text) || activeStar === text) {
         badge.classList.add('badge--matched');
       }
+    });
+
+    // Highlight matching ingredient pills
+    var activeWords = activeIngredient
+      ? getWords(activeIngredient.replace(' (all)', '')).map(normaliseIngredientWord)
+      : [];
+    document.querySelectorAll('.recipe-list .ingredient-pill').forEach(function(pill) {
+      pill.classList.remove('ingredient--matched');
+      if (activeWords.length === 0) return;
+      var pillWords = getWords(pill.textContent.trim()).map(normaliseIngredientWord);
+      var matches = activeWords.every(function(aw) {
+        return pillWords.some(function(pw) { return pw.indexOf(aw) !== -1; });
+      });
+      if (matches) pill.classList.add('ingredient--matched');
     });
 
     var emptyMessage = document.querySelector('.recipe-list-empty');

@@ -74,9 +74,10 @@ article.recipe {
 
   li {
     display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 1.05rem 0;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.6rem;
+    padding: 1.4rem 0;
     border-bottom: 1px solid $color-border;
 
     a {
@@ -87,8 +88,6 @@ article.recipe {
       letter-spacing: 0.05em;
       color: $color-text;
       text-decoration: none;
-      flex: 1;
-      padding-right: 1.5rem;
       line-height: 1.4;
       transition: color 0.12s ease-in-out;
 
@@ -96,6 +95,34 @@ article.recipe {
         color: $color-star-root;
       }
     }
+  }
+}
+
+// --- Ingredient list below each recipe entry ---------------------------------
+.ingredient-list {
+  font-family: $font-body;
+  font-size: 0.78rem;
+  font-weight: 300;
+  color: lighten($color-clear-text, 18%);
+  line-height: 1.5;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0;
+}
+
+.ingredient-sep {
+  color: lighten($color-clear-text, 25%);
+  margin-right: 0.3rem;
+}
+
+.ingredient-pill {
+  transition: color 0.12s ease-in-out, font-weight 0.12s ease-in-out;
+
+  &.ingredient--matched {
+    color: $color-ingredient-active;
+    font-weight: 700;
+    letter-spacing: 0.01em;
   }
 }
 
@@ -108,7 +135,29 @@ article.recipe {
 }
 
 .badge-group {
-  justify-content: flex-end;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  flex-wrap: nowrap;
+  width: 100%;
+  gap: 0.75rem;
+
+  &__content {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.5rem;
+    flex: 1;
+  }
+
+  &__meta {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 0.5rem;
+    flex-shrink: 0;
+  }
 }
 
 .recipe-badges {
