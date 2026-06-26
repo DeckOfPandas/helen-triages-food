@@ -55,6 +55,13 @@
   line-height: 1.4;
   max-width: 80%;
   text-wrap: balance;
+
+  // When a group heading carries a highlighter, the label span overrides colour.
+  .category-label {
+    color: $color-highlighter-label;
+    padding: 0.18rem 0.9rem;
+    -webkit-text-stroke: 0.4px;
+  }
 }
 
 // --- Tagline -----------------------------------------------------------------
@@ -227,6 +234,17 @@
       display: inline-block;
       min-width: 1.25rem;
       flex-shrink: 0;
+    }
+  }
+
+  // Group heading items inside a method_groups list don't get step numbers.
+  li.method-group-heading-item {
+    counter-increment: none;
+    display: block;
+    margin-bottom: 0.5rem;
+
+    &::before {
+      content: none;
     }
   }
 }

@@ -10,10 +10,20 @@ ingredients:
 
 method:
   shape: "6"
-  color: hot_orange_rgb 
+  color: hot_orange_rgb
   texture: "1"
 
 notes:
   shape: "10"
   color: medium_spring_green_rgb
+  texture: "1"
+
+ingredient_group:
+  shape: "1"
+  color: aureolin_rgb
+  texture: "1"
+
+method_group:
+  shape: "2"
+  color: aureolin_rgb
   texture: "1"

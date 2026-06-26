@@ -47,17 +47,28 @@ layout: default
   {% endif %}
 
   {% if page.ingredient_groups.size > 1 %}
-    {% assign multiple_groups = true %}
+    {% assign multiple_ingredient_groups = true %}
   {% else %}
-    {% assign multiple_groups = false %}
+    {% assign multiple_ingredient_groups = false %}
   {% endif %}
 
+  {% assign _ig_color_rgb = site.data.colors[rs.ingredient_group.color] %}
   {% for group in page.ingredient_groups %}
-    {% if multiple_groups %}
+    {% if multiple_ingredient_groups and group.name %}
       {% if group.name == "to serve" %}
-        <h3 class="recipe-group-heading">To serve:</h3>
-      {% elsif group.name %}
-        <h3 class="recipe-group-heading">For the {{ group.name | downcase }}:</h3>
+        <h3 class="recipe-group-heading">
+          <span class="category-label highlighted" style="--highlighter-fill: rgb({{ _ig_color_rgb }});">
+            {% include heading_with_highlighter.html shape=rs.ingredient_group.shape texture=rs.ingredient_group.texture %}
+            To serve:
+          </span>
+        </h3>
+      {% else %}
+        <h3 class="recipe-group-heading">
+          <span class="category-label highlighted" style="--highlighter-fill: rgb({{ _ig_color_rgb }});">
+            {% include heading_with_highlighter.html shape=rs.ingredient_group.shape texture=rs.ingredient_group.texture %}
+            For the {{ group.name | downcase }}:
+          </span>
+        </h3>
       {% endif %}
     {% endif %}
     <ul class="ingredients">
@@ -87,12 +98,38 @@ layout: default
     </h2>
   </div>
 
-  <ol class="instructions" id="method-full">
-    {% assign steps = page.method | default: page.instructions %}
-    {% for step in steps %}
-      <li>{{ step }}</li>
-    {% endfor %}
-  </ol>
+  {% if page.method_groups %}
+    {% assign _mg_color_rgb = site.data.colors[rs.method_group.color] %}
+    {% if page.method_groups.size > 1 %}
+      {% assign multiple_method_groups = true %}
+    {% else %}
+      {% assign multiple_method_groups = false %}
+    {% endif %}
+    <ol class="instructions" id="method-full">
+      {% for group in page.method_groups %}
+        {% if multiple_method_groups and group.name %}
+          <li class="method-group-heading-item">
+            <h3 class="recipe-group-heading">
+              <span class="category-label highlighted" style="--highlighter-fill: rgb({{ _mg_color_rgb }});">
+                {% include heading_with_highlighter.html shape=rs.method_group.shape texture=rs.method_group.texture %}
+                {{ group.name }}
+              </span>
+            </h3>
+          </li>
+        {% endif %}
+        {% for step in group.steps %}
+          <li>{{ step }}</li>
+        {% endfor %}
+      {% endfor %}
+    </ol>
+  {% else %}
+    <ol class="instructions" id="method-full">
+      {% assign steps = page.method | default: page.instructions %}
+      {% for step in steps %}
+        <li>{{ step }}</li>
+      {% endfor %}
+    </ol>
+  {% endif %}
 
   {% if has_short %}
     <div class="method-short" id="method-short" hidden>
