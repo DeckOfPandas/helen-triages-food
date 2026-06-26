@@ -125,7 +125,7 @@ function renderResultsPool() {
     update();
     return;
   }
-  var enableFamilyButtons = query.length >= 3;
+  var enableFamilyButtons = query.length >= 2;
   var renderedKeys = new Set();
   var queryWords = query.split(/\s+/).filter(Boolean);
   var multiWord = queryWords.length > 1;
@@ -328,6 +328,8 @@ function renderResultsPool() {
 
         if (activeMetaFilters.has('rewrite') && li.dataset.metaRewrite !== 'true') visible = false;
         if (activeMetaFilters.has('proofread') && li.dataset.metaProofread !== 'true') visible = false;
+        if (activeMetaFilters.has('no-short') && li.dataset.metaShort === 'true') visible = false;
+        if (activeMetaFilters.has('has-short') && li.dataset.metaShort !== 'true') visible = false;
 
         if (activeIngredient) {
           var hasMatch = false;
