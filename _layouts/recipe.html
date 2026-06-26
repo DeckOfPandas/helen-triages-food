@@ -1,15 +1,18 @@
 ---
 layout: default
 ---
+{% assign rs = site.data.recipe_sections %}
+
 <article class="recipe">
   {% if page.collection == "drafts" %}
     <div class="recipe-draft-stamp">DRAFT</div>
   {% endif %}
 
+  {% assign _title_color_rgb = site.data.colors[rs.title.color] %}
   <div class="recipe-title category--mood">
     <h1 class="recipe-main-title">
-      <span class="category-label highlighted">
-        {% include heading_with_highlighter.html shape="13" texture="1" %}
+      <span class="category-label highlighted" style="{% if _title_color_rgb %}--highlighter-fill: rgb({{ _title_color_rgb }});{% endif %}">
+        {% include heading_with_highlighter.html shape=rs.title.shape texture=rs.title.texture %}
         {{ page.title }}
       </span>
     </h1>
@@ -32,10 +35,11 @@ layout: default
   {% include serving_scaler.html %}
 
   {% if page.ingredient_groups %}
+    {% assign _ingredients_color_rgb = site.data.colors[rs.ingredients.color] %}
     <div class="category recipe-section--ingredients">
       <h2 class="recipe-section-heading">
-        <span class="category-label highlighted" style="padding:0.25rem 1.5rem;">
-          {% include heading_with_highlighter.html shape="7" texture="1" %}
+        <span class="category-label highlighted" style="padding:0.25rem 1.5rem;{% if _ingredients_color_rgb %} --highlighter-fill: rgb({{ _ingredients_color_rgb }});{% endif %}">
+          {% include heading_with_highlighter.html shape=rs.ingredients.shape texture=rs.ingredients.texture %}
           Ingredients
         </span>
       </h2>
@@ -43,17 +47,28 @@ layout: default
   {% endif %}
 
   {% if page.ingredient_groups.size > 1 %}
-    {% assign multiple_groups = true %}
+    {% assign multiple_ingredient_groups = true %}
   {% else %}
-    {% assign multiple_groups = false %}
+    {% assign multiple_ingredient_groups = false %}
   {% endif %}
 
+  {% assign _ig_color_rgb = site.data.colors[rs.ingredient_group.color] %}
   {% for group in page.ingredient_groups %}
-    {% if multiple_groups %}
+    {% if multiple_ingredient_groups and group.name %}
       {% if group.name == "to serve" %}
-        <h3 class="recipe-group-heading">To serve:</h3>
-      {% elsif group.name %}
-        <h3 class="recipe-group-heading">For the {{ group.name | downcase }}:</h3>
+        <h3 class="recipe-group-heading">
+          <span class="category-label highlighted" style="--highlighter-fill: rgb({{ _ig_color_rgb }});">
+            {% include heading_with_highlighter.html shape=rs.ingredient_group.shape texture=rs.ingredient_group.texture %}
+            To serve:
+          </span>
+        </h3>
+      {% else %}
+        <h3 class="recipe-group-heading">
+          <span class="category-label highlighted" style="--highlighter-fill: rgb({{ _ig_color_rgb }});">
+            {% include heading_with_highlighter.html shape=rs.ingredient_group.shape texture=rs.ingredient_group.texture %}
+            For the {{ group.name | downcase }}:
+          </span>
+        </h3>
       {% endif %}
     {% endif %}
     <ul class="ingredients">
@@ -70,10 +85,11 @@ layout: default
     {% unless step == "QQ" %}{% assign has_short = true %}{% endunless %}
   {% endfor %}
 
+  {% assign _method_color_rgb = site.data.colors[rs.method.color] %}
   <div class="category recipe-section--method">
     <h2 class="recipe-section-heading">
-      <span class="category-label highlighted" style="padding:0.25rem 1.5rem;">
-        {% include heading_with_highlighter.html shape="4" texture="1" %}
+      <span class="category-label highlighted" style="padding:0.25rem 1.5rem;{% if _method_color_rgb %} --highlighter-fill: rgb({{ _method_color_rgb }});{% endif %}">
+        {% include heading_with_highlighter.html shape=rs.method.shape texture=rs.method.texture %}
         Method
       </span>
       {% if has_short %}
@@ -82,12 +98,38 @@ layout: default
     </h2>
   </div>
 
-  <ol class="instructions" id="method-full">
-    {% assign steps = page.method | default: page.instructions %}
-    {% for step in steps %}
-      <li>{{ step }}</li>
-    {% endfor %}
-  </ol>
+  {% if page.method_groups %}
+    {% assign _mg_color_rgb = site.data.colors[rs.method_group.color] %}
+    {% if page.method_groups.size > 1 %}
+      {% assign multiple_method_groups = true %}
+    {% else %}
+      {% assign multiple_method_groups = false %}
+    {% endif %}
+    <ol class="instructions" id="method-full">
+      {% for group in page.method_groups %}
+        {% if multiple_method_groups and group.name %}
+          <li class="method-group-heading-item">
+            <h3 class="recipe-group-heading">
+              <span class="category-label highlighted" style="--highlighter-fill: rgb({{ _mg_color_rgb }});">
+                {% include heading_with_highlighter.html shape=rs.method_group.shape texture=rs.method_group.texture %}
+                {{ group.name }}
+              </span>
+            </h3>
+          </li>
+        {% endif %}
+        {% for step in group.steps %}
+          <li>{{ step }}</li>
+        {% endfor %}
+      {% endfor %}
+    </ol>
+  {% else %}
+    <ol class="instructions" id="method-full">
+      {% assign steps = page.method | default: page.instructions %}
+      {% for step in steps %}
+        <li>{{ step }}</li>
+      {% endfor %}
+    </ol>
+  {% endif %}
 
   {% if has_short %}
     <div class="method-short" id="method-short" hidden>
@@ -100,10 +142,11 @@ layout: default
   {{ content }}
 
   {% if page.notes %}
+    {% assign _notes_color_rgb = site.data.colors[rs.notes.color] %}
     <div class="category recipe-section--notes">
       <h2 class="recipe-section-heading">
-        <span class="category-label highlighted" style="padding:0.25rem 1.5rem;">
-          {% include heading_with_highlighter.html shape="9" texture="1" %}
+        <span class="category-label highlighted" style="padding:0.25rem 1.5rem;{% if _notes_color_rgb %} --highlighter-fill: rgb({{ _notes_color_rgb }});{% endif %}">
+          {% include heading_with_highlighter.html shape=rs.notes.shape texture=rs.notes.texture %}
           Notes
         </span>
       </h2>
@@ -112,10 +155,11 @@ layout: default
   {% endif %}
 
   {% if page.nutrition %}
+    {% assign _notes_color_rgb = site.data.colors[rs.notes.color] %}
     <div class="category recipe-section--notes">
       <h2 class="recipe-section-heading">
-        <span class="category-label highlighted" style="padding:0.25rem 1.5rem;">
-          {% include heading_with_highlighter.html shape="9" texture="1" %}
+        <span class="category-label highlighted" style="padding:0.25rem 1.5rem;{% if _notes_color_rgb %} --highlighter-fill: rgb({{ _notes_color_rgb }});{% endif %}">
+          {% include heading_with_highlighter.html shape=rs.notes.shape texture=rs.notes.texture %}
           Nutrition
         </span>
       </h2>

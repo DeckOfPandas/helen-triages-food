@@ -3,11 +3,13 @@ star:
   class: category--star
   color: bright_magenta_rgb
   shape: "3"
+  texture: "1"
 
 ingredients:
   label: "[ SEARCH INGREDIENTS ]"
   color: aureolin_rgb
   shape: "4"
+  texture: "1"
 
 groups:
   - name: mood
@@ -15,6 +17,7 @@ groups:
     class: category--mood
     color: pure_lime_green_rgb
     shape: "7"
+    texture: "1"
     tags:
       - bakes
       - breakfast
@@ -38,6 +41,7 @@ groups:
     class: category--practicalities
     color: vibrant_violet_rgb
     shape: "8"
+    texture: "1"
     tags:
       - freezable
       - make-ahead
