@@ -1,0 +1,50 @@
+star: 
+  label: "[ STAR INGREDIENT ]"
+  class: category--star
+  color: bright_magenta_rgb
+  shape: "3"
+  texture: "1"
+
+ingredients:
+  label: "[ SEARCH INGREDIENTS ]"
+  color: aureolin_rgb
+  shape: "4"
+  texture: "1"
+
+groups:
+  - name: mood
+    label: "[ MOOD ]"
+    class: category--mood
+    color: pure_lime_green_rgb
+    shape: "7"
+    texture: "1"
+    tags:
+      - bakes
+      - breakfast
+      - carbs party
+      - cheese-tastic
+      - dessert
+      - extras
+      - fakeaway
+      - festive
+      - hot snack
+      - ice cream
+      - nibbles
+      - one-handed food
+      - salad
+      - showstopper
+      - soup
+      - sweets
+
+  - name: practicalities
+    label: "[ PRACTICALITIES ]"
+    class: category--practicalities
+    color: vibrant_violet_rgb
+    shape: "8"
+    texture: "1"
+    tags:
+      - freezable
+      - make-ahead
+      - no-cook
+      - one-pot
+      - scalable

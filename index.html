@@ -4,9 +4,9 @@ title: Home
 ---
 
 <div class="controls">
-  {% assign star_data = site.data.tags.star %}
-  {% assign ingredients_data = site.data.tags.ingredients %}
-  {% assign tag_groups = site.data.tags.groups %}
+  {% assign star_data = site.data.index_tags_sections.star %}
+  {% assign ingredients_data = site.data.index_tags_sections.ingredients %}
+  {% assign tag_groups = site.data.index_tags_sections.groups %}
 
   {% assign all_recipes = site.recipes %}
   {% if site.drafts %}
@@ -21,7 +21,8 @@ title: Home
       group_class=star_data.class
       label=star_data.label
       shape=star_data.shape
-      texture="1"
+      texture=star_data.texture
+      color=star_data.color
       items=all_stars
       btn_class="btn-star"
       data_attr="data-star"
@@ -33,7 +34,8 @@ title: Home
       group_class=group.class
       label=group.label
       shape=group.shape
-      texture="1"
+      texture=group.texture
+      color=group.color
       items=group.tags
       btn_class="btn-tag"
       data_attr="data-tag"
@@ -42,10 +44,11 @@ title: Home
 
   <div class="category search">
     <div class="search-input">
-      <span class="category-label highlighted" style="padding:0.22rem 1rem 0.22rem 0.6rem;">
+      {% assign _ingredients_color_rgb = site.data.colors[ingredients_data.color] %}
+      <span class="category-label highlighted" style="padding:0.22rem 1rem 0.22rem 0.6rem;{% if _ingredients_color_rgb %} --highlighter-fill: rgb({{ _ingredients_color_rgb }});{% endif %}">
         {% include heading_with_highlighter.html
           shape=ingredients_data.shape
-          texture="1"
+          texture=ingredients_data.texture
         %}
         {{ ingredients_data.label }}
       </span>

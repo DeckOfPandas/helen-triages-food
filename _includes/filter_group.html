@@ -8,9 +8,12 @@
 {% else %}
   {% assign _texture = "0" %}
 {% endif %}
+{% if include.color %}
+  {% assign _color_rgb = site.data.colors[include.color] %}
+{% endif %}
 
 <div class="category {{ include.group_class }}">
-  <span class="category-label highlighted" style="padding:0.22rem 1rem 0.22rem 1rem;">
+  <span class="category-label highlighted" style="padding:0.22rem 1rem 0.22rem 1rem;{% if _color_rgb %} --highlighter-fill: rgb({{ _color_rgb }});{% endif %}">
     {% include heading_with_highlighter.html
       shape=_shape
       texture=_texture %}

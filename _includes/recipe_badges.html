@@ -2,7 +2,7 @@
   <span class="badge badge-star">{{ include.recipe.star_ingredient }}</span>
 {% endif %}
 
-{% for group in site.data.tags.groups %}
+{% for group in site.data.index_tags_sections.groups %}
   {% if group.class == "category--mood" %}
     {% for tag in include.recipe.tags %}
       {% if group.tags contains tag %}
@@ -12,7 +12,7 @@
   {% endif %}
 {% endfor %}
 
-{% for group in site.data.tags.groups %}
+{% for group in site.data.index_tags_sections.groups %}
   {% if group.class == "category--practicalities" %}
     {% for tag in include.recipe.tags %}
       {% if group.tags contains tag %}
