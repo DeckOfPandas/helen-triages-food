@@ -539,7 +539,8 @@ article.recipe {
   }
 }
 
-.recipe-list-empty {
+.recipe-list-empty,
+.recipe-list-searching {
   font-family: $font-headings;
   font-size: 0.9rem;
   font-weight: 700;
@@ -547,7 +548,7 @@ article.recipe {
   letter-spacing: 0.04em;
   color: $color-clear-text;
   text-align: center;
-  padding: calc(1.5rem * 4) 0;
+  padding: 2rem 0;
 
   background: none;
   border: none;

@@ -103,7 +103,7 @@ function renderResultsPool() {
     update();
     return;
   }
-  var enableFamilyButtons = query.length >= 3;
+  var enableFamilyButtons = query.length >= 2;
   var renderedKeys = new Set();
   var queryWords = query.split(/\s+/).filter(Boolean);
   var multiWord = queryWords.length > 1;
@@ -333,6 +333,9 @@ function renderResultsPool() {
 
     var emptyMessage = document.querySelector('.recipe-list-empty');
     emptyMessage.style.display = (!suppressList && visibleCount === 0) ? 'block' : 'none';
+
+    var searchingMessage = document.querySelector('.recipe-list-searching');
+    if (searchingMessage) searchingMessage.style.display = suppressList ? 'block' : 'none';
 
     if (clearButton) {
       clearButton.style.visibility = (activeTags.size > 0 || activeStar || activeIngredient || activeMetaFilters.size > 0) ? 'visible' : 'hidden';
