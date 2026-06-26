@@ -168,7 +168,7 @@ layout: default
         </span>
       </h2>
     </div>
-    <p class="note">{{ page.notes }}</p>
+    {% for note in page.notes %}<p class="note">{{ note }}</p>{% endfor %}
   {% endif %}
 
   {% if content != '' %}
