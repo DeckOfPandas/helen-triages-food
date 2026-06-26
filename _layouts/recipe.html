@@ -171,7 +171,11 @@ layout: default
     <p class="note">{{ page.notes }}</p>
   {% endif %}
 
-  {{ content }}
+  {% if content != '' %}
+  <div class="recipe-body-content">
+    {{ content }}
+  </div>
+  {% endif %}
 
   {% if page.source or page.meta.date_ingested %}
     <div class="recipe-footer">
