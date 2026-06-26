@@ -45,17 +45,18 @@ $highlighter-opacity-ingredient:     1;
 $highlighter-opacity-logo:           1;
 
 // Derived active tones (darkened from the roots for legibility on white)
-$color-percentage-darken-active: 12;
-$color-percentage-darkenextra-active: 20;
+$color-percentage-darken-active: 20;
+$color-percentage-darkenextra-active: 30;
 $color-star-active:           darken($color-star-root, $color-percentage-darken-active);
 $color-mood-active:           darken($color-mood-root, $color-percentage-darken-active);
-$color-practicalities-active: darken($color-practicalities-root, $color-percentage-darken-active); // same as root; dark enough already
-$color-ingredient-active:     darken($color-ingredient-root, $color-percentage-darken-active);
+$color-practicalities-active: darken($color-practicalities-root, $color-percentage-darken-active); 
+$color-ingredient-active:     darken($color-ingredient-root, $color-percentage-darkenextra-active);
 
 // Clear filters button
 $color-clear-bg:     #fff;   // Reserved for explicit clear-button fills
-$color-clear-text:   #5f5e5a;
+$color-clear-text:   #4f4e4a;
 $color-clear-border: $color-border; // Reserved for clear-button border override
+$weight-clear-font: 800;
 
 // Badge bgs
 $saturation-badge-bg: 0.1;
@@ -66,7 +67,8 @@ $color-badge-draft-text:  #5c4e3b;
 
 // --- Recipe Page Utilities ---------------------------------------------------
 $color-scaler:         #1864ab; // Rich sapphire blue for interactive scaler controls
-$color-method-toggle:  $color-scaler; // Method short/full toggle — change independently if desired
+$color-method-toggle:  $color-hot-orange; // Method short/full toggle — matches method section highlighter
+$color-method-toggle-active: darken($color-hot-orange, $color-percentage-darken-active);
 $color-scaler-surface: #fdfbfe; // Muted milk white scaler background (reserved)
 $color-white:          #ffffff; // Explicit white for components that need isolation
 

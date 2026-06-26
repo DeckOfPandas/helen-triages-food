@@ -2,6 +2,7 @@ document.addEventListener('DOMContentLoaded', function () {
   var activeTags = new Set();
   var activeStar = null;
   var activeIngredient = null;
+  var activeMetaFilters = new Set(); // 'rewrite' and/or 'proofread'
   var isSearching = false;
 
   var allIngredientsSet = new Set();
@@ -32,15 +33,61 @@ document.addEventListener('DOMContentLoaded', function () {
   var ingredientClear = document.getElementById('ingredient-search-clear');
 
   var singularMap = {
-    'eggs': 'egg'
+    'eggs':     'egg',
+    'legs':     'leg',
+    'breasts':  'breast',
+    'thighs':   'thigh',
+    'fillets':  'fillet',
+    'cheeks':   'cheek',
+    'beans':    'bean',
+    'chips':    'chip',
+    'leaves':   'leaf',
+    'cloves':   'clove',
+    'peaches':  'peach',
+    'cherries': 'cherry',
+    'tomatoes': 'tomato',
+    'potatoes': 'potato',
+    'berries':  'berry',
+    'olives':   'olive',
+    'noodles':  'noodle',
+    'chops':    'chop',
+    'steaks':   'steak',
+    'prawns':   'prawn',
+    'mussels':  'mussel',
+    'scallops': 'scallop',
+    'anchovies':'anchovy',
+    'sardines': 'sardine',
+    'ribs':     'rib',
+    'apples':   'apple',
+    'oranges':  'orange',
+    'cashews':  'cashew'
   };
 
   function normaliseIngredientWord(word) {
     return singularMap[word] || word;
   }
 
+  // synonymMap: maps a query word to a set of ingredient words that count as matches.
+  // When the query exactly equals a key, any ingredient containing any of the
+  // listed words is treated as a candidate, and the key earns a forced (all) button.
+  var synonymMap = {
+    'pasta':  ['pasta', 'spaghetti', 'tagliatelle', 'linguine', 'pappardelle',
+               'fettuccine', 'farfalle', 'fusilli', 'penne', 'rigatoni',
+               'conchiglie', 'orecchiette', 'orzo', 'macaroni', 'lasagne',
+               'lasagna', 'gnocchi', 'tortellini', 'ravioli', 'cannelloni'],
+    'cheese': ['cheese', 'cheddar', 'parmesan', 'parmigiano', 'gruyère', 'gruyere',
+               'mozzarella', 'ricotta', 'feta', 'brie', 'camembert', 'gouda',
+               'stilton', 'gorgonzola', 'manchego', 'pecorino', 'halloumi',
+               'burrata', 'mascarpone', 'cream cheese', 'cottage cheese'],
+    'stock':  ['stock', 'broth']
+  };
+
+  function getSynonymWords(query) {
+    return synonymMap[query] || null;
+  }
+
   function hasActiveFilters() {
-    return activeTags.size > 0 || activeStar !== null;
+    return activeTags.size > 0 || activeStar !== null || activeMetaFilters.size > 0;
   }
 
   function getWords(str) {
@@ -78,6 +125,7 @@ function renderResultsPool() {
     update();
     return;
   }
+  var enableFamilyButtons = query.length >= 2;
   var renderedKeys = new Set();
   var queryWords = query.split(/\s+/).filter(Boolean);
   var multiWord = queryWords.length > 1;
@@ -109,34 +157,121 @@ function renderResultsPool() {
       }
     });
   } else {
+    // --- Single-word query ---
+    //
+    // Rules:
+    // 1. Collect all matching ingredients.
+    // 2. For any word shared by 2+ entries, emit a "word (all)" umbrella button.
+    // 3. Suppress an entry if another matching entry's normalised word set is a
+    //    strict subset of its own — i.e. it's a plural/variant of a shorter form
+    //    that is also in the results. e.g. "chicken legs" is suppressed when
+    //    "chicken leg" is present, because {chicken, leg} ⊂ {chicken, legs}.
+    // 4. Always suppress entries that are pure members of an (all) family AND
+    //    have no additional distinguishing words beyond the family word itself
+    //    — i.e. single-word entries like bare "chicken" when "chicken (all)" exists.
+
+    // Step 1: collect all matching entries with their normalised word sets.
+    var candidates = []; // { ing, normWords, normKey }
+    var familyWords = new Set(); // words that earn an (all) button
+
+    // Check if the query exactly matches a synonym group.
+    // If so, synonymWords is the expanded set of ingredient words to match against,
+    // and the query word itself becomes a forced (all) family.
+    var synonymWords = getSynonymWords(query);
+    if (synonymWords) familyWords.add(query);
+
     masterIngredientsList.forEach(function(ing) {
       var ingWords = getWords(ing);
       var normWords = ingWords.map(normaliseIngredientWord);
-      var ingKey = normWords.join(' ');
+      var ingLower = ing.toLowerCase();
 
-      var matchedAnyWord = ingWords.some(function(word) {
-        return word.indexOf(query) !== -1;
-      });
+      var matchedAnyWord;
+      if (synonymWords) {
+        // Match if any ingredient word substring-matches any synonym word,
+        // or if the ingredient text contains any synonym word as a substring.
+        matchedAnyWord = synonymWords.some(function(syn) {
+          return ingLower.indexOf(syn) !== -1;
+        });
+      } else {
+        matchedAnyWord = ingWords.some(function(word) {
+          return word.indexOf(query) !== -1;
+        });
+      }
       if (!matchedAnyWord) return;
 
-      if (!renderedKeys.has(ingKey)) {
-        renderedKeys.add(ingKey);
-        resultsPool.appendChild(makeIngredientButton(ing, ing));
-      }
+      var normKey = normWords.join(' ');
+      candidates.push({ ing: ing, normWords: normWords, normKey: normKey });
 
-      // Check each matched word for family membership (2+ entries share it)
-      ingWords.forEach(function(word, idx) {
-        if (word.indexOf(query) === -1) return;
-        var normWord = normWords[idx];
-        var entries = wordToEntries[normWord];
-        if (entries && entries.size > 1) {
-          var allKey = normWord + ' (all)';
-          if (!renderedKeys.has(allKey)) {
-            renderedKeys.add(allKey);
-            resultsPool.appendChild(makeIngredientButton(normWord, normWord + ' (all)'));
+      // Check each matched word for family membership (only for queries >= 3 chars)
+      if (enableFamilyButtons && !synonymWords) {
+        ingWords.forEach(function(word, idx) {
+          if (word.indexOf(query) === -1) return;
+          var normWord = normWords[idx];
+          var entries = wordToEntries[normWord];
+          if (entries && entries.size > 1) {
+            familyWords.add(normWord);
           }
-        }
-      });
+        });
+      }
+    });
+
+    // Step 2: build normalised word sets for subset check.
+    // For each candidate, compute its Set of normalised words.
+    var candidateSets = candidates.map(function(c) {
+      return new Set(c.normWords);
+    });
+
+    // Step 3 & 4: decide which candidates to suppress.
+    // Suppress candidate i if:
+    //   (a) candidate i's normalised word set is a strict superset of another
+    //       candidate j's word set — i.e. i is a plural/variant of a shorter
+    //       form j that is also in the results.
+    //       e.g. "chicken legs" {chicken,leg} is suppressed when "chicken leg"
+    //       {chicken,leg} is present (same after normalisation), OR
+    //       more generally when j's words are all contained in i's words and
+    //       j is shorter.
+    //   (b) candidate i is a single-word entry whose word is a family word
+    //       (bare "chicken" suppressed in favour of "chicken (all)")
+    // Two-pass suppression:
+    // Pass 1 — rule (b): suppress bare single-word family members.
+    // Pass 2 — rule (a): suppress entries that are strict supersets of a
+    //           non-suppressed entry (catches plurals and redundant variants).
+    //           Must be a second pass so we don't use suppressed entries as
+    //           suppressors (e.g. bare "chicken" must not cause "chicken leg"
+    //           to be suppressed).
+    var suppress = candidates.map(function(c) {
+      return c.normWords.length === 1 && familyWords.has(c.normWords[0]);
+    });
+
+    candidates.forEach(function(c, i) {
+      if (suppress[i]) return; // already suppressed
+      for (var j = 0; j < candidates.length; j++) {
+        if (i === j || suppress[j]) continue; // skip self and suppressed candidates
+        var otherSet = candidateSets[j];
+        var thisSet = candidateSets[i];
+        if (otherSet.size >= thisSet.size) continue; // j must be strictly smaller than i
+        var jSubsetOfI = true;
+        otherSet.forEach(function(w) { if (!thisSet.has(w)) jSubsetOfI = false; });
+        if (jSubsetOfI) { suppress[i] = true; break; }
+      }
+    });
+
+    // Step 5: render — (all) buttons first, then survivors in original order.
+    var renderedAllKeys = new Set();
+    familyWords.forEach(function(fw) {
+      var label = fw + ' (all)';
+      if (!renderedAllKeys.has(fw)) {
+        renderedAllKeys.add(fw);
+        resultsPool.appendChild(makeIngredientButton(label, label));
+      }
+    });
+
+    candidates.forEach(function(c, i) {
+      if (suppress[i]) return;
+      if (!renderedKeys.has(c.normKey)) {
+        renderedKeys.add(c.normKey);
+        resultsPool.appendChild(makeIngredientButton(c.ing, c.ing));
+      }
     });
   }
 
@@ -191,15 +326,32 @@ function renderResultsPool() {
 
         if (activeStar && star !== activeStar) visible = false;
 
+        if (activeMetaFilters.has('rewrite') && li.dataset.metaRewrite !== 'true') visible = false;
+        if (activeMetaFilters.has('proofread') && li.dataset.metaProofread !== 'true') visible = false;
+        if (activeMetaFilters.has('no-short') && li.dataset.metaShort === 'true') visible = false;
+        if (activeMetaFilters.has('has-short') && li.dataset.metaShort !== 'true') visible = false;
+
         if (activeIngredient) {
           var hasMatch = false;
-          var activeWords = getWords(activeIngredient).map(normaliseIngredientWord);
-          for (var i = 0; i < ingList.length; i++) {
-            var ingWords = getWords(ingList[i]).map(normaliseIngredientWord);
-            var allMatch = activeWords.every(function(aw) {
-              return ingWords.some(function(iw) { return iw.indexOf(aw) !== -1; });
-            });
-            if (allMatch) { hasMatch = true; break; }
+          var activeKey = activeIngredient.replace(' (all)', '').trim();
+          var activeSynonyms = getSynonymWords(activeKey);
+          if (activeSynonyms) {
+            // Synonym (all): match any ingredient containing any synonym word
+            for (var i = 0; i < ingList.length; i++) {
+              var ingLower2 = ingList[i].toLowerCase();
+              if (activeSynonyms.some(function(syn) { return ingLower2.indexOf(syn) !== -1; })) {
+                hasMatch = true; break;
+              }
+            }
+          } else {
+            var activeWords = getWords(activeKey).map(normaliseIngredientWord);
+            for (var i = 0; i < ingList.length; i++) {
+              var ingWords2 = getWords(ingList[i]).map(normaliseIngredientWord);
+              var allMatch = activeWords.every(function(aw) {
+                return ingWords2.some(function(iw) { return iw.indexOf(aw) !== -1; });
+              });
+              if (allMatch) { hasMatch = true; break; }
+            }
           }
           if (!hasMatch) visible = false;
         }
@@ -217,11 +369,36 @@ function renderResultsPool() {
       }
     });
 
+    // Highlight matching ingredient pills
+    var activeKey2 = activeIngredient ? activeIngredient.replace(' (all)', '').trim() : '';
+    var activeSynonyms2 = activeKey2 ? getSynonymWords(activeKey2) : null;
+    var activeWords = (!activeSynonyms2 && activeKey2)
+      ? getWords(activeKey2).map(normaliseIngredientWord)
+      : [];
+    document.querySelectorAll('.recipe-list .ingredient-pill').forEach(function(pill) {
+      pill.classList.remove('ingredient--matched');
+      if (!activeKey2) return;
+      var pillText = pill.textContent.trim().toLowerCase();
+      var matches;
+      if (activeSynonyms2) {
+        matches = activeSynonyms2.some(function(syn) { return pillText.indexOf(syn) !== -1; });
+      } else {
+        var pillWords = getWords(pillText).map(normaliseIngredientWord);
+        matches = activeWords.every(function(aw) {
+          return pillWords.some(function(pw) { return pw.indexOf(aw) !== -1; });
+        });
+      }
+      if (matches) pill.classList.add('ingredient--matched');
+    });
+
     var emptyMessage = document.querySelector('.recipe-list-empty');
     emptyMessage.style.display = (!suppressList && visibleCount === 0) ? 'block' : 'none';
 
+    var searchingMessage = document.querySelector('.recipe-list-searching');
+    if (searchingMessage) searchingMessage.style.display = suppressList ? 'block' : 'none';
+
     if (clearButton) {
-      clearButton.style.visibility = (activeTags.size > 0 || activeStar || activeIngredient) ? 'visible' : 'hidden';
+      clearButton.style.visibility = (activeTags.size > 0 || activeStar || activeIngredient || activeMetaFilters.size > 0) ? 'visible' : 'hidden';
     }
 
     updateInlineLabels();
@@ -274,6 +451,19 @@ function renderResultsPool() {
         return;
       }
 
+      if (target.classList.contains('btn-meta')) {
+        var metaKey = target.dataset.meta;
+        if (activeMetaFilters.has(metaKey)) {
+          activeMetaFilters.delete(metaKey);
+          target.classList.remove('active');
+        } else {
+          activeMetaFilters.add(metaKey);
+          target.classList.add('active');
+        }
+        update();
+        return;
+      }
+
       if (target.classList.contains('btn-clear-inline')) {
         var row = target.closest('.category');
         if (row) {
@@ -300,6 +490,10 @@ function renderResultsPool() {
         } else {
           activeIngredient = ing;
           isSearching = false;
+          var rawKey = target.dataset.ingredient;
+          if (searchBox) searchBox.value = rawKey.replace(' (all)', '').trim();
+          resultsPool.innerHTML = '';
+          resultsPool.appendChild(target);
           matrix.querySelectorAll('.btn-ingredient').forEach(function(b) { b.classList.remove('active'); });
           target.classList.add('active');
         }
@@ -314,11 +508,12 @@ function renderResultsPool() {
       activeTags.clear();
       activeStar = null;
       activeIngredient = null;
+      activeMetaFilters.clear();
       isSearching = false;
       if (searchBox) searchBox.value = '';
       if (resultsPool) resultsPool.innerHTML = '';
       if (matrix) {
-        matrix.querySelectorAll('.btn-tag, .btn-star').forEach(function(btn) {
+        matrix.querySelectorAll('.btn-tag, .btn-star, .btn-meta').forEach(function(btn) {
           btn.classList.remove('active');
         });
       }
