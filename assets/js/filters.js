@@ -300,6 +300,9 @@ function renderResultsPool() {
         } else {
           activeIngredient = ing;
           isSearching = false;
+          if (searchBox) searchBox.value = target.textContent.replace(' (all)', '').trim();
+          resultsPool.innerHTML = '';
+          resultsPool.appendChild(target);
           matrix.querySelectorAll('.btn-ingredient').forEach(function(b) { b.classList.remove('active'); });
           target.classList.add('active');
         }
