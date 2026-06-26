@@ -9,7 +9,7 @@ layout: default
   {% endif %}
 
   {% assign _title_color_rgb = site.data.colors[rs.title.color] %}
-  <div class="recipe-title category--mood">
+  <div class="recipe-title">
     <h1 class="recipe-main-title">
       <span class="category-label highlighted" style="{% if _title_color_rgb %}--highlighter-fill: rgb({{ _title_color_rgb }});{% endif %}">
         {% include heading_with_highlighter.html shape=rs.title.shape texture=rs.title.texture %}
@@ -17,7 +17,7 @@ layout: default
       </span>
     </h1>
   </div>
-  
+
   {% if page.tagline %}<p class="recipe-tagline">{{ page.tagline }}</p>{% endif %}
 
   <ul class="recipe-meta">
@@ -31,8 +31,6 @@ layout: default
   <div class="recipe-badges">
     {% include recipe_badges.html recipe=page %}
   </div>
-
-  {% include serving_scaler.html %}
 
   {% if page.ingredient_groups %}
     {% assign _ingredients_color_rgb = site.data.colors[rs.ingredients.color] %}
@@ -139,8 +137,6 @@ layout: default
     </div>
   {% endif %}
 
-  {{ content }}
-
   {% if page.notes %}
     {% assign _notes_color_rgb = site.data.colors[rs.notes.color] %}
     <div class="category recipe-section--notes">
@@ -154,24 +150,7 @@ layout: default
     <p class="note">{{ page.notes }}</p>
   {% endif %}
 
-  {% if page.nutrition %}
-    {% assign _notes_color_rgb = site.data.colors[rs.notes.color] %}
-    <div class="category recipe-section--notes">
-      <h2 class="recipe-section-heading">
-        <span class="category-label highlighted" style="padding:0.25rem 1.5rem;{% if _notes_color_rgb %} --highlighter-fill: rgb({{ _notes_color_rgb }});{% endif %}">
-          {% include heading_with_highlighter.html shape=rs.notes.shape texture=rs.notes.texture %}
-          Nutrition
-        </span>
-      </h2>
-    </div>
-    <table class="nutrition">
-      {% for pair in page.nutrition %}
-        {% unless pair[0] == "serving" %}
-          <tr><th>{{ pair[0] | capitalize }}</th><td>{{ pair[1] }}</td></tr>
-        {% endunless %}
-      {% endfor %}
-    </table>
-  {% endif %}
+  {{ content }}
 
   {% if page.source or page.meta.date_ingested %}
     <div class="recipe-footer">

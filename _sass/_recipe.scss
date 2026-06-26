@@ -143,54 +143,6 @@
   }
 }
 
-// --- Serving Scaler ----------------------------------------------------------
-.recipe-serving-scaler {
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-  background-color: $color-white;
-  border: 1px solid $color-border;
-  border-radius: 6px;
-  padding: 0.75rem 1.25rem;
-  margin: 1.75rem 0;
-  width: 100%;
-  max-width: 320px;
-
-  span {
-    font-family: $font-headings;
-    text-transform: uppercase;
-    font-size: 0.75rem;
-    font-weight: 900;
-    letter-spacing: 0.06em;
-    color: $color-text;
-  }
-
-  button {
-    font-family: $font-headings;
-    font-size: 0.75rem;
-    font-weight: 700;
-    background: none;
-    border: 1px solid $color-border;
-    color: lighten($color-text, 20%);
-    padding: 0.22rem 0.65rem;
-    border-radius: 4px;
-    cursor: pointer;
-    transition: all 0.1s ease-in-out;
-
-    &:hover {
-      background-color: rgba($color-scaler, 0.05);
-      border-color: rgba($color-scaler, 0.4);
-      color: $color-scaler;
-    }
-
-    &.active {
-      background-color: $color-scaler;
-      border-color: $color-scaler;
-      color: $color-white;
-    }
-  }
-}
-
 // --- Method Toggle Button ----------------------------------------------------
 // Sits inside .recipe-section-heading flex row, right-aligned.
 // Matches scaler button aesthetics.
@@ -347,38 +299,6 @@
   border-left: 3px solid $color-border;
   margin: 2rem 0;
   line-height: 1.6;
-}
-
-// --- Nutrition ---------------------------------------------------------------
-.nutrition {
-  width: 100%;
-  max-width: 440px;
-  border-collapse: collapse;
-  font-size: 0.9rem;
-  margin-top: 1rem;
-  margin-bottom: 2rem;
-
-  th, td {
-    text-align: left;
-    padding: 0.5rem 0.75rem 0.5rem 0;
-    border-bottom: 1px solid $color-border;
-  }
-
-  th {
-    font-family: $font-headings;
-    text-transform: uppercase;
-    font-size: 0.75rem;
-    letter-spacing: 0.05em;
-    color: $color-clear-text;
-    font-weight: 700;
-  }
-
-  td {
-    font-family: $font-body;
-    font-weight: 300;
-    color: $color-text;
-    text-align: right;
-  }
 }
 
 // --- Footer ------------------------------------------------------------------

@@ -66,10 +66,9 @@ $color-badge-draft-bg:    #f6eedb; // Muted amber-gold ("Yellow for Wait")
 $color-badge-draft-text:  #5c4e3b;
 
 // --- Recipe Page Utilities ---------------------------------------------------
-$color-scaler:         #1864ab; // Rich sapphire blue for interactive scaler controls
-$color-method-toggle:  $color-hot-orange; // Method short/full toggle — matches method section highlighter
+$color-interactive-blue: #1864ab; // Rich sapphire blue — general interactive accent
+$color-method-toggle:    $color-hot-orange; // Method short/full toggle — matches method section highlighter
 $color-method-toggle-active: darken($color-hot-orange, $color-percentage-darken-active);
-$color-scaler-surface: #fdfbfe; // Muted milk white scaler background (reserved)
 $color-white:          #ffffff; // Explicit white for components that need isolation
 
 // --- Reusable Structural Accents ---------------------------------------------
