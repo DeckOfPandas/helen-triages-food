@@ -57,7 +57,10 @@ document.addEventListener('DOMContentLoaded', function () {
     'scallops': 'scallop',
     'anchovies':'anchovy',
     'sardines': 'sardine',
-    'ribs':     'rib'
+    'ribs':     'rib',
+    'apples':   'apple',
+    'oranges':  'orange',
+    'cashews':  'cashew'
   };
 
   function normaliseIngredientWord(word) {
@@ -103,7 +106,7 @@ function renderResultsPool() {
     update();
     return;
   }
-  var enableFamilyButtons = query.length >= 2;
+  var enableFamilyButtons = query.length >= 3;
   var renderedKeys = new Set();
   var queryWords = query.split(/\s+/).filter(Boolean);
   var multiWord = queryWords.length > 1;
