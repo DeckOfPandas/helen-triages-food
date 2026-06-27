@@ -7,6 +7,7 @@ title: Home
   {% assign star_data = site.data.index_tags_sections.star %}
   {% assign ingredients_data = site.data.index_tags_sections.ingredients %}
   {% assign tag_groups = site.data.index_tags_sections.groups %}
+  {% assign name_search_data = site.data.index_tags_sections.name_search %}
 
   {% assign all_recipes = site.recipes %}
   {% if site.drafts %}
@@ -56,6 +57,18 @@ title: Home
       <span class="btn-clear-inline" id="ingredient-search-clear" style="display: none;">× clear</span>
     </div>
     <div class="category-buttons search-results" id="ingredient-results-pool"></div>
+  </div>
+
+  <div class="category search search--name">
+    <div class="search-input">
+      {% assign _name_color_rgb = site.data.colors[name_search_data.color] %}
+      <span class="category-label highlighted" style="padding:0.22rem 1rem 0.22rem 0.6rem;{% if _name_color_rgb %} --highlighter-fill: rgb({{ _name_color_rgb }});{% endif %}">
+        {% include heading_with_highlighter.html shape=name_search_data.shape texture=name_search_data.texture %}
+        {{ name_search_data.label }}
+      </span>
+      <input type="text" id="name-search-box" autocomplete="off" placeholder="recipe name..." />
+      <span class="btn-clear-inline" id="name-search-clear" style="display: none;">× clear</span>
+    </div>
   </div>
 
   {% if site.show_unrewritten %}
