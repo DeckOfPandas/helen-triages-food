@@ -101,7 +101,7 @@ layout: default
 
   {% assign has_short = false %}
   {% for step in page.method_short %}
-    {% unless step == "QQ" %}{% assign has_short = true %}{% endunless %}
+    {% unless step == "QQ" or step == "none" %}{% assign has_short = true %}{% endunless %}
   {% endfor %}
 
   {% assign _method_color_rgb = site.data.colors[rs.method.color] %}
