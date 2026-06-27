@@ -5,11 +5,32 @@ layout: default
 
 <article class="recipe">
   {% if page.collection == "drafts" %}
-    <div class="recipe-draft-stamp">DRAFT</div>
+    <div class="recipe-draft-stamp">
+      <svg aria-hidden="true" viewBox="0 0 120 32" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
+        <rect x="2" y="2" width="116" height="28" rx="2"
+          fill="none"
+          stroke="#{$color-badge-draft-text}"
+          stroke-width="1.5"
+          pathLength="100"
+          stroke-dasharray="100"
+          stroke-dashoffset="0"
+          style="stroke: #8a7355;"
+          transform="translate(0.3,-0.5) rotate(-0.4,60,16)"
+        />
+        <rect x="3" y="3" width="114" height="26" rx="1"
+          fill="none"
+          stroke="#8a7355"
+          stroke-width="0.4"
+          opacity="0.4"
+          transform="translate(-0.5,0.8) rotate(0.6,60,16)"
+        />
+      </svg>
+      DRAFT
+    </div>
   {% endif %}
 
   {% assign _title_color_rgb = site.data.colors[rs.title.color] %}
-  <div class="recipe-title category--mood">
+  <div class="recipe-title">
     <h1 class="recipe-main-title">
       <span class="category-label highlighted" style="{% if _title_color_rgb %}--highlighter-fill: rgb({{ _title_color_rgb }});{% endif %}">
         {% include heading_with_highlighter.html shape=rs.title.shape texture=rs.title.texture %}
@@ -17,7 +38,7 @@ layout: default
       </span>
     </h1>
   </div>
-  
+
   {% if page.tagline %}<p class="recipe-tagline">{{ page.tagline }}</p>{% endif %}
 
   <ul class="recipe-meta">
@@ -31,8 +52,6 @@ layout: default
   <div class="recipe-badges">
     {% include recipe_badges.html recipe=page %}
   </div>
-
-  {% include serving_scaler.html %}
 
   {% if page.ingredient_groups %}
     {% assign _ingredients_color_rgb = site.data.colors[rs.ingredients.color] %}
@@ -82,7 +101,7 @@ layout: default
 
   {% assign has_short = false %}
   {% for step in page.method_short %}
-    {% unless step == "QQ" %}{% assign has_short = true %}{% endunless %}
+    {% unless step == "QQ" or step == "none" %}{% assign has_short = true %}{% endunless %}
   {% endfor %}
 
   {% assign _method_color_rgb = site.data.colors[rs.method.color] %}
@@ -139,8 +158,6 @@ layout: default
     </div>
   {% endif %}
 
-  {{ content }}
-
   {% if page.notes %}
     {% assign _notes_color_rgb = site.data.colors[rs.notes.color] %}
     <div class="category recipe-section--notes">
@@ -151,26 +168,13 @@ layout: default
         </span>
       </h2>
     </div>
-    <p class="note">{{ page.notes }}</p>
+    {% for note in page.notes %}<p class="note">{{ note }}</p>{% endfor %}
   {% endif %}
 
-  {% if page.nutrition %}
-    {% assign _notes_color_rgb = site.data.colors[rs.notes.color] %}
-    <div class="category recipe-section--notes">
-      <h2 class="recipe-section-heading">
-        <span class="category-label highlighted" style="padding:0.25rem 1.5rem;{% if _notes_color_rgb %} --highlighter-fill: rgb({{ _notes_color_rgb }});{% endif %}">
-          {% include heading_with_highlighter.html shape=rs.notes.shape texture=rs.notes.texture %}
-          Nutrition
-        </span>
-      </h2>
-    </div>
-    <table class="nutrition">
-      {% for pair in page.nutrition %}
-        {% unless pair[0] == "serving" %}
-          <tr><th>{{ pair[0] | capitalize }}</th><td>{{ pair[1] }}</td></tr>
-        {% endunless %}
-      {% endfor %}
-    </table>
+  {% if content != '' %}
+  <div class="recipe-body-content">
+    {{ content }}
+  </div>
   {% endif %}
 
   {% if page.source or page.meta.date_ingested %}

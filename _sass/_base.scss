@@ -48,5 +48,6 @@ body, button {
   position: relative;
   display: inline-flex;
   align-items: center;
-  overflow: hidden;
+  overflow: visible; // SVG blobs use preserveAspectRatio="none" and stretch to fit;
+                     // clipping is not needed and breaks title blob on recipe page.
 }
