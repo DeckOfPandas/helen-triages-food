@@ -2,7 +2,8 @@ document.addEventListener('DOMContentLoaded', function () {
   var activeTags = new Set();
   var activeStar = null;
   var activeIngredient = null;
-  var activeMetaFilters = new Set(); // 'rewrite' and/or 'proofread'
+  var activeMetaFilters = new Set();
+  var nameQuery = ''; // 'rewrite' and/or 'proofread'
   var isSearching = false;
 
   var allIngredientsSet = new Set();
@@ -31,6 +32,8 @@ document.addEventListener('DOMContentLoaded', function () {
   var searchBox = document.getElementById('ingredient-search-box');
   var resultsPool = document.getElementById('ingredient-results-pool');
   var ingredientClear = document.getElementById('ingredient-search-clear');
+  var nameSearchBox = document.getElementById('name-search-box');
+  var nameSearchClear = document.getElementById('name-search-clear');
 
   var singularMap = {
     'eggs':     'egg',
@@ -125,7 +128,7 @@ function renderResultsPool() {
     update();
     return;
   }
-  var enableFamilyButtons = query.length >= 2;
+  var enableFamilyButtons = query.length >= 3;
   var renderedKeys = new Set();
   var queryWords = query.split(/\s+/).filter(Boolean);
   var multiWord = queryWords.length > 1;
@@ -326,6 +329,11 @@ function renderResultsPool() {
 
         if (activeStar && star !== activeStar) visible = false;
 
+        if (nameQuery) {
+          var title = (li.querySelector('a') || {}).textContent || '';
+          if (title.toLowerCase().indexOf(nameQuery) === -1) visible = false;
+        }
+
         if (activeMetaFilters.has('rewrite') && li.dataset.metaRewrite !== 'true') visible = false;
         if (activeMetaFilters.has('proofread') && li.dataset.metaProofread !== 'true') visible = false;
         if (activeMetaFilters.has('no-short') && li.dataset.metaShort === 'true') visible = false;
@@ -399,6 +407,7 @@ function renderResultsPool() {
 
     if (clearButton) {
       clearButton.style.visibility = (activeTags.size > 0 || activeStar || activeIngredient || activeMetaFilters.size > 0) ? 'visible' : 'hidden';
+      if (nameSearchClear) nameSearchClear.style.display = nameQuery ? 'inline' : 'none';
     }
 
     updateInlineLabels();
@@ -503,14 +512,33 @@ function renderResultsPool() {
     });
   }
 
+  if (nameSearchBox) {
+    nameSearchBox.addEventListener('input', function() {
+      nameQuery = nameSearchBox.value.trim().toLowerCase();
+      update();
+    });
+  }
+
+  if (nameSearchClear) {
+    nameSearchClear.addEventListener('click', function() {
+      nameQuery = '';
+      nameSearchBox.value = '';
+      nameSearchClear.style.display = 'none';
+      update();
+    });
+  }
+
   if (clearButton) {
     clearButton.addEventListener('click', function() {
       activeTags.clear();
       activeStar = null;
       activeIngredient = null;
       activeMetaFilters.clear();
+      nameQuery = '';
       isSearching = false;
       if (searchBox) searchBox.value = '';
+      if (nameSearchBox) nameSearchBox.value = '';
+      if (nameSearchClear) nameSearchClear.style.display = 'none';
       if (resultsPool) resultsPool.innerHTML = '';
       if (matrix) {
         matrix.querySelectorAll('.btn-tag, .btn-star, .btn-meta').forEach(function(btn) {

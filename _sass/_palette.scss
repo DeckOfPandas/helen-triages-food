@@ -69,6 +69,8 @@ $color-badge-draft-text:  #5c4e3b;
 $color-interactive-blue: #1864ab; // Rich sapphire blue — general interactive accent
 $color-method-toggle:    $color-hot-orange; // Method short/full toggle — matches method section highlighter
 $color-method-toggle-active: darken($color-hot-orange, $color-percentage-darken-active);
+$color-name-search-root:   $color-electric-cobalt;
+$color-name-search-active: darken($color-electric-cobalt, $color-percentage-darken-active);
 $color-white:          #ffffff; // Explicit white for components that need isolation
 
 // --- Reusable Structural Accents ---------------------------------------------
