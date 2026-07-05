@@ -276,9 +276,7 @@ article.recipe .instructions {
   align-items: flex-start;
   gap: 0.75rem;
 
-  &.category--practicalities {
-    margin-bottom: 0.5rem;
-  }
+  // practicalities spacing matches all other categories
 
   .category-label-row {
     display: flex;
@@ -417,11 +415,8 @@ article.recipe .instructions {
 
 // --- Search Section -----------------------------------------------------------
 .search {
-  margin-top: 2.2rem;
-  margin-bottom: 0.5rem;
-  padding-top: 2rem;
+  margin: 1.5rem 0;
   width: 100%;
-  border-top: 1px solid $color-border;
   flex-direction: column;
   align-items: flex-start;
 
@@ -429,6 +424,7 @@ article.recipe .instructions {
     display: flex;
     flex-direction: row;
     align-items: center;
+    gap: 0.75rem;
     width: 100%;
     max-width: 550px;
     position: relative;
@@ -456,6 +452,11 @@ article.recipe .instructions {
     &:focus {
       outline: none;
       border-bottom-color: lighten($color-clear-text, 5%);
+    }
+
+    &::placeholder {
+      color: lighten($color-clear-text, 30%);
+      font-weight: 300;
     }
   }
 
@@ -489,7 +490,7 @@ article.recipe .instructions {
 
 // --- Name search ------------------------------------------------------------
 .search--name {
-  border-top: 1px solid $color-border;
+  margin-top: 0.5rem !important;
 
   #name-search-box {
     font-family: $font-headings;
