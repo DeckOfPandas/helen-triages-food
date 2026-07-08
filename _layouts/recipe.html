@@ -39,7 +39,7 @@ layout: default
     </h1>
   </div>
 
-  {% if page.tagline %}<p class="recipe-tagline">{{ page.tagline }}</p>{% endif %}
+  {% if page.tagline %}<p class="recipe-tagline">{{ page.tagline | markdownify | remove: '<p>' | remove: '</p>' }}</p>{% endif %}
 
   <ul class="recipe-meta">
     {% if page.serves %}<li><strong>Serves</strong><span>{{ page.serves }}</span></li>{% endif %}
@@ -92,7 +92,15 @@ layout: default
     {% endif %}
     <ul class="ingredients">
       {% for item in group.items %}
-        <li>{{ item }}</li>
+        {% if item.item %}
+          <li class="ingredient ingredient--annotated">
+            {{ item.item | markdownify | remove: '<p>' | remove: '</p>' }}
+            {% if item.tip %}<span class="ingredient-annotation ingredient-annotation--tip">{{ item.tip }}</span>{% endif %}
+            {% if item.note %}<span class="ingredient-annotation ingredient-annotation--note">{{ item.note | markdownify | remove: '<p>' | remove: '</p>' }}</span>{% endif %}
+          </li>
+        {% else %}
+          <li class="ingredient">{{ item | markdownify | remove: '<p>' | remove: '</p>' }}</li>
+        {% endif %}
       {% endfor %}
     </ul>
   {% endfor %}
@@ -137,7 +145,15 @@ layout: default
           </li>
         {% endif %}
         {% for step in group.steps %}
-          <li>{{ step }}</li>
+          {% if step.step %}
+            <li class="step step--annotated">
+              {{ step.step }}
+              {% if step.tip %}<span class="step-annotation step-annotation--tip">{{ step.tip }}</span>{% endif %}
+              {% if step.note %}<span class="step-annotation step-annotation--note">{{ step.note }}</span>{% endif %}
+            </li>
+          {% else %}
+            <li class="step">{{ step }}</li>
+          {% endif %}
         {% endfor %}
       {% endfor %}
     </ol>
@@ -145,7 +161,15 @@ layout: default
     <ol class="instructions" id="method-full">
       {% assign steps = page.method | default: page.instructions %}
       {% for step in steps %}
-        <li>{{ step }}</li>
+        {% if step.step %}
+          <li class="step step--annotated">
+            {{ step.step }}
+            {% if step.tip %}<span class="step-annotation step-annotation--tip">{{ step.tip }}</span>{% endif %}
+            {% if step.note %}<span class="step-annotation step-annotation--note">{{ step.note }}</span>{% endif %}
+          </li>
+        {% else %}
+          <li class="step">{{ step }}</li>
+        {% endif %}
       {% endfor %}
     </ol>
   {% endif %}
@@ -168,7 +192,7 @@ layout: default
         </span>
       </h2>
     </div>
-    {% for note in page.notes %}<p class="note">{{ note }}</p>{% endfor %}
+    {% for note in page.notes %}<p class="note">{{ note | markdownify | remove: '<p>' | remove: '</p>' }}</p>{% endfor %}
   {% endif %}
 
   {% if content != '' %}
