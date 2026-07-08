@@ -22,7 +22,8 @@ ingredient_groups:
       - "175 g caster sugar"
       - "2 large eggs"
       - "½ tsp vanilla extract"
-      - "a good pinch of salt"
+      - item: "a good pinch of salt"
+        tip: "Don't be shy with the salt. It brings chocolate out amazingly."
   - name: "buttercream filling"
     items:
       - "100 g dark chocolate"
@@ -32,7 +33,8 @@ ingredient_groups:
 method_groups:
   - name: "cake"
     steps:
-      - "Sift the flour, cocoa, baking powder and bicarbonate of soda. Stir in the salt."
+      - step: "Sift the flour, cocoa, baking powder and bicarbonate of soda. Stir in the salt."
+        tip: "Actually do sift this time."
       - "Curdle the milk with the lemon juice."
       - "Cream the butter with the sugar until fluffy, then add some beaten egg, some flour mixture, then some milk mixture bit by bit until all combined. You might not need all the milk."
       - "Add in the vanilla extract last."
@@ -51,15 +53,13 @@ method_short:
        * Curdle the milk 200 + 1 tbsp
        * Whisk the eggs 2
     * Add dry / milk / egg to butter/sugar in turn
-    * Add vanilla 1/2 tsp
+    * Add vanilla ½ tsp
     * Bake two 8" 170°C 20-25 mins
        * Melt chocolate 100
           * Start the butter 50 and icing sugar 100, egg yolk 1 gradually
-       * Add chocolate to butter mix 
+       * Add chocolate to butter mix
 notes:
-  - "Top with icing sugar. Or try [ganache](QQ CLAUDE PLEASE LINK), or simply melted chocolate with butter 2:1."
-  - "ANNOTATION Don't be shy with the salt. It brings chocolate out amazingly."
-  - "ANNOTATION Actually do sift this time."
+  - "Top with icing sugar. Or try [ganache](/recipes/dark-chocolate-ganache/), or simply melted chocolate with butter 2:1."
 meta:
   rewritten: true
   proofread: false

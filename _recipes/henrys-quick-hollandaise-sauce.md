@@ -26,7 +26,8 @@ method:
 method_short:
   - ""
 notes:
-  - "If you know how to reheat this reliably then please let me know... (QQ CLAUDE ESSAY/RANT, is this {content}?) If the mixture doesn't thicken up: You need to whisk the eggs enough -- until really pale and fluffy, at least several minutes using an electric hand whisk. Heat the acids until bubbling briskly. Heat the butter until frothing and foamy, but not browned. Dribble the hot ingredients in very very slowly."
+  - "If you know how to reheat this reliably then please let me know..."
+  - "If the mixture doesn't thicken up: you need to whisk the eggs enough — until really pale and fluffy, at least several minutes using an electric hand whisk. Heat the acids until bubbling briskly. Heat the butter until frothing and foamy, but not browned. Dribble the hot ingredients in very very slowly."
 meta:
   rewritten: true
   proofread: false

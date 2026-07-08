@@ -28,7 +28,8 @@ method:
   - "Add the white wine without increasing the heat, leave for 2 mins, increase the heat, and let the wine bubble until almost all absorbed."
   - "Add the stock and potatoes, season, then low boil for 5 mins."
   - "Add the chicken back to the pan, cover, and simmer for 5 mins, then add the beans, re-cover, and simmer for 5 mins more until the chicken and potatoes are cooked through."
-  - "Once cooked, add the mustard and sorrel. Don't be shy with the sorrel. Check seasoning, then serve."
+  - step: "Once cooked, add the mustard and sorrel. Don't be shy with the sorrel. Check seasoning, then serve."
+    tip: "Sorrel quickly loses its flavour if overcooked so add it near the end."
 method_short:
   - |
     * Sear chicken 3 mins
@@ -37,9 +38,6 @@ method_short:
        * Prep sorrel and beans
     * Add chicken back, simmer 5 mins, beans, simmer 5 mins
     * Mustard, sorrel, seasoning
-notes:
-  - "Sorrel quickly loses its flavour if overcooked so add it near the end."
-
 meta:
   rewritten: true
   proofread: false

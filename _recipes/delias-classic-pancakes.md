@@ -16,14 +16,12 @@ ingredient_groups:
       - "210 ml milk mixed with 90ml water"
       - "2 tbsp melted butter"
 method:
-  - "Sift the flour (actually do this), then make a well in the middle and break the eggs into it."
+  - step: "Sift the flour, then make a well in the middle and break the eggs into it."
+    tip: "This is one of those times when you actually have to sift the flour."
   - "Gently whisk the eggs, slowly incorporating the flour from the sides, adding some milk mixture when it gets too glue-like."
   - "Keep whisking until you have a plausible batter, but don't worry if there are still a few small lumps."
   - "Stir in the melted butter when you're ready to start cooking them, but not before."
 method_short: ["none"]
-notes:
-  - "ANNOTATION This is one of those times when you actually have to sift the flour."
-
 meta:
   rewritten: true
   proofread: false

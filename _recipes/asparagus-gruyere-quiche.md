@@ -24,7 +24,8 @@ ingredient_groups:
       - "4 eggs"
       - "360 ml double cream"
       - "2 bunches young asparagus, chopped on a diagonal into ½–1-inch pieces"
-      - "150 g gruyère, grated"
+      - item: "150 g gruyère, grated"
+        note: "All cheese amounts are notional!"
       - "20 g plain flour"
       - "grated parmesan, to top"
 method_groups:
@@ -55,7 +56,6 @@ method_short:
     * Bake 180°C 45 mins
 notes:
   - "Other easy but tasty fillings: goat's cheese and cherry tomato; mushroom, kale and tomato; ham, egg and mozzarella."
-  - "All cheese amounts are notional!"
 meta:
   rewritten: true
   proofread: false

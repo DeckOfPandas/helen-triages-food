@@ -7,7 +7,7 @@ serves: "One 7-inch round cake"
 prep_time: "10 mins"
 cook_time: "35 mins"
 main_ingredients: [butter, demerara sugar, golden syrup, flour, ginger, mixed spice]
-star_ingredient: 
+star_ingredient:
 tags: [bakes]
 ingredient_groups:
   - items:
@@ -18,7 +18,8 @@ ingredient_groups:
       - "½ tsp bicarbonate of soda dissolved in 3 fl oz milk"
       - "8 oz self-raising flour"
       - "2 tsp ground ginger"
-      - "1 tsp mixed spice"
+      - item: "1 tsp mixed spice"
+        note: "Mixed spice isn't really sold like this any more — see [Mixed Spice](/recipes/mixed-spice/) for a blend to make yourself."
 method:
   - "Cream the butter and sugar thoroughly until fluffy. Longer than you think."
   - "Mix in the beaten egg a little at a time."
@@ -31,7 +32,7 @@ method:
 method_short:
   - ""
 notes:
-  - "If the cake sinks in the middle, you added too much syrup. If the top of the cake cracks, bake at a lower temperature. ANNOTATION: Mixed spice isn't really sold like this any more. You can mix cinnamon, nutmeg, cloves and ginger however you like, cinnamon-forward. Try 1 tbsp cinnamon, 2 tsp ground nutmeg, 1 tsp ground cloves, 1 tsp ground ginger, 3/4 tsp ground mace"
+  - "If the cake sinks in the middle, you added too much syrup. If the top of the cake cracks, bake at a lower temperature."
 meta:
   rewritten: true
   proofread: false
