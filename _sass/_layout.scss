@@ -3,7 +3,7 @@
 // =============================================================================
 
 main {
-  max-width: 760px;
+  max-width: 900px;
   margin: 0 auto;
   padding: 2rem 1.5rem;
   position: relative;
@@ -31,9 +31,7 @@ article.recipe {
 // 65ch ≈ the typographic sweet spot of 60–65 characters per line.
 article.recipe p,
 article.recipe .note,
-article.recipe .method-short,
-article.recipe .ingredients,
-article.recipe .instructions {
+article.recipe .method-short {
   max-width: 65ch;
 }
 
@@ -53,7 +51,7 @@ article.recipe .instructions {
 }
 
 .site-footer {
-  max-width: 760px;
+  max-width: 900px;
   margin: 0 auto;
   padding: 1.5rem 1.5rem calc(1.5rem * 2) 1.5rem;
   border-top: 1px dashed $color-border;
