@@ -29,24 +29,21 @@ layout: default
     </div>
   {% endif %}
 
-  {% assign _title_color_rgb = site.data.colors[rs.title.color] %}
   <div class="recipe-title">
     <h1 class="recipe-main-title">
-      <span class="category-label highlighted" style="{% if _title_color_rgb %}--highlighter-fill: rgb({{ _title_color_rgb }});{% endif %}">
-        {% include heading_with_highlighter.html shape=rs.title.shape texture=rs.title.texture %}
-        {{ page.title }}
-      </span>
+      <span class="recipe-title-underlines" aria-hidden="true"></span>
+      <span class="recipe-title-text">{{ page.title }}</span>
     </h1>
   </div>
 
-  {% if page.tagline %}<p class="recipe-tagline">{{ page.tagline | markdownify | remove: '<p>' | remove: '</p>' }}</p>{% endif %}
+  {% if page.tagline %}<p class="recipe-tagline">{{ page.tagline }}</p>{% endif %}
 
   <ul class="recipe-meta">
-    {% if page.serves %}<li><strong>Serves</strong><span>{{ page.serves }}</span></li>{% endif %}
-    {% if page.makes %}<li><strong>Makes</strong><span>{{ page.makes }}</span></li>{% endif %}
-    {% if page.prep_time %}<li><strong>Prep</strong><span>{{ page.prep_time }}</span></li>{% endif %}
-    {% if page.cook_time %}<li><strong>Cook</strong><span>{{ page.cook_time }}</span></li>{% endif %}
-    {% if page.difficulty %}<li><strong>Difficulty</strong><span>{{ page.difficulty }}</span></li>{% endif %}
+    {% if page.serves %}<li><strong data-meta-label>Serves</strong><span class="meta-label-underline" aria-hidden="true"></span><span>{{ page.serves }}</span></li>{% endif %}
+    {% if page.makes %}<li><strong data-meta-label>Makes</strong><span class="meta-label-underline" aria-hidden="true"></span><span>{{ page.makes }}</span></li>{% endif %}
+    {% if page.prep_time %}<li><strong data-meta-label>Prep</strong><span class="meta-label-underline" aria-hidden="true"></span><span>{{ page.prep_time }}</span></li>{% endif %}
+    {% if page.cook_time %}<li><strong data-meta-label>Cook</strong><span class="meta-label-underline" aria-hidden="true"></span><span>{{ page.cook_time }}</span></li>{% endif %}
+    {% if page.difficulty %}<li><strong data-meta-label>Difficulty</strong><span class="meta-label-underline" aria-hidden="true"></span><span>{{ page.difficulty }}</span></li>{% endif %}
   </ul>
 
   <div class="recipe-badges">
@@ -54,13 +51,11 @@ layout: default
   </div>
 
   {% if page.ingredient_groups %}
-    {% assign _ingredients_color_rgb = site.data.colors[rs.ingredients.color] %}
-    <div class="category recipe-section--ingredients">
-      <h2 class="recipe-section-heading">
-        <span class="category-label highlighted" style="padding:0.25rem 1.5rem;{% if _ingredients_color_rgb %} --highlighter-fill: rgb({{ _ingredients_color_rgb }});{% endif %}">
-          {% include heading_with_highlighter.html shape=rs.ingredients.shape texture=rs.ingredients.texture %}
-          Ingredients
-        </span>
+    <div class="recipe-section--ingredients">
+      <h2 class="recipe-section-heading" data-section-heading="ingredients">
+        <span class="section-heading-sparkle section-heading-sparkle--left" aria-hidden="true"></span>
+        <span class="section-heading-text">Ingredients</span>
+        <span class="section-heading-sparkle section-heading-sparkle--right" aria-hidden="true"></span>
       </h2>
     </div>
   {% endif %}
@@ -71,21 +66,20 @@ layout: default
     {% assign multiple_ingredient_groups = false %}
   {% endif %}
 
-  {% assign _ig_color_rgb = site.data.colors[rs.ingredient_group.color] %}
   {% for group in page.ingredient_groups %}
     {% if multiple_ingredient_groups and group.name %}
       {% if group.name == "to serve" %}
-        <h3 class="recipe-group-heading">
-          <span class="category-label highlighted" style="--highlighter-fill: rgb({{ _ig_color_rgb }});">
-            {% include heading_with_highlighter.html shape=rs.ingredient_group.shape texture=rs.ingredient_group.texture %}
-            To serve:
+        <h3 class="recipe-group-heading" data-group-heading>
+          <span class="group-heading-inner">
+            <span class="group-heading-text">To serve:</span>
+            <span class="group-heading-underline" aria-hidden="true"></span>
           </span>
         </h3>
       {% else %}
-        <h3 class="recipe-group-heading">
-          <span class="category-label highlighted" style="--highlighter-fill: rgb({{ _ig_color_rgb }});">
-            {% include heading_with_highlighter.html shape=rs.ingredient_group.shape texture=rs.ingredient_group.texture %}
-            For the {{ group.name | downcase }}:
+        <h3 class="recipe-group-heading" data-group-heading>
+          <span class="group-heading-inner">
+            <span class="group-heading-text">For the {{ group.name | downcase }}:</span>
+            <span class="group-heading-underline" aria-hidden="true"></span>
           </span>
         </h3>
       {% endif %}
@@ -104,6 +98,7 @@ layout: default
       {% endfor %}
     </ul>
   {% endfor %}
+  <div class="ingredients-end"></div>
 
   {% if page.filling_note %}<p class="note">{{ page.filling_note }}</p>{% endif %}
 
@@ -112,13 +107,11 @@ layout: default
     {% unless step == "QQ" or step == "" or step == blank %}{% assign has_short = true %}{% endunless %}
   {% endfor %}
 
-  {% assign _method_color_rgb = site.data.colors[rs.method.color] %}
-  <div class="category recipe-section--method">
-    <h2 class="recipe-section-heading">
-      <span class="category-label highlighted" style="padding:0.25rem 1.5rem;{% if _method_color_rgb %} --highlighter-fill: rgb({{ _method_color_rgb }});{% endif %}">
-        {% include heading_with_highlighter.html shape=rs.method.shape texture=rs.method.texture %}
-        Method
-      </span>
+  <div class="recipe-section--method">
+    <h2 class="recipe-section-heading" data-section-heading="method">
+      <span class="section-heading-sparkle section-heading-sparkle--left" aria-hidden="true"></span>
+      <span class="section-heading-text">Method</span>
+      <span class="section-heading-sparkle section-heading-sparkle--right" aria-hidden="true"></span>
       {% if has_short %}
         <button class="btn-method-toggle" id="method-toggle-btn">click for short method</button>
       {% endif %}
@@ -126,7 +119,6 @@ layout: default
   </div>
 
   {% if page.method_groups %}
-    {% assign _mg_color_rgb = site.data.colors[rs.method_group.color] %}
     {% if page.method_groups.size > 1 %}
       {% assign multiple_method_groups = true %}
     {% else %}
@@ -136,10 +128,10 @@ layout: default
       {% for group in page.method_groups %}
         {% if multiple_method_groups and group.name %}
           <li class="method-group-heading-item">
-            <h3 class="recipe-group-heading">
-              <span class="category-label highlighted" style="--highlighter-fill: rgb({{ _mg_color_rgb }});">
-                {% include heading_with_highlighter.html shape=rs.method_group.shape texture=rs.method_group.texture %}
-                {{ group.name }}
+            <h3 class="recipe-group-heading" data-group-heading>
+              <span class="group-heading-inner">
+                <span class="group-heading-text">{{ group.name }}</span>
+                <span class="group-heading-underline" aria-hidden="true"></span>
               </span>
             </h3>
           </li>
@@ -183,13 +175,11 @@ layout: default
   {% endif %}
 
   {% if page.notes %}
-    {% assign _notes_color_rgb = site.data.colors[rs.notes.color] %}
-    <div class="category recipe-section--notes">
-      <h2 class="recipe-section-heading">
-        <span class="category-label highlighted" style="padding:0.25rem 1.5rem;{% if _notes_color_rgb %} --highlighter-fill: rgb({{ _notes_color_rgb }});{% endif %}">
-          {% include heading_with_highlighter.html shape=rs.notes.shape texture=rs.notes.texture %}
-          Notes
-        </span>
+    <div class="recipe-section--notes" id="recipe-section-notes">
+      <h2 class="recipe-section-heading" data-section-heading="notes">
+        <span class="section-heading-sparkle section-heading-sparkle--left" aria-hidden="true"></span>
+        <span class="section-heading-text">Notes</span>
+        <span class="section-heading-sparkle section-heading-sparkle--right" aria-hidden="true"></span>
       </h2>
     </div>
     {% for note in page.notes %}<p class="note">{{ note | markdownify | remove: '<p>' | remove: '</p>' }}</p>{% endfor %}
@@ -211,3 +201,4 @@ layout: default
 </article>
 
 <script src="{{ '/assets/js/method-toggle.js' | relative_url }}"></script>
+<script src="{{ '/assets/js/section-rule.js' | relative_url }}"></script>

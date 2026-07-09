@@ -4,14 +4,14 @@
 
 // --- Title -------------------------------------------------------------------
 .recipe-title {
-  margin: 3.5rem 0 1rem 0;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  position: relative; // Anchors the draft stamp
+  margin: 3.5rem 0 5rem 0;  // generous bottom margin to clear underlines below the title box
+  text-align: center;
 }
 
 .recipe-main-title {
+  display: inline-block;
+  position: relative;
+  padding: 0;        // no padding here — JS positions the box using padH/padV
   margin: 0;
   font-family: $font-headings;
   text-transform: uppercase;
@@ -20,13 +20,20 @@
   letter-spacing: 0.04em;
   max-width: 100%;
   text-wrap: balance;
+}
 
-  .category-label {
-    -webkit-text-stroke: 0.6px;
-    color: $color-highlighter-label;
-    padding: 0.45rem 3rem 0.5rem 3rem;
-    overflow: visible; // Ensure blob is never clipped
-  }
+.recipe-title-underlines {
+  position: absolute;
+  pointer-events: none;
+  line-height: 0;
+  // dimensions and position set by JS
+}
+
+.recipe-title-text {
+  display: inline;     // must be inline so Range measures true text width
+  color: $color-text;
+  font-size: 1.8rem;
+  -webkit-text-stroke: 0.8px;
 }
 
 // --- Hand-drawn Draft Stamp --------------------------------------------------
@@ -66,7 +73,7 @@
   font-weight: 300;
   font-style: italic;
   color: lighten($color-text, 20%);
-  margin: 0.25rem 0 1.75rem 0;
+  margin: 3rem 0 1.75rem 0;  // extra top margin to clear the title box underlines
   line-height: 1.5;
   max-width: 55ch;
 }
@@ -75,30 +82,50 @@
 .recipe-meta {
   list-style: none;
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(110px, auto));
+  grid-template-columns: repeat(auto-fit, minmax(0, 1fr));  // equal width columns
   gap: 0;
-  padding: 0;
+  padding: 1rem 0;
   margin: 0 0 1.75rem 0;
+  background-color: rgba($color-medium-spring-green, 0.12);
+  border-radius: 2px;
 
   li {
-    padding: 0.75rem 1rem 0.75rem 0;
+    padding: 0.75rem 1.5rem 0.75rem 1.5rem;  // space between border and content
     display: flex;
     flex-direction: column;
-    gap: 0.3rem;
+    gap: 0;   // no gap — spacing controlled by margins on children
     border-right: 1px solid $color-border;
+
+    &:first-child {
+      padding-left: 1.5rem;  // same as other items
+    }
 
     &:last-child {
       border-right: none;
     }
 
     strong {
-      display: block;
+      display: inline;         // must be inline so getBoundingClientRect gives true text width
       font-family: $font-headings;
-      font-size: 0.68rem;
+      font-size: 0.85rem;
       text-transform: uppercase;
-      letter-spacing: 0.08em;
-      color: $color-clear-text;
+      letter-spacing: 0.1em;
+      color: $color-text;
       font-weight: 700;
+      -webkit-text-stroke: 0.5px;
+    }
+
+    .meta-label-underline {
+      display: block;
+      line-height: 0;
+      margin-top: 2px;   // matches .group-heading-underline margin-top
+      margin-bottom: 0.5rem;
+
+      svg {
+        display: block;
+        height: 8px;
+        // width and fill set in JS
+      }
     }
 
     span {
@@ -106,7 +133,7 @@
       font-size: 0.88rem;
       font-weight: 300;
       color: $color-text;
-      line-height: 1.3;
+      line-height: 1.5;
     }
   }
 }
@@ -116,49 +143,47 @@
 .recipe-section-heading {
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  flex-wrap: wrap;
   gap: 0.75rem;
-  margin: 2.5rem 0 0.9rem 0;
-}
-
-.recipe-group-heading {
+  margin: 3rem 0 1.25rem 0;
   font-family: $font-headings;
-  font-size: 0.85rem;
+  font-size: 1.8rem;
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.08em;
-  color: $color-clear-text;
-  margin-top: 1.75rem;
-  margin-bottom: 0.75rem;
-  line-height: 1.4;
-  max-width: 80%;
-  text-wrap: balance;
+  color: $color-text;
+  -webkit-text-stroke: 0.7px;
+  position: relative;  // anchor for absolute-positioned toggle button
 
-  .category-label {
-    color: $color-highlighter-label;
-    padding: 0.18rem 0.9rem;
-    -webkit-text-stroke: 0.4px;
+  .section-heading-sparkle {
+    display: flex;
+    align-items: center;
+    flex-shrink: 0;
   }
 }
 
+// .recipe-group-heading — moved to Group Heading Underlines section below
+
 // --- Method Toggle Button ----------------------------------------------------
 .btn-method-toggle {
-  font-family: $font-headings;
+  font-family: $font-headings;         // Courier New — matches .btn-clear-inline
   font-size: 0.75rem;
-  font-weight: $weight-clear-font;
+  font-weight: $weight-clear-font;     // 800
   text-transform: lowercase;
   letter-spacing: 0;
+  -webkit-text-stroke: 0.6px;          // scratchy, matching category label clear buttons
   background: none;
   border: none;
-  color: $color-method-toggle-active;
+  color: #c4004b;                      // darkened vivid rose
   padding: 0;
   cursor: pointer;
   transition: opacity 0.1s ease-in-out;
-  flex-shrink: 0;
   text-decoration: underline;
   text-underline-offset: 2px;
   white-space: nowrap;
+  position: absolute;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
 
   &:hover { opacity: 0.7; }
   &.active { opacity: 0.7; }
@@ -167,37 +192,47 @@
 // --- Recipe Badges on recipe page --------------------------------------------
 .recipe-badges {
   margin: 0 0 1.75rem 0;
+  padding-bottom: 1.5rem;  // breathing room before section divider line
 }
 
 // --- Lists & Content Typography ----------------------------------------------
 .ingredients,
 .instructions {
-  padding-left: 0;
+  padding-left: 2.5rem;  // aligns content under section heading text (after left doodle + gap)
   list-style: none;
   font-family: $font-body;
   font-weight: 300;
   color: $color-text;
 }
 
+.ingredients-end {
+  margin-top: 3.5rem;  // breathing room after last ingredient, before section divider
+}
+
 .ingredients li {
   margin-bottom: 0.65rem;
   line-height: 1.5;
   position: relative;
-  padding-left: 1.5rem;
+  padding-left: 2rem;
 
   &::before {
-    content: "—";
+    content: "*";
     position: absolute;
     left: 0;
-    color: $color-marker-accent;
+    top: 50%;
+    transform: translateY(-50%);  // vertically centre on single-line ingredient text
+    color: #7734EA;               // vibrant violet
     font-family: $font-headings;
     font-weight: 700;
+    font-size: 1.4rem;            // same as step numbers
+    line-height: 1;
   }
 }
 
 .instructions {
   counter-reset: step-counter;
   margin-top: 0.5rem;
+  padding-bottom: 2rem;  // breathing room before section divider
 
   li {
     counter-increment: step-counter;
@@ -211,11 +246,14 @@
       content: counter(step-counter) ".";
       font-family: $font-headings;
       font-weight: 700;
-      color: $color-step-number;
-      font-size: 0.9rem;
+      color: #7734EA;   // vibrant violet
+      font-size: 1.4rem;
       display: inline-block;
-      min-width: 1.4rem;
+      min-width: 1.8rem;
       flex-shrink: 0;
+      line-height: 1.2;
+      margin-top: 0.15rem;  // nudge down to align with first line of body text
+      align-self: flex-start;
     }
   }
 
@@ -223,6 +261,7 @@
     counter-increment: none;
     display: block;
     margin-bottom: 0.5rem;
+    margin-left: -2.5rem;  // pull back to left edge, matching ingredient group headings
 
     &::before { content: none; }
   }
@@ -238,13 +277,13 @@
   line-height: 1.65;
   margin: 0.5rem 0 2rem 0;
   background-color: rgba($color-border, 0.12);
-  padding: 1.25rem 1.5rem;
+  padding: 1.25rem 1.5rem 1.25rem 2.5rem;  // left matches ingredients indent
   border-radius: 2px;
 
   p, ul, ol { margin: 0.4rem 0; }
 
   ul {
-    padding-left: 1.25rem;
+    padding-left: 2rem;
     list-style: none;
 
     li {
@@ -253,16 +292,19 @@
       margin-bottom: 0.4rem;
 
       &::before {
-        content: "—";
+        content: "*";
         position: absolute;
-        left: -1.25rem;
-        color: $color-marker-accent;
+        left: -2rem;
+        top: 0.1rem;
+        color: #7734EA;      // vibrant violet — matches ingredient asterisks
         font-family: $font-headings;
         font-weight: 700;
+        font-size: 1.4rem;   // same as method step numbers
+        line-height: 1;
       }
     }
 
-    // Nested = parallel tasks
+    // Nested = parallel tasks (smaller, quieter)
     ul {
       margin-top: 0.25rem;
       padding-left: 1.5rem;
@@ -271,6 +313,9 @@
         content: "·";
         left: -1rem;
         font-weight: 400;
+        font-size: 1rem;
+        color: $color-marker-accent;
+        top: 0;
       }
 
       ul {
@@ -294,7 +339,7 @@
   font-size: 0.92rem;
   color: $color-text;
   line-height: 1.65;
-  margin: 2.25rem 0;
+  margin: 2.25rem 0 3rem 0;  // extra bottom margin for breathing room before divider
   padding: 1.1rem 1.4rem 1.1rem 1.4rem;
   background-color: rgba($color-medium-spring-green, 0.07);
   border-radius: 2px;
@@ -329,9 +374,8 @@
 // --- Body Content (long-form prose via {{ content }}) ----------------------
 // Covers tips sections, troubleshooting essays etc.
 article.recipe .recipe-body-content {
-  margin-top: 2.5rem;
+  margin-top: 0;
   padding-top: 1.5rem;
-  border-top: 1px solid $color-border;
 
   h2 {
     font-family: $font-headings;
@@ -388,11 +432,78 @@ article.recipe .recipe-body-content {
   }
 }
 
+
+// --- Section Rule (hand-drawn scribble divider before body content) ----------
+.section-rule {
+  width: 100%;
+  margin: 0 0 2.5rem 0;  // space below the rule before next section
+  line-height: 0;
+  display: flex;
+  justify-content: center;
+
+  svg {
+    display: block;
+    width: 600px;    // ~25% wider than before
+    max-width: 100%;
+    height: 8px;     // all lines normalised to viewBox h=100, so 8px = consistent thin weight
+    // opacity, fill set in section-rule.js
+  }
+}
+
+// --- Group Heading Underlines ------------------------------------------------
+// Structure: h3.recipe-group-heading > span.group-heading-inner (inline-block)
+//   > span.group-heading-text + span.group-heading-underline
+// The inner span is inline-block so it shrinks to text width.
+// The underline SVG fills that width with preserveAspectRatio="none",
+// keeping a fixed height regardless of text length.
+.recipe-group-heading {
+  display: block;
+  margin-top: 1.75rem;
+  margin-bottom: 0.75rem;
+
+  .group-heading-inner {
+    display: inline-block;  // shrinks to text width
+  }
+
+  .group-heading-text {
+    display: block;
+    font-family: $font-headings;
+    font-size: 0.85rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;    // match metadata letter-spacing
+    color: $color-text;       // match metadata colour (darker)
+    -webkit-text-stroke: 0.5px;  // match metadata scratch
+    line-height: 1.4;
+    white-space: nowrap;
+    width: fit-content;
+  }
+
+  .group-heading-underline {
+    display: block;
+    line-height: 0;
+    margin-top: 2px;
+
+    svg {
+      display: block;
+      // width and height set in JS via getBoundingClientRect on the text element
+      opacity: 1;
+    }
+  }
+}
+
 // --- Footer ------------------------------------------------------------------
 .recipe-footer {
   margin-top: 3.5rem;
   padding-top: 1.25rem;
-  border-top: 1px solid $color-border;
+  width: 100%;
+  // Break out of any parent width constraints to match site footer border width
+  position: relative;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 900px;
+  max-width: 100vw;
+  border-top: 1px dashed $color-border;
 
   .recipe-source {
     font-family: $font-headings;
