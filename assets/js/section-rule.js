@@ -4,11 +4,14 @@
 
 (function () {
 
+  // Colour config — references window.SITE_COLOURS from colours.js.
+  // To change a colour, update colours.js. Never hardcode hex values below this block.
+  var C = window.SITE_COLOURS;
   var COLOURS = {
-    sectionRule:    { fill: '#6b6965', opacity: 0.4 },
-    groupHeading:   { fill: '#6b6965', opacity: 0.55 },
-    titleBox:       { fill: '#FF0061' },   // vivid rose, filled paths not stroked outline
-    sectionHeading: { fill: '#FF0061' },   // vivid rose
+    sectionRule:    { fill: C.pencilGrey, opacity: 0.4  },
+    groupHeading:   { fill: C.pencilGrey, opacity: 0.55 },
+    titleBox:       { fill: C.vividRose },
+    sectionHeading: { fill: C.vividRose },
   };
 
   function makePicker(pool) {
@@ -79,7 +82,7 @@
 
   // ─── Title box ────────────────────────────────────────────────────────────
   // Paths are filled shapes (pen strokes), not geometric outlines.
-  // Use fill="#FF0061" — NOT stroke.
+  // Use fill (C.vividRose) — NOT stroke.
   // Box outline SVG (paths 0+1 of box-rectangle-underlined-1): parallelogram only
   // Rendered at fixed height with meet — stroke weight is always consistent
   var BOX_VB = '65 5 553 298';
@@ -168,7 +171,7 @@
     var w = 0;
     for (var i = 0; i < rects.length; i++) w += rects[i].width;
     if (!w) w = label.getBoundingClientRect().width;  // fallback
-    var svgStr = recolour(pickMetaLabel(), { 'HEADING_COLOUR': '#7734EA' });  // vivid violet
+    var svgStr = recolour(pickMetaLabel(), { 'HEADING_COLOUR': C.vibrantViolet });
     slot.innerHTML = svgStr;
     var svg = slot.querySelector('svg');
     if (svg) {

@@ -1,22 +1,40 @@
 // =============================================================================
-// HELEN TRIAGES FOOD - RECIPE SPEC SHEET ENGINE
+// HELEN TRIAGES FOOD - RECIPE PAGE
 // =============================================================================
+
+// --- Shared heading base -----------------------------------------------------
+// All recipe headings that are uppercase Courier extend this.
+// Override only what differs per heading (size, colour, stroke weight, spacing).
+%heading-base {
+  font-family: $font-headings;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+// --- Body text base ----------------------------------------------------------
+// Set once on the recipe article so children inherit and only override exceptions.
+article.recipe {
+  font-family: $font-body;
+  font-weight: 300;
+  color: $color-text;
+  font-size: $font-size-body-sm;
+  line-height: $line-height-body;
+}
 
 // --- Title -------------------------------------------------------------------
 .recipe-title {
-  margin: 3.5rem 0 5rem 0;  // generous bottom margin to clear underlines below the title box
+  margin: 3.5rem 0 5rem 0;  // generous bottom margin to clear underlines below the title
   text-align: center;
+  position: relative;  // contain absolute children
 }
 
 .recipe-main-title {
+  @extend %heading-base;
   display: inline-block;
   position: relative;
-  padding: 0;        // no padding here — JS positions the box using padH/padV
+  padding: 0;        // JS positions the underlines — no CSS padding needed here
   margin: 0;
-  font-family: $font-headings;
-  text-transform: uppercase;
   font-size: 1.4rem;
-  font-weight: 700;
   letter-spacing: 0.04em;
   max-width: 100%;
   text-wrap: balance;
@@ -26,22 +44,20 @@
   position: absolute;
   pointer-events: none;
   line-height: 0;
-  // dimensions and position set by JS
+  // dimensions and position set by JS (drawTitleBox in section-rule.js)
 }
 
 .recipe-title-text {
-  display: inline;     // must be inline so Range measures true text width
+  display: inline;     // must be inline so Range.getClientRects() measures text width
   color: $color-text;
   font-size: 1.8rem;
-  -webkit-text-stroke: 0.8px;
+  -webkit-text-stroke: $stroke-heavy;
 }
 
 // --- Hand-drawn Draft Stamp --------------------------------------------------
 .recipe-draft-stamp {
-  font-family: $font-headings;
+  @extend %heading-base;
   font-size: 0.85rem;
-  font-weight: 700;
-  text-transform: uppercase;
   letter-spacing: 0.18em;
   color: $color-badge-draft-text;
 
@@ -68,12 +84,11 @@
 
 // --- Tagline -----------------------------------------------------------------
 .recipe-tagline {
-  font-family: $font-body;
+  // font-family, font-weight, color inherited from article.recipe
   font-size: 0.95rem;
-  font-weight: 300;
   font-style: italic;
   color: lighten($color-text, 20%);
-  margin: 3rem 0 1.75rem 0;  // extra top margin to clear the title box underlines
+  margin: 3rem 0 $spacing-section-gap 0;
   line-height: 1.5;
   max-width: 55ch;
 }
@@ -82,77 +97,64 @@
 .recipe-meta {
   list-style: none;
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(0, 1fr));  // equal width columns
+  grid-template-columns: repeat(auto-fit, minmax(0, 1fr));  // equal-width columns
   gap: 0;
   padding: 1rem 0;
-  margin: 0 0 1.75rem 0;
+  margin: 0 0 $spacing-section-gap 0;
   background-color: rgba($color-medium-spring-green, 0.12);
-  border-radius: 2px;
+  border-radius: $radius-sm;
 
   li {
-    padding: 0.75rem 1.5rem 0.75rem 1.5rem;  // space between border and content
+    padding: 0.75rem 1.5rem;
     display: flex;
     flex-direction: column;
-    gap: 0;   // no gap — spacing controlled by margins on children
+    gap: 0;   // spacing controlled by margins on children, not flex gap
     border-right: 1px solid $color-border;
 
-    &:first-child {
-      padding-left: 1.5rem;  // same as other items
-    }
-
-    &:last-child {
-      border-right: none;
-    }
+    &:last-child { border-right: none; }
 
     strong {
-      display: inline;         // must be inline so getBoundingClientRect gives true text width
-      font-family: $font-headings;
+      @extend %heading-base;
+      display: inline;         // must be inline so Range.getClientRects() measures text width
       font-size: 0.85rem;
-      text-transform: uppercase;
-      letter-spacing: 0.1em;
+      letter-spacing: $letter-spacing-label;
       color: $color-text;
-      font-weight: 700;
-      -webkit-text-stroke: 0.5px;
+      -webkit-text-stroke: $stroke-light;
     }
 
     .meta-label-underline {
       display: block;
       line-height: 0;
-      margin-top: 2px;   // matches .group-heading-underline margin-top
+      margin-top: 2px;
       margin-bottom: 0.5rem;
 
       svg {
         display: block;
         height: 8px;
-        // width and fill set in JS
+        // width and fill set in section-rule.js
       }
     }
 
     span {
-      font-family: $font-body;
+      // font-family, font-weight, color inherited from article.recipe
       font-size: 0.88rem;
-      font-weight: 300;
-      color: $color-text;
       line-height: 1.5;
     }
   }
 }
 
 // --- Section Headings --------------------------------------------------------
-// Flex row so the method toggle button sits right-aligned naturally.
 .recipe-section-heading {
+  @extend %heading-base;
   display: flex;
   align-items: center;
   gap: 0.75rem;
-  margin: 3rem 0 1.25rem 0;
-  font-family: $font-headings;
+  margin: $spacing-section-top 0 1.25rem 0;
   font-size: 1.8rem;
-  font-weight: 700;
-  text-transform: uppercase;
   letter-spacing: 0.08em;
   color: $color-text;
-  -webkit-text-stroke: 0.7px;
-  position: relative;  // anchor for absolute-positioned toggle button
+  -webkit-text-stroke: $stroke-medium;
+  position: relative;  // anchor for absolute-positioned method toggle
 
   .section-heading-sparkle {
     display: flex;
@@ -161,19 +163,18 @@
   }
 }
 
-// .recipe-group-heading — moved to Group Heading Underlines section below
-
 // --- Method Toggle Button ----------------------------------------------------
+// Matches .btn-clear-inline on the index page: Courier, 0.75rem, weight 800, scratchy.
 .btn-method-toggle {
-  font-family: $font-headings;         // Courier New — matches .btn-clear-inline
+  @extend %heading-base;
   font-size: 0.75rem;
-  font-weight: $weight-clear-font;     // 800
+  font-weight: $weight-clear-font;
   text-transform: lowercase;
   letter-spacing: 0;
-  -webkit-text-stroke: 0.6px;          // scratchy, matching category label clear buttons
+  -webkit-text-stroke: $stroke-medium;
   background: none;
   border: none;
-  color: #c4004b;                      // darkened vivid rose
+  color: $color-vivid-rose-dark;
   padding: 0;
   cursor: pointer;
   transition: opacity 0.1s ease-in-out;
@@ -191,7 +192,7 @@
 
 // --- Recipe Badges on recipe page --------------------------------------------
 .recipe-badges {
-  margin: 0 0 1.75rem 0;
+  margin: 0 0 $spacing-section-gap 0;
   padding-bottom: 1.5rem;  // breathing room before section divider line
 }
 
@@ -200,9 +201,7 @@
 .instructions {
   padding-left: 2.5rem;  // aligns content under section heading text (after left doodle + gap)
   list-style: none;
-  font-family: $font-body;
-  font-weight: 300;
-  color: $color-text;
+  // font-family, font-weight, color inherited from article.recipe
 }
 
 .ingredients-end {
@@ -220,11 +219,11 @@
     position: absolute;
     left: 0;
     top: 50%;
-    transform: translateY(-50%);  // vertically centre on single-line ingredient text
-    color: #7734EA;               // vibrant violet
+    transform: translateY(-50%);  // vertically centre on single-line text
+    color: $color-vibrant-violet;
     font-family: $font-headings;
     font-weight: 700;
-    font-size: 1.4rem;            // same as step numbers
+    font-size: 1.4rem;
     line-height: 1;
   }
 }
@@ -232,21 +231,21 @@
 .instructions {
   counter-reset: step-counter;
   margin-top: 0.5rem;
-  padding-bottom: 2rem;  // breathing room before section divider
+  padding-bottom: 2rem;
 
   li {
     counter-increment: step-counter;
     margin-bottom: 1.4rem;
-    line-height: 1.65;
+    line-height: $line-height-body;
     display: flex;
-    align-items: first baseline;
+    align-items: baseline;
     gap: 0.9rem;
 
     &::before {
       content: counter(step-counter) ".";
       font-family: $font-headings;
       font-weight: 700;
-      color: #7734EA;   // vibrant violet
+      color: $color-vibrant-violet;
       font-size: 1.4rem;
       display: inline-block;
       min-width: 1.8rem;
@@ -270,15 +269,11 @@
 // --- Short Method Block ------------------------------------------------------
 // Indented bullets express parallelism — outer = sequential, inner = parallel.
 .method-short {
-  font-family: $font-body;
-  font-weight: 300;
-  font-size: 0.92rem;
-  color: $color-text;
-  line-height: 1.65;
+  // font-family, font-weight, color, font-size, line-height inherited from article.recipe
   margin: 0.5rem 0 2rem 0;
   background-color: rgba($color-border, 0.12);
   padding: 1.25rem 1.5rem 1.25rem 2.5rem;  // left matches ingredients indent
-  border-radius: 2px;
+  border-radius: $radius-sm;
 
   p, ul, ol { margin: 0.4rem 0; }
 
@@ -296,10 +291,10 @@
         position: absolute;
         left: -2rem;
         top: 0.1rem;
-        color: #7734EA;      // vibrant violet — matches ingredient asterisks
+        color: $color-vibrant-violet;
         font-family: $font-headings;
         font-weight: 700;
-        font-size: 1.4rem;   // same as method step numbers
+        font-size: 1.4rem;
         line-height: 1;
       }
     }
@@ -331,20 +326,14 @@
 }
 
 // --- Note --------------------------------------------------------------------
-// Styled as a hand-annotated aside rather than a generic blockquote.
 .note {
   position: relative;
-  font-family: $font-body;
-  font-weight: 300;
-  font-size: 0.92rem;
-  color: $color-text;
-  line-height: 1.65;
-  margin: 2.25rem 0 3rem 0;  // extra bottom margin for breathing room before divider
-  padding: 1.1rem 1.4rem 1.1rem 1.4rem;
+  // font-family, font-weight, color, font-size, line-height inherited from article.recipe
+  margin: 2.25rem 0 3rem 0;
+  padding: 1.1rem 1.4rem;
   background-color: rgba($color-medium-spring-green, 0.07);
-  border-radius: 2px;
+  border-radius: $radius-sm;
 
-  // Hand-drawn top border in notes colour
   &::before {
     content: "";
     position: absolute;
@@ -354,7 +343,6 @@
     border-radius: 1px;
   }
 
-  // Small monospace label in the top-left corner
   &::after {
     content: "note";
     position: absolute;
@@ -364,7 +352,7 @@
     font-size: 0.62rem;
     font-weight: 700;
     text-transform: uppercase;
-    letter-spacing: 0.1em;
+    letter-spacing: $letter-spacing-label;
     color: mix($color-medium-spring-green, $color-clear-text, 55%);
     background: $color-bg;
     padding: 0 0.3rem;
@@ -372,17 +360,14 @@
 }
 
 // --- Body Content (long-form prose via {{ content }}) ----------------------
-// Covers tips sections, troubleshooting essays etc.
 article.recipe .recipe-body-content {
   margin-top: 0;
   padding-top: 1.5rem;
 
   h2 {
-    font-family: $font-headings;
+    @extend %heading-base;
     font-size: 0.85rem;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.1em;
+    letter-spacing: $letter-spacing-label;
     color: $color-clear-text;
     margin: 2rem 0 0.75rem 0;
 
@@ -390,31 +375,21 @@ article.recipe .recipe-body-content {
   }
 
   h3 {
-    font-family: $font-headings;
+    @extend %heading-base;
     font-size: 0.78rem;
-    font-weight: 700;
-    text-transform: uppercase;
     letter-spacing: 0.08em;
     color: lighten($color-clear-text, 10%);
     margin: 1.5rem 0 0.5rem 0;
   }
 
   p {
-    font-family: $font-body;
-    font-weight: 300;
-    font-size: 0.92rem;
-    line-height: 1.7;
-    color: $color-text;
+    // font-family, font-weight, color, font-size, line-height inherited from article.recipe
     margin: 0 0 1rem 0;
     max-width: 65ch;
   }
 
   ul, ol {
-    font-family: $font-body;
-    font-weight: 300;
-    font-size: 0.92rem;
-    line-height: 1.65;
-    color: $color-text;
+    // font-family, font-weight, color, font-size, line-height inherited from article.recipe
     padding-left: 1.5rem;
     max-width: 65ch;
 
@@ -432,30 +407,28 @@ article.recipe .recipe-body-content {
   }
 }
 
-
-// --- Section Rule (hand-drawn scribble divider before body content) ----------
+// --- Section Rule (hand-drawn scribble divider) ------------------------------
 .section-rule {
   width: 100%;
-  margin: 0 0 2.5rem 0;  // space below the rule before next section
+  margin: 0 0 2.5rem 0;
   line-height: 0;
   display: flex;
   justify-content: center;
 
   svg {
     display: block;
-    width: 600px;    // ~25% wider than before
+    width: 600px;
     max-width: 100%;
-    height: 8px;     // all lines normalised to viewBox h=100, so 8px = consistent thin weight
-    // opacity, fill set in section-rule.js
+    height: 8px;     // lines normalised to viewBox h=100; 8px = consistent weight
+    // opacity and fill set in section-rule.js via COLOURS config
   }
 }
 
 // --- Group Heading Underlines ------------------------------------------------
 // Structure: h3.recipe-group-heading > span.group-heading-inner (inline-block)
 //   > span.group-heading-text + span.group-heading-underline
-// The inner span is inline-block so it shrinks to text width.
-// The underline SVG fills that width with preserveAspectRatio="none",
-// keeping a fixed height regardless of text length.
+// The inline-block inner span shrinks to text width.
+// The underline SVG is sized to match via JS (getBoundingClientRect on the text).
 .recipe-group-heading {
   display: block;
   margin-top: 1.75rem;
@@ -466,28 +439,26 @@ article.recipe .recipe-body-content {
   }
 
   .group-heading-text {
+    @extend %heading-base;
     display: block;
-    font-family: $font-headings;
     font-size: 0.85rem;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.1em;    // match metadata letter-spacing
-    color: $color-text;       // match metadata colour (darker)
-    -webkit-text-stroke: 0.5px;  // match metadata scratch
+    letter-spacing: $letter-spacing-label;
+    color: $color-text;
+    -webkit-text-stroke: $stroke-light;
     line-height: 1.4;
     white-space: nowrap;
-    width: fit-content;
+    width: fit-content;  // prevents block child stretching the inline-block parent
   }
 
   .group-heading-underline {
     display: block;
     line-height: 0;
     margin-top: 2px;
+    opacity: $opacity-group-underline;
 
     svg {
       display: block;
-      // width and height set in JS via getBoundingClientRect on the text element
-      opacity: 1;
+      // width and height set in section-rule.js
     }
   }
 }
@@ -496,8 +467,7 @@ article.recipe .recipe-body-content {
 .recipe-footer {
   margin-top: 3.5rem;
   padding-top: 1.25rem;
-  width: 100%;
-  // Break out of any parent width constraints to match site footer border width
+  // Break out to match site-footer border width
   position: relative;
   left: 50%;
   transform: translateX(-50%);
