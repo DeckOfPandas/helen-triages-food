@@ -1,8 +1,9 @@
 ---
 ---
-// Import order matters: palette must come first so its variables
-// are available to all subsequent partials.
+// Import order matters: palette first, then tokens (which may reference palette),
+// then base (global resets/typography), then layout, then recipe.
 @import "palette";
+@import "tokens";
 @import "base";
 @import "layout";
 @import "recipe";

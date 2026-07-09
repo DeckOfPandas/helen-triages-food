@@ -3,7 +3,7 @@
 // =============================================================================
 
 main {
-  max-width: 760px;
+  max-width: 900px;
   margin: 0 auto;
   padding: 2rem 1.5rem;
   position: relative;
@@ -31,9 +31,7 @@ article.recipe {
 // 65ch ≈ the typographic sweet spot of 60–65 characters per line.
 article.recipe p,
 article.recipe .note,
-article.recipe .method-short,
-article.recipe .ingredients,
-article.recipe .instructions {
+article.recipe .method-short {
   max-width: 65ch;
 }
 
@@ -53,7 +51,7 @@ article.recipe .instructions {
 }
 
 .site-footer {
-  max-width: 760px;
+  max-width: 900px;
   margin: 0 auto;
   padding: 1.5rem 1.5rem calc(1.5rem * 2) 1.5rem;
   border-top: 1px dashed $color-border;
@@ -68,8 +66,8 @@ article.recipe .instructions {
   position: relative;
   z-index: 0;
   display: inline-flex;
-  -webkit-text-stroke: 1px #bbb;
-  color: #fff;
+  -webkit-text-stroke: 1px $color-logo-stroke;
+  color: $color-white;
   padding: 1rem 3rem;
 }
 
@@ -323,32 +321,21 @@ article.recipe .instructions {
   // Active states -- compound selectors (.category--star .btn-star.active)
   // have higher specificity than the base .btn-tag/.btn-star rule above,
   // so no !important needed here.
+  // Shared typography/bg via %btn-active-base; each adds its own colour.
   &.category--star .btn-star.active {
-    text-transform: uppercase;
-    font-size: 0.74rem;
-    font-weight: 900;
-    letter-spacing: 0.04em;
-    background-color: rgba($color-text, $saturation-badge-bg);
+    @extend %btn-active-base;
     color: $color-star-active;
     -webkit-text-stroke: 0.5px $color-star-active;
   }
 
   &.category--mood .btn-tag.active {
-    text-transform: uppercase;
-    font-size: 0.74rem;
-    font-weight: 900;
-    letter-spacing: 0.04em;
-    background-color: rgba($color-text, $saturation-badge-bg);
+    @extend %btn-active-base;
     color: $color-mood-active;
     -webkit-text-stroke: 0.6px $color-mood-active;
   }
 
   &.category--practicalities .btn-tag.active {
-    text-transform: uppercase;
-    font-size: 0.74rem;
-    font-weight: 900;
-    letter-spacing: 0.04em;
-    background-color: rgba($color-text, $saturation-badge-bg);
+    @extend %btn-active-base;
     color: $color-practicalities-active;
     -webkit-text-stroke: 0.5px $color-practicalities-active;
   }
@@ -384,11 +371,7 @@ article.recipe .instructions {
   }
 
   &.category--meta .btn-meta.active {
-    text-transform: uppercase;
-    font-size: 0.74rem;
-    font-weight: 900;
-    letter-spacing: 0.04em;
-    background-color: rgba($color-text, $saturation-badge-bg);
+    @extend %btn-active-base;
     color: $color-clear-text;
     -webkit-text-stroke: 0.5px $color-clear-text;
   }
@@ -489,8 +472,9 @@ article.recipe .instructions {
 }
 
 // --- Name search ------------------------------------------------------------
-.search--name {
-  margin-top: 0.5rem !important;
+// More specific than .search { margin: 1.5rem 0 } — no !important needed.
+.controls .search--name {
+  margin-top: 0.5rem;
 
   #name-search-box {
     font-family: $font-headings;
@@ -541,11 +525,7 @@ article.recipe .instructions {
 
 // Active ingredient search button
 .search .btn-tag.btn-ingredient.active {
-  text-transform: uppercase;
-  font-size: 0.74rem;
-  font-weight: 900;
-  letter-spacing: 0.04em;
-  background-color: rgba($color-text, $saturation-badge-bg);
+  @extend %btn-active-base;
   color: $color-ingredient-active;
   -webkit-text-stroke: 0.5px $color-ingredient-active;
 }
@@ -615,4 +595,25 @@ article.recipe .instructions {
   background: none;
   border: none;
   box-shadow: none;
+}
+
+
+
+// --- Site footer heart doodle ------------------------------------------------
+// Width controls the rendered size; height:auto preserves natural proportions.
+// At 600px wide, heart-7 renders at ~153px tall. Reduce width to taste.
+.site-footer-hearts {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 0 1.5rem;
+  display: flex;
+  justify-content: center;
+  line-height: 0;
+
+  svg {
+    display: block;
+    width: 400px;
+    max-width: 100%;
+    height: auto;
+  }
 }

@@ -3,15 +3,17 @@
 // =============================================================================
 
 // --- Raw palette (the swatches everything else is chosen from) ---------------
-$color-vivid-rose:              #FF0061;
-$color-pure-lime-green:         #8AE800;
-$color-vibrant-violet:          #7734EA;
-$color-vivid-cerulean:          #00A7EA;
-$color-aureolin:                #FAF100;
-$color-hot-orange:              #FF6B00;
-$color-bright-magenta:          #FF00C8;
-$color-medium-spring-green:     #00FF9F;
-$color-electric-cobalt:         #0047FF;
+$color-vivid-rose:          #FF0061;
+$color-vivid-rose-dark:     darken(#FF0061, 12);   // ~#c4004b — for toggle buttons etc.
+$color-pure-lime-green:     #8AE800;
+$color-vibrant-violet:      #7734EA;
+$color-vivid-cerulean:      #00A7EA;
+$color-aureolin:            #FAF100;
+$color-hot-orange:          #FF6B00;
+$color-bright-magenta:      #FF00C8;
+$color-medium-spring-green: #00FF9F;
+$color-electric-cobalt:     #0047FF;
+$color-pencil-grey:         #6b6965;   // hand-drawn scribble lines, group heading underlines
 
 // --- Core Application Canvas -------------------------------------------------
 $color-bg:      #faf7f8;  // Soft chalk white with a minute pink/cool undertone
@@ -30,7 +32,6 @@ $font-body:     -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-seri
 // ONE source per category. Buttons, badges, hovers AND the SVG highlighter all
 // derive from the colour. The highlighter additionally has its own opacity,
 // kept separate because the most flattering value depends on the colour.
-// (Opacities start at 1 = exactly as they look now; dial any of them down.)
 $color-star-root:           $color-bright-magenta;
 $color-mood-root:           $color-pure-lime-green;
 $color-practicalities-root: $color-vibrant-violet;
@@ -45,45 +46,41 @@ $highlighter-opacity-ingredient:     1;
 $highlighter-opacity-logo:           1;
 
 // Derived active tones (darkened from the roots for legibility on white)
-$color-percentage-darken-active: 20;
-$color-percentage-darkenextra-active: 30;
-$color-star-active:           darken($color-star-root, $color-percentage-darken-active);
-$color-mood-active:           darken($color-mood-root, $color-percentage-darken-active);
-$color-practicalities-active: darken($color-practicalities-root, $color-percentage-darken-active); 
-$color-ingredient-active:     darken($color-ingredient-root, $color-percentage-darkenextra-active);
+// Tweak $darken-active / $darken-active-extra to shift all active tones at once.
+$darken-active:       20;
+$darken-active-extra: 30;
+$color-star-active:           darken($color-star-root,           $darken-active);
+$color-mood-active:           darken($color-mood-root,           $darken-active);
+$color-practicalities-active: darken($color-practicalities-root, $darken-active);
+$color-ingredient-active:     darken($color-ingredient-root,     $darken-active-extra);
 
 // Clear filters button
-$color-clear-bg:     #fff;   // Reserved for explicit clear-button fills
+$color-clear-bg:     #fff;
 $color-clear-text:   #4f4e4a;
-$color-clear-border: $color-border; // Reserved for clear-button border override
-$weight-clear-font: 800;
+$color-clear-border: $color-border;
+$weight-clear-font:  800;
 
 // Badge bgs
-$saturation-badge-bg: 0.1;
-$color-badge-cooked-bg:   #e2ede4; // Soft sage ("Green for Go")
+$saturation-badge-bg:     0.1;
+$color-badge-cooked-bg:   #e2ede4;
 $color-badge-cooked-text: #3b523e;
-$color-badge-draft-bg:    #f6eedb; // Muted amber-gold ("Yellow for Wait")
+$color-badge-draft-bg:    #f6eedb;
 $color-badge-draft-text:  #5c4e3b;
 
 // --- Recipe Page Utilities ---------------------------------------------------
-$color-interactive-blue: #1864ab; // Rich sapphire blue — general interactive accent
-$color-method-toggle:    $color-hot-orange; // Method short/full toggle — matches method section highlighter
-$color-method-toggle-active: darken($color-hot-orange, $color-percentage-darken-active);
-$color-name-search-root:   $color-electric-cobalt;
-$color-name-search-active: darken($color-electric-cobalt, $color-percentage-darken-active);
-$color-white:          #ffffff; // Explicit white for components that need isolation
+$color-interactive-blue:     #1864ab;
+$color-method-toggle:        $color-hot-orange;
+$color-method-toggle-active: darken($color-hot-orange, $darken-active);
+$color-name-search-root:     $color-electric-cobalt;
+$color-name-search-active:   darken($color-electric-cobalt, $darken-active);
+$color-white:                #ffffff;
+$color-logo-stroke:          #bbbbbb;   // -webkit-text-stroke on logo header
 
 // --- Reusable Structural Accents ---------------------------------------------
-// Ingredient list dash markers use a softened version of the ingredients section colour.
-// Step numbers use a softened version of the method section colour.
-// Both echo their section heading, tying list content visually to its heading.
-$color-marker-accent:  mix($color-vivid-cerulean, $color-bg, 35%);
-$color-step-number:    mix($color-hot-orange, $color-clear-text, 45%);
+$color-marker-accent: mix($color-vivid-cerulean, $color-bg, 35%);
+$color-step-number:   mix($color-hot-orange, $color-clear-text, 45%);
 
 // --- Highlighter wiring ------------------------------------------------------
-// No colours here: this maps each category's wrapper class to its colour and
-// opacity from the section above, as custom properties the SVG path reads via
-// CSS. (Liquid never sees a colour.)
 .category--star {
   --highlighter-fill: #{$color-star-root};
   --highlighter-opacity: #{$highlighter-opacity-star};

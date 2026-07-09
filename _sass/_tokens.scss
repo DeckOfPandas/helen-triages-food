@@ -1,0 +1,40 @@
+// =============================================================================
+// HELEN TRIAGES FOOD - DESIGN TOKENS
+// =============================================================================
+// Non-colour design decisions: spacing, sizing, typography scale, stroke weights.
+// Import after _palette.scss (tokens may reference palette variables).
+
+// --- Spacing -----------------------------------------------------------------
+$spacing-section-gap: 1.75rem;   // bottom margin after tagline, badges, meta — before sections
+$spacing-section-top: 3rem;      // top margin on section headings
+
+// --- Typography Scale --------------------------------------------------------
+$font-size-body-sm:  0.92rem;    // notes, method-short, body content prose
+$line-height-body:   1.65;       // instructions, method-short, notes, body prose
+
+// --- Label Style (metadata, group headings) ----------------------------------
+$letter-spacing-label: 0.1em;
+
+// --- Stroke Weights ----------------------------------------------------------
+// Three tiers of -webkit-text-stroke for the scratchy heading treatment.
+// Title uses heavy, section headings medium, sub-labels light.
+$stroke-heavy:  0.8px;   // recipe title
+$stroke-medium: 0.6px;   // section headings, method toggle
+$stroke-light:  0.5px;   // meta labels, group headings
+
+// --- Borders & Radii ---------------------------------------------------------
+$radius-sm: 2px;   // note boxes, method-short box, meta wash, section-rule
+
+// --- Hand-drawn SVG annotations ----------------------------------------------
+$opacity-group-underline: 1;   // opacity of scribble underlines on group headings
+
+// --- Active filter button base -----------------------------------------------
+// All active filter states share these four properties. Each rule then adds
+// its colour-specific properties (color, -webkit-text-stroke) on top.
+%btn-active-base {
+  text-transform: uppercase;
+  font-size: 0.74rem;
+  font-weight: 900;
+  letter-spacing: 0.04em;
+  background-color: rgba($color-text, $saturation-badge-bg);
+}

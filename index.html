@@ -89,7 +89,7 @@ title: Home
 
 <ul class="recipe-list">
   {% for recipe in all_recipes %}
-    {% if recipe.rewritten or site.show_unrewritten %}
+    {% if recipe.meta.rewritten or site.show_unrewritten %}
       {% assign is_draft = false %}
       {% if recipe.collection == "drafts" %}{% assign is_draft = true %}{% endif %}
 
