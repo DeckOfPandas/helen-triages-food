@@ -596,3 +596,22 @@ article.recipe .method-short {
   border: none;
   box-shadow: none;
 }
+
+// --- Site footer heart doodle ------------------------------------------------
+// Width controls the rendered size; height:auto preserves natural proportions.
+// At 600px wide, heart-7 renders at ~153px tall. Reduce width to taste.
+.site-footer-hearts {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 0 1.5rem;
+  display: flex;
+  justify-content: center;
+  line-height: 0;
+
+  svg {
+    display: block;
+    width: 400px;
+    max-width: 100%;
+    height: auto;
+  }
+}
