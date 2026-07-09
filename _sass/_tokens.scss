@@ -27,3 +27,14 @@ $radius-sm: 2px;   // note boxes, method-short box, meta wash, section-rule
 
 // --- Hand-drawn SVG annotations ----------------------------------------------
 $opacity-group-underline: 1;   // opacity of scribble underlines on group headings
+
+// --- Active filter button base -----------------------------------------------
+// All active filter states share these four properties. Each rule then adds
+// its colour-specific properties (color, -webkit-text-stroke) on top.
+%btn-active-base {
+  text-transform: uppercase;
+  font-size: 0.74rem;
+  font-weight: 900;
+  letter-spacing: 0.04em;
+  background-color: rgba($color-text, $saturation-badge-bg);
+}

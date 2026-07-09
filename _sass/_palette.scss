@@ -74,6 +74,7 @@ $color-method-toggle-active: darken($color-hot-orange, $darken-active);
 $color-name-search-root:     $color-electric-cobalt;
 $color-name-search-active:   darken($color-electric-cobalt, $darken-active);
 $color-white:                #ffffff;
+$color-logo-stroke:          #bbbbbb;   // -webkit-text-stroke on logo header
 
 // --- Reusable Structural Accents ---------------------------------------------
 $color-marker-accent: mix($color-vivid-cerulean, $color-bg, 35%);
