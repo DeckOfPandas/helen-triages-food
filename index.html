@@ -24,6 +24,7 @@ title: Home
       shape=star_data.shape
       texture=star_data.texture
       color=star_data.color
+      blob=star_data.blob
       items=all_stars
       btn_class="btn-star"
       data_attr="data-star"
@@ -37,21 +38,25 @@ title: Home
       shape=group.shape
       texture=group.texture
       color=group.color
+      blob=group.blob
       items=group.tags
       btn_class="btn-tag"
       data_attr="data-tag"
     %}
   {% endfor %}
 
-  <div class="category search">
+  <div class="category search search--ingredients">
     <div class="search-input">
       {% assign _ingredients_color_rgb = site.data.colors[ingredients_data.color] %}
       <span class="category-label highlighted" style="padding:0.22rem 1rem 0.22rem 0.6rem;{% if _ingredients_color_rgb %} --highlighter-fill: rgb({{ _ingredients_color_rgb }});{% endif %}">
-        {% include heading_with_highlighter.html
-          shape=ingredients_data.shape
-          texture=ingredients_data.texture
-        %}
-        {{ ingredients_data.label }}
+        {% include heading_with_highlighter.html shape=ingredients_data.shape texture=ingredients_data.texture %}
+        {% if ingredients_data.doodle %}
+          <span class="category-label-doodle category-label-doodle--left"  aria-hidden="true" data-index-doodle="{{ ingredients_data.doodle }}" data-doodle-color="rgb({{ _ingredients_color_rgb }})"></span>
+          <span class="category-label-doodle category-label-doodle--text">{{ ingredients_data.label }}</span>
+          <span class="category-label-doodle category-label-doodle--right" aria-hidden="true" data-index-doodle="{{ ingredients_data.doodle }}" data-doodle-color="rgb({{ _ingredients_color_rgb }})"></span>
+        {% else %}
+          {{ ingredients_data.label }}
+        {% endif %}
       </span>
       <input type="text" id="ingredient-search-box" autocomplete="off" placeholder="ingredient name..." />
       <span class="btn-clear-inline" id="ingredient-search-clear" style="display: none;">× clear</span>
@@ -64,7 +69,13 @@ title: Home
       {% assign _name_color_rgb = site.data.colors[name_search_data.color] %}
       <span class="category-label highlighted" style="padding:0.22rem 1rem 0.22rem 0.6rem;{% if _name_color_rgb %} --highlighter-fill: rgb({{ _name_color_rgb }});{% endif %}">
         {% include heading_with_highlighter.html shape=name_search_data.shape texture=name_search_data.texture %}
-        {{ name_search_data.label }}
+        {% if name_search_data.doodle %}
+          <span class="category-label-doodle category-label-doodle--left"  aria-hidden="true" data-index-doodle="{{ name_search_data.doodle }}" data-doodle-color="rgb({{ _name_color_rgb }})"></span>
+          <span class="category-label-doodle category-label-doodle--text">{{ name_search_data.label }}</span>
+          <span class="category-label-doodle category-label-doodle--right" aria-hidden="true" data-index-doodle="{{ name_search_data.doodle }}" data-doodle-color="rgb({{ _name_color_rgb }})"></span>
+        {% else %}
+          {{ name_search_data.label }}
+        {% endif %}
       </span>
       <input type="text" id="name-search-box" autocomplete="off" placeholder="recipe name..." />
       <span class="btn-clear-inline" id="name-search-clear" style="display: none;">× clear</span>

@@ -597,22 +597,39 @@ article.recipe .method-short {
   box-shadow: none;
 }
 
-// --- Category label doodles --------------------------------------------------
-// Matches the recipe page section-heading-sparkle pattern.
-// Left and right spans display the SVG inline; text span holds the label.
-.category-label-doodle--left,
-.category-label-doodle--right {
-  display: inline-flex;
-  align-items: center;
-  flex-shrink: 0;
-
-  svg {
-    display: block;
-    width: auto;
-    height: 32px;   // matches recipe page doodle height
-  }
+// --- Category label heart doodles --------------------------------------------
+// Colour applied via CSS filter (SVG is black). Rotation kept here so
+// angle can be adjusted globally without touching the SVG file.
+.category-label-heart {
+  position: absolute;
+  height: 4em;
+  width: auto;
+  top: 50%;
+  left: -0.4em;
+  transform: translateY(-55%) rotate(-30deg);
+  transform-origin: center center;
+  z-index: -1;
+  pointer-events: none;
 }
 
-.category-label-doodle--text {
-  display: inline;
+// Per-section colour filters — converts black SVG to target colour.
+// star: bright_magenta #FF00C8
+.category--star .category-label-heart {
+  filter: brightness(0) saturate(100%) invert(14%) sepia(99%) saturate(7496%) hue-rotate(307deg) brightness(103%);
+}
+// mood: vibrant_violet #7734EA
+.category--mood .category-label-heart {
+  filter: brightness(0) saturate(100%) invert(26%) sepia(83%) saturate(2813%) hue-rotate(255deg) brightness(96%);
+}
+// practicalities: pure_lime_green #8AE800
+.category--practicalities .category-label-heart {
+  filter: brightness(0) saturate(100%) invert(72%) sepia(79%) saturate(744%) hue-rotate(42deg) brightness(103%);
+}
+// ingredients: aureolin #FAF100
+.search--ingredients .category-label-heart {
+  filter: brightness(0) saturate(100%) invert(92%) sepia(94%) saturate(1016%) hue-rotate(3deg) brightness(105%);
+}
+// name search: electric_cobalt #0047FF
+.search--name .category-label-heart {
+  filter: brightness(0) saturate(100%) invert(11%) sepia(99%) saturate(5530%) hue-rotate(232deg) brightness(103%);
 }

@@ -11,14 +11,21 @@
 {% if include.color %}
   {% assign _color_rgb = site.data.colors[include.color] %}
 {% endif %}
+{% if include.doodle %}
+  {% assign _doodle = include.doodle %}
+{% endif %}
 
 <div class="category {{ include.group_class }}">
   <div class="category-label-row">
     <span class="category-label highlighted" style="padding:0.22rem 1rem 0.22rem 1rem;{% if _color_rgb %} --highlighter-fill: rgb({{ _color_rgb }});{% endif %}">
-      {% include heading_with_highlighter.html
-        shape=_shape
-        texture=_texture %}
-      {{ include.label }}
+      {% include heading_with_highlighter.html shape=_shape texture=_texture %}
+      {% if _doodle %}
+        <span class="category-label-doodle category-label-doodle--left"  aria-hidden="true" data-index-doodle="{{ _doodle }}" data-doodle-color="rgb({{ _color_rgb }})"></span>
+        <span class="category-label-doodle category-label-doodle--text">{{ include.label }}</span>
+        <span class="category-label-doodle category-label-doodle--right" aria-hidden="true" data-index-doodle="{{ _doodle }}" data-doodle-color="rgb({{ _color_rgb }})"></span>
+      {% else %}
+        {{ include.label }}
+      {% endif %}
     </span>
     <span class="btn-clear-inline" style="display:none;">× clear</span>
   </div>
