@@ -62,6 +62,22 @@ article.recipe .method-short {
   letter-spacing: 0.01em;
 }
 
+// Heart doodle above the footer copyright line.
+// SVG is injected by default.html inline script.
+// Width set here; height auto to preserve natural proportions.
+.site-footer-hearts {
+  display: flex;
+  justify-content: center;
+  line-height: 0;
+  margin-bottom: 0.75rem;
+
+  svg {
+    display: block;
+    width: 120px;   // ~30% of natural rendered size
+    height: auto;
+  }
+}
+
 .logo-header {
   position: relative;
   z-index: 0;

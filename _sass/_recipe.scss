@@ -23,16 +23,16 @@ article.recipe {
 
 // --- Title -------------------------------------------------------------------
 .recipe-title {
-  margin: 3.5rem 0 5rem 0;  // generous bottom margin to clear underlines below the title
+  margin: 3.5rem 0 5rem 0;
   text-align: center;
-  position: relative;  // contain absolute children
+  position: relative;
 }
 
 .recipe-main-title {
   @extend %heading-base;
   display: inline-block;
   position: relative;
-  padding: 0;        // JS positions the underlines — no CSS padding needed here
+  padding: 0;
   margin: 0;
   font-size: 1.4rem;
   letter-spacing: 0.04em;
@@ -40,18 +40,14 @@ article.recipe {
   text-wrap: balance;
 }
 
-.recipe-title-underlines {
-  position: absolute;
-  pointer-events: none;
-  line-height: 0;
-  // dimensions and position set by JS (drawTitleBox in section-rule.js)
-}
 
 .recipe-title-text {
-  display: inline;     // must be inline so Range.getClientRects() measures text width
+  display: inline;
+  position: relative;
   color: $color-text;
   font-size: 1.8rem;
   -webkit-text-stroke: $stroke-heavy;
+  padding: 0.15em 1.2em;   // padding here so highlighter blob covers this area
 }
 
 // --- Hand-drawn Draft Stamp --------------------------------------------------
@@ -84,13 +80,13 @@ article.recipe {
 
 // --- Tagline -----------------------------------------------------------------
 .recipe-tagline {
-  // font-family, font-weight, color inherited from article.recipe
   font-size: 0.95rem;
   font-style: italic;
   color: lighten($color-text, 20%);
-  margin: 3rem 0 $spacing-section-gap 0;
+  margin: 3rem auto $spacing-section-gap auto;
   line-height: 1.5;
   max-width: 55ch;
+  text-align: center;
 }
 
 // --- Meta Grid ---------------------------------------------------------------
@@ -101,7 +97,7 @@ article.recipe {
   gap: 0;
   padding: 1rem 0;
   margin: 0 0 $spacing-section-gap 0;
-  background-color: rgba($color-medium-spring-green, 0.12);
+  background-color: mix($color-border, $color-surface, 25%);
   border-radius: $radius-sm;
 
   li {
@@ -161,7 +157,18 @@ article.recipe {
     align-items: center;
     flex-shrink: 0;
   }
+
+  // Highlighter wraps text only — must be inline so the blob sizes to text width.
+  // Generous padding ensures all letters are covered even with ragged-edged shapes.
+  // Negative left margin pulls the highlight into the gutter.
+  .section-heading-text {
+    position: relative;
+    display: inline;
+    padding: 0 0.6em 0 0.5em;
+    margin-left: -0.75rem;
+  }
 }
+
 
 // --- Method Toggle Button ----------------------------------------------------
 // Matches .btn-clear-inline on the index page: Courier, 0.75rem, weight 800, scratchy.
@@ -248,7 +255,7 @@ article.recipe {
       color: $color-vibrant-violet;
       font-size: 1.4rem;
       display: inline-block;
-      min-width: 1.8rem;
+      min-width: 2.4rem;   // wide enough for two digits at 1.4rem
       flex-shrink: 0;
       line-height: 1.2;
       margin-top: 0.15rem;  // nudge down to align with first line of body text
@@ -483,4 +490,30 @@ article.recipe .recipe-body-content {
     letter-spacing: 0.04em;
     text-transform: lowercase;
   }
+}
+
+// --- Ingredient amount highlights -------------------------------------------
+// Inline highlight behind the quantity portion of an ingredient line.
+// Highlighter blob injected by highlighter.js into .highlighter-slot.
+.ingredient-amount {
+  position: relative;
+  display: inline;
+  padding: 0 0.25em 0 0.2em;
+  margin-right: 0.15em;
+  font-weight: 500;
+}
+
+// --- Ingredient and step annotations ----------------------------------------
+// tip: active technique advice. note: contextual information.
+// Both display on a new line, smaller and lighter than the ingredient text.
+.ingredient-annotation,
+.step-annotation {
+  display: block;
+  margin-top: 0.25rem;
+  font-size: 0.82rem;
+  font-style: italic;
+  line-height: 1.45;
+
+  &--tip  { color: $color-vivid-cerulean; }
+  &--note { color: $color-clear-text; }
 }

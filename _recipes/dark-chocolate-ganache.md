@@ -4,41 +4,43 @@ short_name: Dark Chocolate Ganache
 tagline: "Ganache is a fickle mistress, but absolutely worth the effort."
 source: "A lifetime of grainy, oily, solid, inedible regret."
 makes: "N/A, bring a spoon"
-prep_time: "Estimated 5 mins"
-cook_time: "Estimated 15 mins"
-main_ingredients: [dark chocolate, double cream, salted butter, icing sugar]
+prep_time: Estimated 5 mins
+cook_time: Estimated 15 mins
+main_ingredients: ["dark chocolate", "double cream", "salted butter", "icing sugar"]
 star_ingredient: chocolate
 tags: [extras]
 ingredient_groups:
   - items:
-      - "150 ml double cream"
-      - "150 g dark chocolate"
-      - "1 tbsp salted butter and/or salt to taste"
-      - "2 tbsp icing sugar -- optional — for a ganache that sets more firmly"
+    - amount: "150 ml"
+      item: double cream
+    - amount: "150 g"
+      item: dark chocolate
+    - amount: "1 tbsp"
+      item: salted butter and/or salt to taste
+    - amount: "2 tbsp"
+      item: icing sugar — optional — for a ganache that sets more firmly
 method:
   - "Grate the chocolate (coarse chopping = bad) into a perfectly dry stainless steel bowl (water = bad, hotspots = bad)."
   - "Heat the cream gently in a pan to 88–90°C — it should look active, but DO NOT LET IT BOIL (over-heating = bad)."
-  - "Pour the heated cream over the grated chocolate. Wait 2–3 minutes. The temperature will drop fast."
+  - Pour the heated cream over the grated chocolate. Wait 2–3 minutes. The temperature will drop fast.
   - "Stir gently from the centre using a perfectly dry silicone spatula (water = bad, accidental whipping = bad) until the temperature reaches 40–45°C. You'll see a visible change from muddy to glossy and thick — this is the emulsion forming."
-  - "Add the butter (and optional icing sugar) and stir until just incorporated. Add any other flavourings here too."
-  - "Stop stirring as soon as you can (over-stirring = bad)."
+  - Add the butter (and optional icing sugar) and stir until just incorporated. Add any other flavourings here too.
+  - Stop stirring as soon as you can (over-stirring = bad).
   - "Leave to cool at room temperature (uneven heat = bad) to your working temperature: CLAUDE, I'D LIKE BULLET POINTS HERE pouring/glazing 32–35°C; drip cakes 29–32°C; piping/filling 20–24°C; whipped ganache 18–21°C — cool completely, then beat with an electric mixer until light, fluffy, and holding its shape."
 method_short:
   - |
     * Grate chocolate 150 into dry bowl
-    * Heat cream 150 to 88-90°C, pour over, wait 1-3 mins
-    * Stir gently to 40-45°C until glossy
+    * Heat cream 150 to 88–90°C, pour over, wait 1–3 mins
+    * Stir gently to 40–45°C until glossy
     * Butter 1 tbsp, flavourings
     * Cool at room temp to working temp
 notes:
   - "Ratios: 1:1 for dark, 2:1 for milk, 3:1 for white (less cocoa solids → less dairy fat needed for the emulsion). Add 2 tbsp icing sugar for ganache that sets more firmly. Season the cream with salt before heating — don't be shy."
-
 meta:
   rewritten: true
   proofread: false
   cooked_before: true
-  date_ingested: 2026-06-17
-  date_last_edited: 2026-07-06
+  date_last_edited: "2026-07-13"
 ---
 
 ## Tips

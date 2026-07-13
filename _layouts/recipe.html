@@ -30,8 +30,8 @@ layout: default
   {% endif %}
 
   <div class="recipe-title">
-    <h1 class="recipe-main-title">
-      <span class="recipe-title-underlines" aria-hidden="true"></span>
+    <h1 class="recipe-main-title highlighted" style="--highlighter-fill: {{ site.data.colors.vivid_rose_rgb | prepend: 'rgb(' | append: ')' }}; --highlighter-opacity: 0.85;">
+      <span class="highlighter-slot" aria-hidden="true"></span>
       <span class="recipe-title-text">{{ page.title }}</span>
     </h1>
   </div>
@@ -51,9 +51,10 @@ layout: default
 
   {% if page.ingredient_groups %}
     <div class="recipe-section--ingredients">
-      <h2 class="recipe-section-heading" data-section-heading="ingredients">
+      <h2 class="recipe-section-heading" data-section-heading="ingredients" style="--highlighter-fill: rgb({{ site.data.colors.vivid_cerulean_rgb }}); --highlighter-opacity: 0.85;">
         <span class="section-heading-sparkle section-heading-sparkle--left" aria-hidden="true"></span>
-        <span class="section-heading-text">Ingredients</span>
+        <span class="section-heading-text highlighted">
+          <span class="highlighter-slot" aria-hidden="true"></span>Ingredients</span>
         <span class="section-heading-sparkle section-heading-sparkle--right" aria-hidden="true"></span>
       </h2>
     </div>
@@ -87,6 +88,10 @@ layout: default
       {% for item in group.items %}
         {% if item.item %}
           <li class="ingredient ingredient--annotated">
+            {% if item.amount %}
+              <span class="ingredient-amount highlighted" style="--highlighter-fill: rgb({{ site.data.colors.aureolin_rgb }}); --highlighter-opacity: 0.9;">
+                <span class="highlighter-slot" aria-hidden="true"></span>{{ item.amount }}</span>
+            {% endif %}
             {{ item.item | markdownify | remove: '<p>' | remove: '</p>' }}
             {% if item.tip %}<span class="ingredient-annotation ingredient-annotation--tip">{{ item.tip }}</span>{% endif %}
             {% if item.note %}<span class="ingredient-annotation ingredient-annotation--note">{{ item.note | markdownify | remove: '<p>' | remove: '</p>' }}</span>{% endif %}
@@ -107,9 +112,10 @@ layout: default
   {% endfor %}
 
   <div class="recipe-section--method">
-    <h2 class="recipe-section-heading" data-section-heading="method">
+    <h2 class="recipe-section-heading" data-section-heading="method" style="--highlighter-fill: rgb({{ site.data.colors.hot_orange_rgb }}); --highlighter-opacity: 0.85;">
       <span class="section-heading-sparkle section-heading-sparkle--left" aria-hidden="true"></span>
-      <span class="section-heading-text">Method</span>
+      <span class="section-heading-text highlighted">
+        <span class="highlighter-slot" aria-hidden="true"></span>Method</span>
       <span class="section-heading-sparkle section-heading-sparkle--right" aria-hidden="true"></span>
       {% if has_short %}
         <button class="btn-method-toggle" id="method-toggle-btn">click for short method</button>
@@ -175,9 +181,10 @@ layout: default
 
   {% if page.notes %}
     <div class="recipe-section--notes" id="recipe-section-notes">
-      <h2 class="recipe-section-heading" data-section-heading="notes">
+      <h2 class="recipe-section-heading" data-section-heading="notes" style="--highlighter-fill: rgb({{ site.data.colors.medium_spring_green_rgb }}); --highlighter-opacity: 0.85;">
         <span class="section-heading-sparkle section-heading-sparkle--left" aria-hidden="true"></span>
-        <span class="section-heading-text">Notes</span>
+        <span class="section-heading-text highlighted">
+          <span class="highlighter-slot" aria-hidden="true"></span>Notes</span>
         <span class="section-heading-sparkle section-heading-sparkle--right" aria-hidden="true"></span>
       </h2>
     </div>
