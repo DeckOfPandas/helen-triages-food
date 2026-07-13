@@ -137,32 +137,54 @@
     });
   });
 
+  // ── Doodle injection helper ───────────────────────────────────────────────
+  // All doodle SVGs use fill="black" as a neutral placeholder.
+  // Colour is always passed explicitly — never hardcoded in the SVG file.
+  function injectDoodle(svgText, colour) {
+    var vb = (svgText.match(/viewBox="([^"]+)"/) || ['','0 0 100 100'])[1];
+    var inner = svgText
+      .replace(/<svg[^>]*>/, '')
+      .replace(/<\/svg>\s*$/, '')
+      .replace(/fill="black"/g, 'fill="' + colour + '"');
+    return { vb: vb, inner: inner };
+  }
+
+  // ── Ingredient bullets ────────────────────────────────────────────────────
+  fetchSvg(BASE + '/assets/img/doodles/doodle-asterisk.svg', function(svgText) {
+    var d = injectDoodle(svgText, C.vibrantViolet);
+    var steps = [-157.5,-135,-112.5,-90,-67.5,-45,-22.5,0,22.5,45,67.5,90,112.5,135,157.5];
+    for (var j = steps.length - 1; j > 0; j--) {
+      var k = Math.floor(Math.random() * (j + 1));
+      var tmp = steps[j]; steps[j] = steps[k]; steps[k] = tmp;
+    }
+    var bullets = document.querySelectorAll('.ingredient-bullet');
+    bullets.forEach(function(bullet, idx) {
+      bullet.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="' + d.vb + '" '
+        + 'style="display:block;width:100%;height:100%;transform:rotate(' + steps[idx % steps.length] + 'deg);">'
+        + d.inner + '</svg>';
+    });
+  });
+
   // ── Section heading doodles ───────────────────────────────────────────────
-  // notes: three-exclamation-marks doodle (from assets/img/doodles/).
-  // ingredients, method: sparkle slots left empty.
+  var DOODLE_MAP = {
+    ingredients: { file: 'doodle-sparkles.svg',                w: 29, h: 32, colour: C.vividRose },
+    method:      { file: 'doodle-sparkly-asterisk.svg',        w: 22, h: 32, colour: C.vividRose },
+    notes:       { file: 'doodle-three-exclamation-marks.svg', w: 18, h: 32, colour: C.vividRose },
+  };
+
   document.querySelectorAll('[data-section-heading]').forEach(function(h2) {
     var section = h2.getAttribute('data-section-heading');
-    if (section !== 'notes') return;
-
+    var def = DOODLE_MAP[section];
+    if (!def) return;
     var left  = h2.querySelector('.section-heading-sparkle--left');
     var right = h2.querySelector('.section-heading-sparkle--right');
     if (!left && !right) return;
-
-    fetchSvg(BASE + '/assets/img/doodles/doodle-three-exclamation-marks.svg', function(svg) {
-      // SVG has data-w and data-h attrs; extract for sizing
-      var wAttr = svg.match(/data-w="(\d+)"/);
-      var hAttr = svg.match(/data-h="(\d+)"/);
-      var w = wAttr ? wAttr[1] : 18;
-      var h = hAttr ? hAttr[1] : 32;
-      // Re-wrap with display size and correct fill
-      var inner = svg.replace(/^<svg[^>]*>/, '').replace(/<\/svg>$/, '');
-      var vbAttr = svg.match(/viewBox="([^"]+)"/);
-      var vb = vbAttr ? vbAttr[1] : '0 0 115.86657 204.55893';
-      var coloured = recolour(inner, { 'DOODLE_COLOUR': COLOURS.sectionHeading.fill });
-      var out = '<svg viewBox="' + vb + '" xmlns="http://www.w3.org/2000/svg" ' +
-                'preserveAspectRatio="xMidYMid meet" aria-hidden="true" ' +
-                'style="display:block;width:' + w + 'px;height:' + h + 'px;">' +
-                coloured + '</svg>';
+    fetchSvg(BASE + '/assets/img/doodles/' + def.file, function(svg) {
+      var d = injectDoodle(svg, def.colour);
+      var out = '<svg viewBox="' + d.vb + '" xmlns="http://www.w3.org/2000/svg" '
+              + 'preserveAspectRatio="xMidYMid meet" aria-hidden="true" '
+              + 'style="display:block;width:' + def.w + 'px;height:' + def.h + 'px;">'
+              + d.inner + '</svg>';
       if (left)  left.innerHTML  = out;
       if (right) right.innerHTML = out;
     });
