@@ -137,7 +137,31 @@
     });
   });
 
-  // ── Section heading doodles ───────────────────────────────────────────────
+  // ── Ingredient bullets ────────────────────────────────────────────────────
+  // doodle-asterisk SVG, vibrant violet. Rotations shuffled from a spread
+  // list so no two adjacent bullets look the same.
+  fetchSvg(BASE + '/assets/img/doodles/doodle-asterisk.svg', function(svgText) {
+    var coloured = svgText.replace(/fill:#[0-9a-fA-F]{6}/g, 'fill:' + C.vibrantViolet);
+    var inner = coloured.replace(/<svg[^>]*>/, '').replace(/<\/svg>\s*$/, '');
+    var vb = (svgText.match(/viewBox="([^"]+)"/) || ['','0 0 129.96257 108.19468'])[1];
+
+    var bullets = document.querySelectorAll('.ingredient-bullet');
+    // 9 rotations
+    // 9 rotations at 5° increments, shuffled — enough variety, no clustering
+    var steps = [-157.5,-135,-112.5,-90,-67.5,-45,-22.5,0,22.5,45,67.5,90,112.5,135,157.5];
+    for (var j = steps.length - 1; j > 0; j--) {
+      var k = Math.floor(Math.random() * (j + 1));
+      var tmp = steps[j]; steps[j] = steps[k]; steps[k] = tmp;
+    }
+
+    bullets.forEach(function(bullet, idx) {
+      bullet.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="' + vb + '" '
+        + 'style="display:block;width:100%;height:100%;transform:rotate(' + steps[idx % steps.length] + 'deg);">'
+        + inner + '</svg>';
+    });
+  });
+
+
   // notes: three-exclamation-marks doodle (from assets/img/doodles/).
   // ingredients, method: sparkle slots left empty.
   document.querySelectorAll('[data-section-heading]').forEach(function(h2) {
