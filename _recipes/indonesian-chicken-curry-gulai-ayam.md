@@ -1,54 +1,73 @@
 ---
 title: Indonesian Chicken Curry (Gulai Ayam)
 short_name: Indonesian Chicken Curry
-tagline: "This freezes brilliantly"
+tagline: This freezes brilliantly
 source: "Adapted from Good Food, August 2024"
 serves: 4
 prep_time: "20 mins plus marinating"
 cook_time: "60 mins"
-main_ingredients: [chicken thighs, coconut cream, lemongrass, lime, cinnamon, cardamom, galangal, tamarind, candlenuts]
+main_ingredients: ["chicken thighs", "coconut cream", lemongrass, lime, cinnamon, cardamom, galangal, tamarind, candlenuts]
 star_ingredient: poultry
 tags: [fakeaway, freezable, "make-ahead", "one-handed food"]
 ingredient_groups:
-  - name: "bumbu (spice paste)"
+  - name: bumbu (spice paste)
     items:
-      - "8 garlic cloves"
-      - "6 banana shallots, peeled"
-      - "5 cm piece of ginger, peeled and chopped"
-      - "2 cm piece of galangal, peeled (or 4 tsp paste from a jar)"
-      - "10 candlenuts or macadamia nuts"
-  - name: "curry"
+    - amount: "8"
+      item: garlic cloves
+    - amount: "6"
+      item: "banana shallots, peeled"
+    - amount: "5 cm"
+      item: "piece of ginger, peeled and chopped"
+    - amount: "2 cm"
+      item: "piece of galangal, peeled (or 4 tsp paste from a jar)"
+    - amount: "10"
+      item: candlenuts or macadamia nuts
+  - name: curry
     items:
-      - "12 bone-in chicken thighs (thigh fillets are fine; don't use breast)"
-      - "1 lime, juiced and zested"
-      - "2 tbsp coconut oil or olive oil"
-      - "3 lemongrass stalks, bruised"
-      - "6 lime leaves, torn, preferably fresh"
-      - "2 cinnamon sticks"
-      - "6 cardamom pods, seeds crushed, or ¾–1 tsp Barts cardamom powder to taste"
-      - "4 tsp ground coriander"
-      - "1 tsp ground nutmeg"
-      - "1 tsp ground cumin"
-      - "1 tsp ground turmeric"
-      - "50 g coconut palm sugar or coconut sugar"
-      - "2 tsp tamarind paste"
-      - "200 ml coconut cream"
-      - "Steamed white or sticky rice, to serve"
+    - amount: "12"
+      item: "bone-in chicken thighs (thigh fillets are fine; don't use breast)"
+    - amount: "1"
+      item: "lime, juiced and zested"
+    - amount: "2 tbsp"
+      item: coconut oil or olive oil
+    - amount: "3"
+      item: "lemongrass stalks, bruised"
+    - amount: "6"
+      item: "lime leaves, torn, preferably fresh"
+    - amount: "2"
+      item: cinnamon sticks
+    - amount: "6"
+      item: "cardamom pods, seeds crushed, or ¾–1 tsp Barts cardamom powder to taste"
+    - amount: "4 tsp"
+      item: ground coriander
+    - amount: "1 tsp"
+      item: ground nutmeg
+    - amount: "1 tsp"
+      item: ground cumin
+    - amount: "1 tsp"
+      item: ground turmeric
+    - amount: "50 g"
+      item: coconut palm sugar or coconut sugar
+    - amount: "2 tsp"
+      item: tamarind paste
+    - amount: "200 ml"
+      item: coconut cream
+    - item: "Steamed white or sticky rice, to serve"
 method_groups:
-  - name: "marinate"
+  - name: marinate
     steps:
-      - "Put the chicken in a large bowl with the lime juice and zest, and some salt. Cover and leave for ≥2h."
-  - name: "bumbu"
+    - "Put the chicken in a large bowl with the lime juice and zest, and some salt. Cover and leave for ≥2h."
+  - name: bumbu
     steps:
-      - "Blend the bumbu ingredients with some oil until smooth."
-      - "Fry the bumbu, lemongrass, lime leaves, cinnamon, cardamom and ground spices for about 5 mins until fragrant."
-  - name: "curry"
+    - Blend the bumbu ingredients with some oil until smooth.
+    - "Fry the bumbu, lemongrass, lime leaves, cinnamon, cardamom and ground spices for about 5 mins until fragrant."
+  - name: curry
     steps:
-      - "Add the chicken and stir to coat in the spices. Cook for about 5 mins."
-      - "Add the sugar, tamarind and 100 ml water (skip the water if the mixture is already loose). Add chicken stock cubes and other flavourings. Stir, bring to the boil, then reduce to a simmer."
-      - "Cover and cook for 20 mins."
-      - "Add the coconut cream and simmer for 15 mins more until the chicken is cooked through."
-      - "Serve with steamed rice. I like sticky rice."
+    - Add the chicken and stir to coat in the spices. Cook for about 5 mins.
+    - "Add the sugar, tamarind and 100 ml water (skip the water if the mixture is already loose). Add chicken stock cubes and other flavourings. Stir, bring to the boil, then reduce to a simmer."
+    - Cover and cook for 20 mins.
+    - Add the coconut cream and simmer for 15 mins more until the chicken is cooked through.
+    - Serve with steamed rice. I like sticky rice.
 method_short:
   - ""
 notes:
@@ -57,6 +76,5 @@ meta:
   rewritten: true
   proofread: false
   cooked_before: true
-  date_ingested: 2026-06-16
-  date_last_edited: 2026-07-06
+  date_last_edited: "2026-07-13"
 ---
