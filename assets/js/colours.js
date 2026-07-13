@@ -12,6 +12,8 @@
 //   $color-pencil-grey         → pencilGrey
 //   $color-medium-spring-green → springGreen
 //   $color-aureolin            → aureolin
+//   $color-vivid-cerulean      → vividCerulean
+//   $color-hot-orange          → hotOrange
 
 window.SITE_COLOURS = {
   vividRose:      '#FF0061',
@@ -20,4 +22,6 @@ window.SITE_COLOURS = {
   pencilGrey:     '#6b6965',
   springGreen:    '#00FF9F',
   aureolin:       '#FAF100',
+  vividCerulean:  '#00A7EA',
+  hotOrange:      '#FF6B00',
 };
