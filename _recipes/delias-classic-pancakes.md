@@ -8,7 +8,7 @@ prep_time: Estimated 10 mins
 cook_time: "2–3 mins per pancake"
 main_ingredients: [flour, eggs, milk, butter]
 star_ingredient: eggs
-tags: [breakfast, "carbs party", festive]
+tags: ["carbs party", festive]
 ingredient_groups:
   - items:
     - amount: "120 g"

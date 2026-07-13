@@ -2,25 +2,19 @@ star:
   label: "[ STAR INGREDIENT ]"
   class: category--star
   color: bright_magenta_rgb
-  shape: "3"
-  texture: "1"
-  doodle: "doodle-crown-1"
+  brush_colour: "bright-magenta"
 
 ingredients:
   label: "[ SEARCH INGREDIENTS ]"
   color: aureolin_rgb
-  shape: "4"
-  texture: "1"
-  doodle: "doodle-asterisk"
+  brush_colour: "aureolin"
 
 groups:
   - name: mood
     label: "[ MOOD ]"
     class: category--mood
     color: pure_lime_green_rgb
-    shape: "7"
-    texture: "1"
-    doodle: "doodle-sparkles"
+    brush_colour: "pure-lime-green"
     tags:
       - bakes
       - breakfast
@@ -43,9 +37,7 @@ groups:
     label: "[ PRACTICALITIES ]"
     class: category--practicalities
     color: vibrant_violet_rgb
-    shape: "8"
-    texture: "1"
-    doodle: "doodle-sparkly-asterisk"
+    brush_colour: "vibrant-violet"
     tags:
       - freezable
       - make-ahead
@@ -56,6 +48,4 @@ groups:
 name_search:
   label: "[ I KNOW WHAT I WANT ]"
   color: electric_cobalt_rgb
-  shape: "9"
-  texture: "1"
-  doodle: "doodle-stars"
+  brush_colour: "electric-cobalt"

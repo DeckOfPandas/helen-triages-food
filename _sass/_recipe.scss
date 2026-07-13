@@ -42,12 +42,19 @@ article.recipe {
 
 
 .recipe-title-text {
-  display: inline;
+  display: inline-block;
   position: relative;
   color: $color-text;
   font-size: 1.8rem;
   -webkit-text-stroke: $stroke-heavy;
-  padding: 0.15em 1.2em;   // padding here so highlighter blob covers this area
+  padding: 0.35em 4em;
+
+  .highlighter-slot svg {
+    top: 0 !important;
+    left: 0 !important;
+    width: 100% !important;
+    height: 100% !important;
+  }
 }
 
 // --- Hand-drawn Draft Stamp --------------------------------------------------
@@ -163,9 +170,16 @@ article.recipe {
   // Negative left margin pulls the highlight into the gutter.
   .section-heading-text {
     position: relative;
-    display: inline;
+    display: inline-block;
     padding: 0 0.6em 0 0.5em;
     margin-left: -0.75rem;
+
+    .highlighter-slot svg {
+      top: 0 !important;
+      left: 0 !important;
+      width: 100% !important;
+      height: 100% !important;
+    }
   }
 }
 

@@ -1,8 +1,8 @@
 // highlighter.js
-// Injects shuffled hand-drawn highlighter backgrounds into all .highlighted elements.
-// SVGs are fetched from assets/img/highlighters/ and cached.
-// Texture (seed + baseFrequency variant) is randomised per page load.
-// Colour is controlled by --highlighter-fill CSS custom property on the parent element.
+// Injects shuffled hand-drawn highlighter backgrounds into .highlighter-slot elements.
+// SVGs fetched from assets/img/highlighters/. No paths inlined here.
+// Shape 1 and shape 13 excluded from pool (retained in library).
+// Pool: shapes 2–12 + their flips = 22 options; shuffled per load, no repeats per page.
 
 (function () {
 
@@ -10,21 +10,28 @@
   var baseMeta = document.querySelector('meta[name="base-url"]');
   var BASE = baseMeta ? baseMeta.getAttribute('content').replace(/\/$/, '') : '';
 
-  // ── Highlighter shape names (shape 1 excluded from pool, kept in library) ─
-  var POOL_NAMES = [
-    'highlighter-2',  'highlighter-3',  'highlighter-4',  'highlighter-5',
-    'highlighter-6',  'highlighter-7',  'highlighter-8',  'highlighter-9',
-    'highlighter-10', 'highlighter-11', 'highlighter-12', 'highlighter-13',
-  ];
+  // ── Pool: 22 shapes (11 originals + 11 flips, shapes 2–12) ───────────────
+  var POOL = [];
+  for (var n = 2; n <= 12; n++) {
+    POOL.push('highlighter-' + n);
+    POOL.push('highlighter-' + n + '-flip');
+  }
+
+  // ── Shuffle once per page load ────────────────────────────────────────────
+  var shuffled = POOL
+    .map(function(s) { return { s: s, r: Math.random() }; })
+    .sort(function(a, b) { return a.r - b.r; })
+    .map(function(o) { return o.s; });
+  var idx = 0;
+  function nextName() { return shuffled[idx++ % shuffled.length]; }
 
   // ── Texture randomisation ─────────────────────────────────────────────────
-  // Two texture variants from the original system, randomised per page load.
   var textureVariants = [
-    { baseFrequency: '0.015 0.05', alphaRow: '0.4 0.4 0.4 0 0.25' },  // texture 1
-    { baseFrequency: '0.02 0.06',  alphaRow: '0.3 0.3 0.3 0 0.45' },  // texture 2
+    { baseFrequency: '0.015 0.05', alphaRow: '0.4 0.4 0.4 0 0.25' },
+    { baseFrequency: '0.02 0.06',  alphaRow: '0.3 0.3 0.3 0 0.45' },
   ];
-  var tex      = textureVariants[Math.floor(Math.random() * textureVariants.length)];
-  var seed     = Math.floor(Math.random() * 1000);
+  var tex  = textureVariants[Math.floor(Math.random() * textureVariants.length)];
+  var seed = Math.floor(Math.random() * 1000);
 
   function applyTexture(svg) {
     return svg
@@ -33,39 +40,23 @@
       .replace(/0\.4 0\.4 0\.4 0 0\.25|0\.3 0\.3 0\.3 0 0\.45/, tex.alphaRow);
   }
 
-  // ── Shuffle ───────────────────────────────────────────────────────────────
-  function shuffle(arr) {
-    return arr
-      .map(function(s) { return { s: s, r: Math.random() }; })
-      .sort(function(a, b) { return a.r - b.r; })
-      .map(function(o) { return o.s; });
-  }
-
-  var shuffled = shuffle(POOL_NAMES);
-  var idx = 0;
-  function nextName() { return shuffled[idx++ % shuffled.length]; }
-
   // ── SVG cache ─────────────────────────────────────────────────────────────
   var cache = {};
-
   function fetchSvg(name, cb) {
-    if (cache[name]) { cb(cache[name]); return; }
-    fetch(BASE + '/assets/img/highlighters/' + name + '.svg')
+    var url = BASE + '/assets/img/highlighters/' + name + '.svg';
+    if (cache[url]) { cb(cache[url]); return; }
+    fetch(url)
       .then(function(r) { return r.text(); })
-      .then(function(text) { cache[name] = text; cb(text); })
+      .then(function(t) { cache[url] = t; cb(t); })
       .catch(function() {});
   }
 
-  // ── Inject into a slot element ────────────────────────────────────────────
-  function injectSlot(slot, name) {
+  // ── Inject into all slots ─────────────────────────────────────────────────
+  document.querySelectorAll('.highlighter-slot').forEach(function(slot) {
+    var name = nextName();
     fetchSvg(name, function(svg) {
       slot.innerHTML = applyTexture(svg);
     });
-  }
-
-  // ── Run ───────────────────────────────────────────────────────────────────
-  document.querySelectorAll('.highlighter-slot').forEach(function(slot) {
-    injectSlot(slot, nextName());
   });
 
 })();
