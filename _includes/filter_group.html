@@ -1,11 +1,16 @@
 {% if include.color %}
   {% assign _color_rgb = site.data.colors[include.color] %}
 {% endif %}
+{% if include.brush_colour %}
+  {% assign _brush_colour = include.brush_colour %}
+{% endif %}
 
 <div class="category {{ include.group_class }}">
   <div class="category-label-row">
-    <span class="category-label highlighted" style="padding:0.22rem 1rem 0.22rem 1rem;{% if _color_rgb %} --highlighter-fill: rgb({{ _color_rgb }});{% endif %}">
-      {% include heading_with_highlighter.html %}
+    <span class="category-label" style="position:relative;padding:0.22rem 1rem 0.22rem 1rem;{% if _color_rgb %} --highlighter-fill: rgb({{ _color_rgb }});{% endif %}">
+      {% if _brush_colour %}
+        <span class="watercolour-brush-slot" aria-hidden="true" data-brush-colour="{{ _brush_colour }}"></span>
+      {% endif %}
       {{ include.label }}
     </span>
     <span class="btn-clear-inline" style="display:none;">× clear</span>

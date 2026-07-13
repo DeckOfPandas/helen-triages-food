@@ -34,6 +34,45 @@
   <script src="{{ '/assets/js/highlighter.js' | relative_url }}"></script>
   <script>
   (function () {
+    var BASE = (document.querySelector('meta[name="base-url"]') || {getAttribute: function(){return '';}})
+               .getAttribute('content').replace(/\/$/, '');
+
+    // ── Watercolour brush backgrounds ────────────────────────────────────────
+    var brushCache = {};
+    var brushShapes = [0,1,2,3,4,5,6,7,8,9];
+    function shuffleArr(arr) {
+      return arr.map(function(s){return{s:s,r:Math.random()};})
+               .sort(function(a,b){return a.r-b.r;})
+               .map(function(o){return o.s;});
+    }
+    var brushPicks = {}, brushOrders = {};
+    function nextBrushShape(colour) {
+      if (!brushOrders[colour]) { brushOrders[colour] = shuffleArr(brushShapes); brushPicks[colour] = 0; }
+      return brushOrders[colour][brushPicks[colour]++ % 10];
+    }
+    function doInject(slot, svg) {
+      var clean = svg
+        .replace(/<\?xml[^?]*\?>/g, '')
+        .replace(/<!--[\s\S]*?-->/g, '')
+        .replace(/<svg\s+/g, '<svg ');
+      var sized = clean
+        .replace(/(<svg [^>]*?)width="[^"]*mm"/, '$1')
+        .replace(/(<svg [^>]*?)height="[^"]*mm"/, '$1')
+        .replace(/preserveAspectRatio="[^"]*"/, '')
+        .replace('<svg ', '<svg preserveAspectRatio="none" style="position:absolute;top:-4px;left:-6px;width:calc(100% + 12px);height:calc(100% + 8px);z-index:-1;overflow:visible;pointer-events:none;" ');
+      slot.innerHTML = sized;
+    }
+    document.querySelectorAll('.watercolour-brush-slot').forEach(function(slot) {
+      var colour = slot.getAttribute('data-brush-colour');
+      var shape  = nextBrushShape(colour);
+      var url    = BASE + '/assets/img/backgrounds-headers/background-watercolour-brush-' + colour + '-' + shape + '.svg';
+      if (brushCache[url]) { doInject(slot, brushCache[url]); return; }
+      fetch(url)
+        .then(function(r) { return r.text(); })
+        .then(function(t) { brushCache[url] = t; doInject(slot, t); })
+        .catch(function() {});
+    });
+
     // ── Site footer hearts ──────────────────────────────────────────────────
     var heartEl = document.querySelector('.site-footer-hearts');
     if (heartEl) {
