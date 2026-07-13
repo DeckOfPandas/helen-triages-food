@@ -13,7 +13,7 @@
   <a href="{{ '/' | relative_url }}" class="site-title-link">
     <h1 class="highlighted">
       <div class="logo-header">
-        {% include heading_with_highlighter.html shape="13" texture="1" %}
+        {% include heading_with_highlighter.html %}
         {{ site.title }}
       </div>
     </h1>
@@ -31,6 +31,7 @@
 
 
   <script src="{{ '/assets/js/colours.js' | relative_url }}"></script>
+  <script src="{{ '/assets/js/highlighter.js' | relative_url }}"></script>
   <script>
   (function () {
     // ── Site footer hearts ──────────────────────────────────────────────────
